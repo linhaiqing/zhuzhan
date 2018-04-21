@@ -1,0 +1,136 @@
+{include file="public:header"}
+<script type="text/javascript" src="__EXT__/layer/laydate/laydate.js"></script>
+<div id="main-content">
+    <div id="top-alert" class="fixed alert alert-error" style="display: none;margin-left:92px;">
+        <button class="close fixed" style="margin-top: 4px;">&times;</button>
+        <div class="alert-content">警告内容</div>
+    </div>
+    <div id="main" class="main">
+        <div class="main-title-h" style="font-size: 24px;">
+            <span class="h1-title">{$title['title']}</span> {if input('get.name')}
+            <span style=""> >> [<a href="{$title['url']}"> {$title['list_title']}</a> ] </span>{/if} {if $title['suggest']}<span style="font-size:16px;">（{$title['suggest']}）</span>{/if}
+        </div>
+        <div class="cf">
+            <div class="fl">
+                {if $button['add']}
+                <a class="btn add-btn btn-success" href="javascript:void(0);" onclick="chose_admin_user()">{$button['add']['title']}</a> {/if} {if $button['no']}
+                <button class="btn ajax-post btn-warning" url="{$button['no']['url']}" target-form="ids">{$button['no']['title']}</button>
+                {/if} {if $button['off']}
+                <button class="btn ajax-post btn-info" url="{$button['off']['url']}" target-form="ids">{$button['off']['title']}</button>
+                {/if} {if $button['del']}
+                <button class="btn ajax-post confirm delete-btn btn-danger" url="{$button['del']['url']}" target-form="ids">{$button['del']['title']}</button>
+                {/if}
+            </div>
+            <div class="search-form fr cf">
+                <div class="sleft">
+                    <form action="" name="formSearch" id="formSearch" method="get" name="form1">
+                        {foreach $search as $k => $v} {if $v['type']=='select'}
+                        <select size="1" name="{$v['name']}" class="search-input form-control form-input-width" style="height: 32px; font-size: 14px; width: 110px; float: left; margin-right: 5px;" name="field"> {foreach $v['attr'] as $kk => $vv} {if $kk==input('get.'.$v['name'])}
+                            <option value="{$kk}" selected="selected">{$vv}</option>
+                            {else}
+                            <option value="{$kk}">{$vv}</option>
+                            {/if} {/foreach}
+                        </select> {/if} {if $v['type']=='time'}
+                        <input type="text" class="search-input form-control" style="width: 150px;height: 32px;    margin-right: 5px;" name="{$v['name']}" value="{#input('get.'.$v['name'])}" placeholder="{$v['attr']}" onclick="laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})"> </td>                            {/if} {if $v['type']=='text'}
+                        <input type="text" name="{$v['name']}" class="search-input form-control" value="{#input('get.'.$v['name'])}" placeholder="{$v['attr']}" style="width: 150px;height: 32px;">
+                        <a class="sch-btn" href="javascript:;" id="search"> <i class="btn-search"></i>
+                        </a> {/if} {/foreach}
+                    </form>
+                    <script>
+                        //搜索功能
+                        $(function () {
+                            $('#search').click(function () {
+                                $('#formSearch').submit();
+                            });
+                        });
+                        //回车搜索
+                        $(".search-input").keyup(function (e) {
+                            if (e.keyCode === 13) {
+                                $("#search").click();
+                                return false;
+                            }
+                        });
+                    </script>
+                </div>
+            </div>
+        </div>
+        <!-- 数据表格 -->
+        <if condition="$keyList">
+            <div class="data-table table-striped">
+                <table class="">
+                    <thead>
+                    <tr>
+                        <th class="row-selected row-selected"><input class="check-all" type="checkbox"/></th>
+                        {foreach $keylist as $k => $v}
+                        <th>{$v['title']}</th>
+                        {/foreach}
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {if $data} {foreach $data as $k => $v}
+                    <tr>
+                        <td><input class="ids" type="checkbox" name="id[]" value="{$v['id']}"/></td>
+                        {foreach $keylist as $kk => $vv} {$tmp=$v[$vv['name']]}
+                        <td class="text-ellipsis">{$tmp nofilter}</td>
+                        {/foreach}
+                    </tr>
+                    {/foreach} {else}
+                    <td colspan="12" class="text-center">Oh! 暂时还没有内容!</td>
+                    {/if}
+                    </tbody>
+                </table>
+                <div class="page">
+                    <div>{$pages nofilter}</div>
+                </div>
+            </div>
+        </if>
+    </div>
+</div>
+
+<script>
+    function chose_admin_user(){
+        $.get("/admin/auth/chose_html",'',function(data){
+            if(data.status==1){
+                var str = '<div class="data-table table-striped"> <table class=""> <thead> <tr> <th>ID</th> <th>用户名</th><th>邮箱</th> <th>手机</th> </tr> </thead> <tbody>';
+                var user;
+                for(var k in data.info){
+                    user = data.info[k];
+                    str += '<tr style="cursor: pointer" title="点击选择" onclick="chose_tap('+user.id+')"> <td class="text-ellipsis">'+user.id+'</td> <td class="text-ellipsis">'+user.username+'</td> <td class="text-ellipsis">'+user.email+'</td><td class="text-ellipsis">'+user.moble+'</td> </tr>';
+                }
+                str += '</tbody> </table> </div>';
+                //页面层
+                layer.open({
+                    type: 1,
+                    skin: 'layui-layer-rim', //加上边框
+                    area: ['420px', '240px'], //宽高
+                    content: str
+                });
+            }else{
+                layer.msg(data.info,{icon:2});
+                if(data.url){
+                    window.location=data.url;
+                }
+            }
+        },"json");
+    }
+
+    function chose_tap(id){
+        layer.load(1, {
+            shade: [0.1,'#fff'] //0.1透明度的白色背景
+        });
+        var group_id = '{#input("get.group_id")}';
+        $.post("/admin/auth/user_add",{uid:id,group_id:group_id},function(data){
+            layer.closeAll();
+            if(data.status==1){
+                layer.msg(data.info);
+                window.location.reload();
+            }else{
+                layer.msg(data.info,{icon:2});
+                if(data.url){
+                    window.location=data.url;
+                }
+            }
+        },"json");
+    }
+</script>
+{include file="public:footer"}

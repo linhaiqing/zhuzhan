@@ -1,0 +1,241 @@
+{include file="public:header"}
+<link rel="stylesheet" href="__CSS__/zhong.css">
+<div class="content">
+	<div id="intro">
+		<div class="fl slideBox">
+			<div class="hd">
+				<ul class="num">
+				</ul>
+			</div>
+			<div class="bd">
+				<div class="tempWrap" style="overflow:hidden; position:relative; width:100%">
+					<ul class="ban" style="width: 800%; height:830px;position: relative; overflow: hidden; padding: 0px; margin: 0px; left: 0px;">
+
+						<li class="clone" style="float: left;">
+							<a href="/" title="" target="_blank"><img src="__IMG__/banner/banner-home.jpg" alt=" "></a>
+						</li>
+						<li class="clone" style="float: left;">
+							<a href="/" title="" target="_blank"><img src="__IMG__/banner/banner-oplay.jpg" alt=" "></a>
+						</li>
+						<li class="clone" style="float: left;">
+							<a href="/" title="" target="_blank"><img src="__IMG__/banner/banner-wings.png" alt=" "></a>
+						</li>
+
+					</ul>
+				</div>
+			</div>
+			<span class="btn_l"></span>
+			<span class="btn_r"></span>
+		</div>
+		<script type="text/javascript">
+
+			//轮播
+			$(function(){
+				var i = 0;
+
+				var clone = $(".tempWrap .ban li").first().clone();//克隆第一张图片
+				$(".tempWrap .ban").append(clone);//复制到列表最后
+				var size = $(".tempWrap .ban li").size();
+
+
+				for (var j = 0; j < size-1; j++) {
+					$(".hd .num").append("<li></li>");
+				}
+
+				$(".hd .num li").first().addClass("on");
+
+				/*自动轮播*/
+
+				var t = setInterval(function () { i++; move();},2000);
+
+				/*鼠标悬停事件*/
+
+				$(".slideBox").hover(function () {
+					clearInterval(t);//鼠标悬停时清除定时器
+				}, function () {
+					t = setInterval(function () {
+						i++;
+						move();
+					}, 2000); //鼠标移出时清除定时器
+				});
+
+
+
+
+				/*鼠标滑入原点事件*/
+
+				$(".hd .num li").hover(function () {
+
+					var index = $(this).index();//获取当前索引值
+					i = index;
+					$(".tempWrap .ban").stop().animate({ left: -index * $('.ban .clone').width() }, 500);
+					$(this).addClass("on").siblings().removeClass("on");
+				});
+
+
+
+				/*向左按钮*/
+			$(".slideBox .btn_l").click(function () {
+				i--;
+				move();
+			});
+
+
+				/*向右按钮*/
+			$(".slideBox .btn_r").click(function () {
+				i++;
+				move();
+			});
+
+				/*移动事件*/
+				function move() {
+					console.log($('.ban .clone').width());
+					if (i == size) {
+						$(".tempWrap .ban").css({ left: 0 });
+						i = 1;
+
+					}
+					if (i == -1) {
+						$(".tempWrap .ban").css({ left: -(size - 1) * $('.ban .clone').width() });
+
+						i = size - 2;
+
+					}
+
+					$(".tempWrap .ban").stop().animate({ left: -i * $('.ban .clone').width() }, 500);
+
+					if (i == size - 1) {
+						$(".hd .num li").eq(0).addClass("on").siblings().removeClass("on");
+					} else {
+						$(".hd .num li").eq(i).addClass("on").siblings().removeClass("on");
+					}
+
+				}
+			});
+		</script>
+		<div id="intro_feature">
+			<div class="wrapper">
+				<div class="flex-row">
+					<div class="flex-item team">
+						<div class="item-head">
+							<img src="__IMG__/team.png" alt="">
+							<div class="feature">
+								<strong>专业团队</strong>
+							</div>
+						</div>
+						<div class="item-body">
+							我们由一支熟悉数字货币、区块链、互联网金融运作方式的团队开发并运营。
+						</div>
+					</div>
+					<div class="flex-item resources">
+						<div class="item-head">
+							<img src="__IMG__/money.png" alt="">
+							<div class="feature">
+								<strong>投资资源</strong>
+							</div>
+						</div>
+						<div class="item-body">
+							我们拥有一批来自于数字货币、区块链、金融、科技、基金领域的投资资源。
+						</div>
+					</div>
+					<div class="flex-item services">
+						<div class="item-head">
+							<img src="__IMG__/people.png" alt="" style="margin-top:10px;">
+							<div class="feature">
+								<strong>用户体验</strong>
+							</div>
+						</div>
+						<div class="item-body">
+							我们提供7 × 24小时客服在线及技术支持，确保产品每一环节使用流畅。
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div id="intro_promise">
+			<div class="wrapper">
+				<div class="flex-row">
+					<div class="flex-item">
+						<img src="__IMG__/safe.png" alt="">
+						<div class="promise">
+							<strong>安全</strong>
+						</div>
+					</div>
+					<div class="flex-item">
+						<img src="__IMG__/award.png" alt="">
+						<div class="promise">
+							<strong>诚信</strong>
+						</div>
+					</div>
+					<div class="flex-item">
+						<img src="__IMG__/justice.png" alt="">
+						<div class="promise">
+							<strong>公平</strong>
+						</div>
+					</div>
+					<div class="flex-item">
+						<img src="__IMG__/lock.png" alt="">
+						<div class="promise">
+							<strong>透明</strong>
+						</div>
+					</div>
+				</div>
+				<div id="promise_desc">
+					<p> 企业植根于互联网金融领域，历经五年技术沉淀， 目前已成为国内拥有丰富互联网金融(数字货币, P2P信贷,众筹等)平台建设经验的高端服务商， 先后研发出多项拥有独立知识产权的交易系统,钱包应用,APP应用以及各类对接于系统的大小功能组件。</p>
+				</div>
+			</div>
+		</div>
+		<div id="intro_services">
+			<div class="wrapper">
+				<div id="services_container">
+					<div class="service-row">
+						<svg>
+							<use xlink:href="#icon-customer-service-online"></use>
+						</svg>
+						<strong>7×24小时客服在线</strong>
+					</div>
+					<div class="service-row">
+						<svg>
+							<use xlink:href="#icon-technical-support"></use>
+						</svg>
+						<strong>7×24小时技术支持</strong>
+					</div>
+					<div id="service_desc">
+						<p>动说科技自成立以来,一直致力于互联网金融领域相关技术的研究。以为客户 提供更加丰富,更加稳健,更加安全的金融平台为目标; 提供更加方便,更加快捷,更加健全的服务为愿景。 竭诚合作,互利共赢。</p>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		{if $links}
+		<div id="intro_partner">
+			<div class="wrapper">
+				<div class="outline-head">
+					<strong>合作伙伴</strong>
+				</div>
+				<ul class="index_pernter_logo ml25 mt20">
+					{foreach $links as $v}
+					<li style="">
+						<a href="{$v['value']}" class="partner1" alt="{$v['name']}" target="_blank" rel="nofollow">
+							<img src="__UP__/{$v['img']}" title="{$v['name']}" class="links_img"> </a>
+					</li>
+
+						{/foreach}
+				</ul>
+			</div>
+		</div>
+		{/if}
+		<div id="intro_inspire">
+			<div class="wrapper">
+				<div class="outline-head">
+					<strong class="inspiration-en"> <span>精挑细选总有您喜欢的区块链项目</span> </strong>
+				</div>
+				<a href="/">立即查看众筹项目</a>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+
+{include file="public:footer"}

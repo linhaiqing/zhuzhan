@@ -1,0 +1,1834 @@
+﻿<!DOCTYPE html>
+
+<html lang="zh-CN">
+
+	<head>
+		<meta name="super-H"/>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta charset="utf-8" />
+		<title>CDAE</title>
+		<link rel="stylesheet" type="text/css" href="__CSS__/bootstrap.css">
+		<link rel="stylesheet" type="text/css" href="__CSS__/reset.css" />
+		<link rel="stylesheet" type="text/css" href="__CSS__/index2.css" />
+		<script type="text/javascript" src="__EXT__/jquery/jquery-1.8.0.js"></script>
+		<script src="__EXT__/jquery/unified2.js" type="text/javascript" charset="utf-8"></script>
+		<link rel="stylesheet" href="__CSS__/style.css?v=" id="theme"/>
+		<link rel="stylesheet" href="__CSS__/common.css?v="/>
+		<script type="text/javascript" src="__EXT__/jquery/jquery-1.8.0.js"></script>
+		<script type="text/javascript" src="__EXT__/jquery/jquery.cookies.2.2.0.js"></script>
+		<script type="text/javascript" src="__EXT__/jquery/layer.js"></script>
+	</head>
+	
+	<body onmousemove="" ontouchstart="" style="overflow: hidden;">
+		<script>
+		var jinzhi=0;
+document.addEventListener("touchmove",function(e){
+if(jinzhi==0){
+e.preventDefault();
+e.stopPropagation();
+}
+},false);
+	</script>
+	
+	<style>
+		.layui-layer-setwin {
+    position: absolute;
+    right: 15px;
+    top: 15px;
+    font-size: 0;
+    line-height: initial;
+}
+.layui-layer-setwin .layui-layer-close2 {
+    position: absolute;
+    right: -28px;
+    top: -28px;
+    width: 30px;
+    height: 30px;
+    margin-left: 0;
+    background-position: -149px -31px;
+    _display: none;
+}
+	</style>
+
+		<nav id="mainNav" class="navbar navbar-default navbar-fixed-top hc-top-up">
+			<div class="container-fluid">
+				<a href="javascript:void(0)" class="hc-logobox">
+				<img src="__UP__/{$config['web_logo']}">
+				</a>
+				<div id="oiBtn" class="hc-oi p1100">
+					<em></em>
+				</div>
+				<style>
+					.fixed_area{
+						display: none;
+					}
+					.container-fluid img {
+						/*width: 150px;*/
+						height: 35px;
+					}
+				</style>
+
+				<ul id="navBox" class="nav navbar-nav navbar-right hc-navbox">
+					<li>
+						<a class="nav-on" href="/">index</a>
+						<a class="nav-off" href="/">首页</a>
+					</li>
+					<li>
+						<a class="nav-on" href="/trade/index">Trading Center</a>
+						<a class="nav-off" href="/trade/index">交易中心</a>
+					</li>
+					<li>
+						<a class="nav-on" href="/finan.html">Financial Center</a>
+						<a class="nav-off" href="/finan.html">财务中心</a>
+					</li>
+
+					<li>
+						<a class="nav-on" href="/user.html">Security center</a>
+						<a class="nav-off" href="/user.html">安全中心</a>
+					</li>
+					<li>
+						<a class="nav-on" href="/article/index/typeid/11.html">Press release</a>
+						<a class="nav-off" href="/article/index/typeid/11.html">新闻公告</a>
+					</li>
+					{if $user}
+					<li data-v-803eb566="" class="right_nav_list">
+						<a data-v-803eb566="" href="{#url('/user')}" class="right_link nav-on">{$user['username']}</a>
+						<a data-v-803eb566="" href="{#url('/user')}" class="right_link nav-off">{$user['username']}</a>
+					</li>
+					<li data-v-803eb566="" class="right_nav_list">
+						<a data-v-803eb566="" href="{ #url('/login/loginout')}" class="right_link nav-on">drop out</a>
+						<a data-v-803eb566="" href="{#url('/login/loginout')}" class="right_link nav-off">退出</a>
+					</li>
+					{else}
+					<li data-v-803eb566="" class="right_nav_list">
+						<a data-v-803eb566="" href="javascript:loginpop();" class="right_link nav-on">Login</a>
+						<a data-v-803eb566="" href="javascript:loginpop();" class="right_link nav-off">登陆</a>
+					</li>
+					<li data-v-803eb566="" class="right_nav_list">
+						<a data-v-803eb566="" href="{#url('/reg')}" class="right_link nav-on">registered</a>
+						<a data-v-803eb566="" href="{#url('/reg')}" class="right_link nav-off">注册</a>
+					</li>
+					{/if}
+				</ul>
+			</div>
+		</nav>
+		<section class="hc-banner">
+			<ul class="banner">
+				<li class="hc-bannerbg" style="background-image:url('/static/default/home/css/banner01.jpg');">
+					<div class="hc-fly">
+						<img class="fly-one" src="__CSS__/super-h.png" />
+						<div class="fly-two">
+
+						</div>
+						<p class="fly-three">Welcome to Caribbean Digital Asset Exchange's safest and most convenient</p>
+						<p class="fly-four">歡迎使用加勒比最安全，最便利的多幣種全球交易平台</p>
+
+					</div>
+				</li>
+				<li class="hc-bannerbg" style="background-image:url('/static/default/home/css/banner02.jpg')">
+					<div class="hc-fly">
+						<img class="fly-one" src="__CSS__/super-h.png" />
+						<div class="fly-two">
+
+						</div>
+						<p class="fly-three">Welcome to Caribbean Digital Asset Exchange's safest and most convenient</p>
+						<p class="fly-four">歡迎使用加勒比最安全，最便利的多幣種全球交易平台</p>
+
+					</div>
+				</li>
+			</ul>
+		</section>
+
+	</body>
+
+</html>
+<style>
+	.layui-layer-page {
+    border-radius: 10px!important;
+}
+.layui-layer-page .layui-layer-content {
+    position: relative;
+    overflow: auto;
+}
+.layui-layer-page .layui-layer-content {
+    overflow: inherit!important;
+}
+.layui-layer-content {
+    position: relative;
+}
+p, a, div, b, strong, h1, h2, h3, h4, h5, h6, dt, button, dd, th, td, span, input, li {
+    
+
+}
+#login-formbox {
+    width: 480px;
+    background: #fff;
+    border-radius: 15px;
+    text-align: center;
+}
+.form-horizontal {
+    width: 480px;
+    height: 347px;
+}
+#login-formbox .heading {
+    display: block;
+    font-size: 30px;
+    font-weight: 700;
+    padding: 20px 0;
+    border-bottom: 1px solid #f0f0f0;
+    margin-bottom: 30px;
+    color: #999;
+}
+.heading {
+    display: block;
+    font-size: 11px;
+    letter-spacing: 1px;
+    margin-bottom: 5px;
+    text-transform: uppercase;
+}
+#login-formbox .form-group {
+    padding: 0 40px;
+    margin: 0 0 25px 0;
+    position: relative;
+}
+#login-formbox .form-group {
+    padding: 0 40px;
+    margin: 0 0 25px 0;
+    position: relative;
+}
+.help {
+    display: block;
+    font-size: .875rem;
+    margin-top: .25rem;
+}
+#login-formbox .intl-tel-input {
+    display: block;
+    left: 38px;
+    top: 25px;
+}
+.intl-tel-input {
+    position: relative;
+    display: inline-block;
+}
+.intl-tel-input .flag-dropdown {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    padding: 1px;
+}
+.intl-tel-input * {
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+}
+.intl-tel-input input, .intl-tel-input input[type=text], .intl-tel-input input[type=tel] {
+    position: relative;
+    z-index: 0;
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+    padding-left: 48px;
+    margin-left: 0;
+    transition: background-color 100ms ease-out;
+}
+input[type=text] {
+    line-height: 35px;
+}
+.intl-tel-input * {
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+}
+.mask_wrap_title, .texts {
+    width: initial;
+    float: initial;
+    display: inline-block;
+}
+.texts {
+    border: 1px solid #C5C5BC;
+    vertical-align: middle;
+    font-size: 14px;
+    width: 200px;
+    height: 34px;
+    line-height: 34px;
+    cursor: pointer;
+    border-radius: 4px;
+    background-color: #FFF;
+    padding: 5px;
+}
+.intl-tel-input .selected-flag {
+    z-index: 1;
+    position: relative;
+    width: 38px;
+    padding: 0px 0 0 4px;
+    margin: 5px;
+    height: 30px;
+    top: -25px;
+}
+.intl-tel-input .selected-flag {
+    top: -25px;
+}
+.intl-tel-input * {
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+}
+.selected-flag {
+    z-index: 1;
+    position: relative;
+    width: 42px;
+    height: 100%;
+    padding: 0 0 0 8px;
+}
+.intl-tel-input .selected-flag .iti-flag {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+}
+.iti-flag.cn {
+    height: 14px;
+    background-position: -1049px 0px;
+}
+.iti-flag {
+    width: 20px;
+    height: 15px;
+    box-shadow: 0px 0px 1px 0px #888;
+    background-image: url(static/extend/intlTelInput/img/flags.png);
+    background-repeat: no-repeat;
+    background-color: #DBDBDB;
+    background-position: 20px 0;
+}
+.intl-tel-input .selected-flag .arrow {
+    position: absolute;
+    top: 50%;
+    margin-top: -2px;
+    right: 4px;
+    width: 0;
+    height: 0;
+    border-left: 3px solid transparent;
+    border-right: 3px solid transparent;
+    border-top: 4px solid #555;
+}
+.intl-tel-input * {
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+}
+#login-formbox .form-control {
+    display: block;
+    width: 100%;
+    background: #f0f0f0;
+    border: none;
+    border-radius: 30px;
+    box-shadow: none;
+    padding: 0 20px 0 45px;
+    height: 40px;
+    transition: all 0.3s ease 0s;
+    font-size: 15px;
+}
+input[placeholder], [placeholder], [placeholder] {
+    color: #999;
+}
+#login-formbox .form-group i {
+    position: absolute;
+    top: 12px;
+    left: 60px;
+    font-size: 17px;
+    color: #c8c8c8;
+    transition: all 0.5s ease 0s;
+}
+.fa {
+    display: inline-block;
+    font: normal normal normal 14px/1 FontAwesome;
+    font-size: inherit;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+.fa-lock:before {
+    content: "\F023";
+}
+img {
+    max-width: 100%;
+}
+#login-formbox .text {
+    float: left;
+    margin-left: 7px;
+    line-height: 35px;
+    padding-top: 5px;
+    text-transform: capitalize;
+}
+.text {
+    color: #7A7A7A;
+    font-size: 12px;
+}
+#login-formbox .text a {
+    color: #333;
+}
+a, a:visited {
+    text-decoration: none;
+    -webkit-touch-callout: none;
+}
+#login-formbox .btn {
+    float: right;
+    font-size: 14px;
+    color: #fff;
+    background: #00b4ef;
+    border-radius: 30px;
+    padding: 10px 35px;
+    border: none;
+    text-transform: capitalize;
+    transition: all 0.5s ease 0s;
+}
+input[type=button], input[type=submit], .cursor, a, .hand {
+    cursor: pointer;
+}
+#login-formbox .form-group i {
+    position: absolute;
+    top: 12px;
+    left: 60px;
+    font-size: 17px;
+    color: #c8c8c8;
+    transition: all 0.5s ease 0s;
+}
+.intl-tel-input .selected-flag .iti-flag {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+}
+.iti-flag.cn {
+    height: 14px;
+    background-position: -1049px 0px;
+}
+.iti-flag {
+    width: 20px;
+    height: 15px;
+    box-shadow: 0px 0px 1px 0px #888;
+     background-image: url(static/extend/intlTelInput/img/flags.png);
+    background-repeat: no-repeat;
+    background-color: #DBDBDB;
+    background-position: 20px 0;
+}
+	.all_mask {
+    opacity: initial !important;
+    background: rgba(0,0,0,.5) !important;
+}
+
+
+
+</style>
+<script type="text/javascript">
+				$(function() {
+					var tabbarItem = $('#tabbar').find('li');
+					var tabcontent = $('#tabcontent').children('div');
+					tabbarItem.each(function() {
+						$(this).click(function() {
+							$(this).addClass('active').siblings().removeClass('active');
+							var _index = $(this).index();
+							tabcontent.eq(_index).removeClass('hide').siblings().addClass('hide');
+						})
+					})
+				})
+
+
+			</script>
+			
+
+			<script>
+				$(function() {
+					if($.cookies.get('openKlineBlockSelect') == 1) {
+						$("#trade_kline_box").hide();
+						$('#openKlineBlockSelect option:eq(1)').attr('selected', 'selected');
+					}
+					if($.cookies.get('openTradeBlockSelect') == 1) {
+						$(".trade_opens_box").hide();
+						$('#openTradeBlockSelect option:eq(1)').attr('selected', 'selected');
+					}
+
+					$("#openKlineBlockSelect").change(function() {
+						var id = $("#openKlineBlockSelect option:selected").val();
+						if(id == 1) {
+							$("#trade_kline_box").hide();
+							$.cookies.set('openKlineBlockSelect', 1);
+						} else {
+
+							$("#trade_kline_box").show();
+							$.cookies.set('openKlineBlockSelect', 0);
+						}
+					});
+
+					$("#openTradeBlockSelect").change(function() {
+						var id = $("#openTradeBlockSelect option:selected").val();
+						if(id == 1) {
+							$(".trade_opens_box").hide();
+							$.cookies.set('openTradeBlockSelect', 1);
+						} else {
+							$(".trade_opens_box").show();
+							$.cookies.set('openTradeBlockSelect', 0);
+						}
+					});
+
+					
+					$('#changeKlinestyle p').click(function() {
+						var value = $(this).attr('value')
+						if(value == 3) {
+							$("#market_chart").attr("src", "/trade/depthlink?market={$market}");
+							$('#changeKlinestyle p').removeClass('action')
+							$('#Gaxdin').attr('value', 3)
+							$(this).addClass('action')
+						} else if(value == 2) {
+							$("#market_chart").attr("src", "/trade/kline_h?market={$market}");
+							$('#changeKlinestyle p').removeClass('action')
+							$('#Gaxdin').attr('value', 2)
+							$(this).addClass('action')
+						} else {
+							$("#market_chart").attr("src", "/trade/ordinary?market={$market}");
+							$('#changeKlinestyle p').removeClass('action')
+							$(this).addClass('action')
+							$('#Gaxdin').attr('value', 1)
+						}
+					});
+
+				});
+			</script>
+			<script type="text/javascript" src="__EXT__/jquery/jquery-ui.js"></script>
+<script>
+	$(function() {
+
+		$('.all_coin_price').hover(function() {
+			$('.all_coin_list').show()
+		}, function() {
+			$('.all_coin_list').hide()
+		});
+
+		get_json();
+
+		var $li = $('.tevwx > dd');
+		var $ul = $('.MIsnn > ul');
+		var $li_sit = $('.Hinder > dd');
+		var $ul_sit = $('.Terav')
+		$li.mouseover(function() {
+			var $this = $(this);
+			var $t = $this.index();
+			$li.removeClass();
+			$this.addClass('current');
+			$ul.css('display', 'none');
+			$ul.eq($t).css('display', 'block');
+		});
+		$li_sit.click(function() {
+			var $this = $(this);
+			var $t = $this.index();
+			$li_sit.removeClass();
+			$this.addClass('current');
+			$ul_sit.css('display', 'none');
+			$ul_sit.eq($t).css('display', 'block');
+		});
+
+	});
+
+	function on_return() {
+		var theEvent = window.event || arguments.callee.caller.arguments[0]; //回车登录
+		var code = theEvent.keyCode;
+		if(code == 13) {
+			footer_login();
+		}
+	}
+
+	function wrapClose() {
+		$('.all_mask').hide();
+		$('.all_mask_loginbox').hide();
+	}
+
+	function login_verify_ups() {
+		$('#login_verify_up').attr('src', "{#url('verify/code')}?t=" + Math.random());
+	}
+
+	function footer_login() {
+		var moble = $("#login_moble").val();
+		var mobles = $("#login_mobles").val();
+		var password = $("#login_password").val();
+		var verify = $("#login_verify").val();
+
+		if(moble == "" || moble == null) {
+			layer.tips('{#lang("请输入手机号")}', '#login_moble', {
+				tips: 2
+			});
+			return false;
+		}
+		if(password == "" || password == null) {
+			layer.tips('{#lang("请输入登录密码")}', '#login_password', {
+				tips: 2
+			});
+			return false;
+		}
+		if(verify == "" || verify == null) {
+			layer.tips('{#lang("请输入验证码")}', '#login_verify', {
+				tips: 2
+			});
+			return false;
+		}
+
+		$.post("{#url('login/up_login')}", {
+			moble: moble,
+			mobles: mobles,
+			password: password,
+			verify: verify,
+			login_token: "{$login_token}",
+		}, function(data) {
+			if(data.status == 1) {
+				$.cookies.set('move_moble', moble);
+				layer.msg(data.info, {
+					icon: 1
+				});
+				if(data.url) {
+					window.location = data.url;
+				} else {
+					window.location.reload();
+				}
+			} else {
+				$("#login_verify_up").click();
+				layer.msg(data.info, {
+					icon: 2
+				});
+				if(data.url) {
+					window.location = data.url;
+				}
+			}
+		}, "json");
+	}
+
+	$('.buy_best_price').click(function() {
+		//alert(1)
+		//	$('#buy_price').val($(this).html)
+	})
+
+	$('#sell_best_price').click(function() {
+		//$('#sell_price').val($(this).html)
+	})
+	// 自动填价格
+	function autotrust(_this, type, cq) {
+
+		if(type == 'sell') {
+			$('#buy_price').val($(_this).children().eq(cq).html()).css({
+				'color': '#333',
+				'font_size': '14px'
+			});
+			if($("#my_rmb").html() > 0) {
+				$("#buy_max").html(toNum(($("#my_rmb").html() / $('#buy_price').val()), 6));
+			}
+			if($('#buy_num').val()) {
+				$("#buy_mum").html(($('#buy_num').val() * $('#buy_price').val()).toFixed(8) * 1);
+			}
+		}
+
+		if(type == 'buy') {
+			$('#sell_price').val($(_this).children().eq(cq).html()).css({
+				'color': '#333',
+				'fontSize': '14px'
+			});
+			if($("#my_xnb").html() > 0) {
+
+				$("#sell_max").html($("#my_xnb").html());
+			}
+			if($('#sell_num').val()) {
+				$("#sell_mum").html(($('#sell_num').val() * $('#sell_price').val()).toFixed(8) * 1);
+			}
+		}
+
+	}
+
+	function get_json_new() {
+		$.getJSON("/trade/index_json/market/{$market}?t=" + Math.random(), function(data) {
+			if(data) {
+				if(data['menu']) {
+					trade_menu(data['menu']);
+				}
+				if(data['top']) {
+					trade_top(data['top']);
+				}
+				if(data['depth']) {
+					trade_depth(data['depth']);
+				}
+				if(data['order']) {
+					$('#entrust_over').show();
+					trade_order(data['order']);
+				} else {
+					$('#entrust_over').hide();
+				}
+				if(data['trades']) {
+					trade_trades(data['trades']);
+				}
+				if(data['finance']) {
+					trade_finance(data['finance']);
+				}
+			}
+		});
+	}
+
+	function get_json() {
+
+		$.getJSON("/trade/index_json/market/{$market}?t=" + Math.random(), function(data) {
+			if(data) {
+				if(data['menu']) {
+					trade_menu(data['menu']);
+				}
+				if(data['top']) {
+					trade_top(data['top']);
+				}
+				if(data['depth']) {
+					trade_depth(data['depth']);
+				}
+				if(data['order']) {
+					$('#entrust_over').show();
+					trade_order(data['order']);
+				} else {
+					$('#entrust_over').hide();
+				}
+				if(data['trades']) {
+					trade_trades(data['trades']);
+				}
+				if(data['finance']) {
+					trade_finance(data['finance']);
+				}
+			}
+
+			setTimeout('get_json()', 5000);
+		});
+	}
+
+	function trade_finance(data) {
+		if(data[0]) { // 可用rmb
+			var rmb = data[0].toFixed(2);
+			$("#my_rmb").html(rmb);
+		} else {
+			$("#my_rmb").html('0.00');
+		}
+
+		if(data[1]) { // 冻结rmb
+			var rmbd = data[1].toFixed(2);
+			$("#my_rmbd").html(rmbd);
+		} else {
+			$("#my_rmbd").html('0.00');
+		}
+
+		if(data[2]) { // 可用xx币
+			var xnb = data[2].toFixed(8);
+			$("#my_xnb").html(xnb);
+		} else {
+			$("#my_xnb").html('0.00');
+		}
+
+		if(data[3]) { // 冻结xx币
+			var xnbd = data[3].toFixed(8);
+			$("#my_xnbd").html(xnbd);
+		} else {
+			$("#my_xnbd").html('0.00');
+		}
+
+		if(data[4]) {
+			$('#my_finance').html(data[4]);
+		} else {
+			$("#my_finance").html('0.00');
+		}
+
+	}
+
+	// 得到成交记录
+	function trade_trades(data) {
+		var list = '';
+		for(var i in data) {
+			if(data[i][1] == 1) {
+				list += '<tr title="{#lang(以这个价格卖出)}"onclick="autotrust(this,\'buy\',2)"><td class="buy"   width="">' + data[i][0] + '</td><td class="buy"   width="">{#lang("买")}</td><td class="buy"   width="">' + data[i][2] + '</td><td class="buy"  width="">' + data[i][3] + '</td><td class="buy">' + data[i][4] + '</td></tr>';
+			} else {
+				list += '<tr title="{#lang(以这个价格买入)}" onclick="autotrust(this,\'sell\',2)"><td class="sell"   width="">' + data[i][0] + '</td><td class="sell"   width="">{#lang("卖")}</td><td class="sell"   width="">' + data[i][2] + '</td><td class="sell"  width="">' + data[i][3] + '</td><td class="sell">' + data[i][4] + '</td></tr>';
+			}
+		}
+		$("#orderlist").html(list);
+	}
+
+	// 得到委托订单
+	function trade_order(data) {
+		var list = '';
+		var cont = data.length;
+
+		if(cont > 7) {
+			cont = 7
+		}
+
+		for(i = 0; i < cont; i++) {
+			if(data[i][1] == 1) {
+				list += '<tr title="{#lang(以这个价格卖出)}" onclick="autotrust(this,\'buy\',2)"><td class="buy">' + data[i][0] + '</td>' +
+					'<td class="buy" >' + '{#lang("买")}' + '</td>' +
+					'<td class="buy" >' + data[i][2] + '</td>' +
+					'<td class="buy">' + data[i][3] + '</td>' +
+					'<td class="buy">' + data[i][4] + '</td>' +
+					'<td class="buy">' + (data[i][2] * data[i][3]).toFixed(8) + '</td>' +
+					'<td><a class="move" id="' + data[i][5] + '" onclick="cancelaa(\'' + data[i][5] + '\')" href="javascript:void(0);">{#lang("撤销")}</a></td>' +
+					'</tr>';
+			} else {
+				list += '<tr title="{#lang(以这个价格买入)}" onclick="autotrust(this,\'sell\',2)">' +
+					'<td class="sell">' + data[i][0] + '</td><td class="sell" >{#lang("卖")}</td>' +
+					'<td class="sell">' + data[i][2] + '</td><td class="sell">' + data[i][3] + '</td>' +
+					'<td class="sell">' + data[i][4] + '</td><td class="sell">' + (data[i][2] * data[i][3]).toFixed(8) + '</td>' +
+					'<td><a class="move" id="' + data[i][5] + '" onclick="cancelaa(\'' + data[i][5] + '\')" href="javascript:void(0);">{#lang("撤销")}</a></td></tr>';
+			}
+		}
+		if(cont >= 7) {
+			list += '<tr><td style="text-align:center;" colspan="7"><a href="/trade/trades/market/{$market}" class="move">{#lang("更多委托信息")}</a>&nbsp;&nbsp;</td></tr>;'
+		}
+		$('#entrustlist').html(list);
+		if(list) {
+			$('.move_weituo').show();
+		}
+
+	}
+
+	function trade_depth(data) {
+		var list = '';
+		if(data['s']) {
+			if(data['s'] != 'no') {
+
+				if(data['s']) {
+
+					var chang = data['s'].length;
+					if(chang > 10) {
+						chang = 10;
+					}
+					var sellk = chang;
+					// for(i = 0; i < chang; i++) {
+					// 	list += '<dl title="{#lang(以这个价格买入)}" style="cursor: pointer;" onclick="autotrust(this,\'sell\',1)">' +
+					// 		'<dt class="sell"  style="width: 40px;padding-left: 5px;">{#lang("卖")}' + (sellk - i) + '</dt>' +
+					// 		'<dd class="sell"  style="width: 80px;text-align: right;">' + data['s'][i][0] + '</dd>' +
+					// 		'<dd class="sell"  style="width: 110px;text-align: right;">' + data['s'][i][1] + '</dd>' +
+					// 		'<dd class="sell"  style="width: 120px;text-align: right;">' + (data['s'][i][0] * data['s'][i][1]).toFixed(8) + '</dd>' +
+					// 		'</dl>';
+					// }
+					for(i = 0; i < chang; i++) {
+						list += '<tr title="{#lang(以这个价格买入)}" onclick="autotrust(this,\'sell\',1)">' +
+							'<td>{#lang("卖")}' + (sellk - i) + '</td>' +
+							'<td>' + data['s'][i][0] + '</td>' +
+							'<td>' + data['s'][i][1] + '</td>' +
+							'<td>' + (data['s'][i][0] * data['s'][i][1]).toFixed(8) + '</td>' +
+							'</tr>';
+					}
+				}
+			}
+
+		}
+		$("#selllist").html(list);
+		list = '';
+		if(data['b']) {
+			if(data['b'] != 'no') {
+				var i = 0;
+				var chang;
+
+				chang = data['b'].length;
+				if(chang > 10) {
+					chang = 10;
+				}
+
+				for(i = 0; i < chang; i++) {
+					// list += '<dl title="{#lang(以这个价格卖出)}" style="cursor: pointer;" onclick="autotrust(this,\'buy\',1)">' +
+					// 	'<dt class="buy"  style="width: 40px;padding-left: 5px;">{#lang("买")}' + (i + 1) + '</dt>' +
+					// 	'<dd class="buy"  style="width: 80px;text-align: right;">' + data['b'][i][0] + '</dd>' +
+					// 	'<dd class="buy"  style="width: 110px;text-align: right;">' + data['b'][i][1] + '</dd>' +
+					// 	'<dd class="buy"  style="width: 120px;text-align: right;">' + (data['b'][i][0] * data['b'][i][1]).toFixed(8) + '</dd>' +
+					// 	'</dl>';
+					list += '<tr title="{#lang(以这个价格卖出)}" onclick="autotrust(this,\'buy\',1)">' +
+						'<td>{#lang("买")}' + (i + 1) + '</td>' +
+						'<td>' + data['b'][i][0] + '</td>' +
+						'<td>' + data['b'][i][1] + '</td>' +
+						'<td>' + (data['b'][i][0] * data['b'][i][1]).toFixed(8) + '</td>' +
+						'</tr>';
+				}
+			}
+
+		}
+		$("#buylist").html(list);
+	}
+
+	function trade_top(data) {
+		if(data[0]) {
+			if($("#market_new_price").html() > data[0]) {
+				$('#market_new_price').removeClass('buy');
+				$('#market_new_price').addClass('sell');
+			}
+			if($("#market_new_price").html() < data[0]) {
+				$('#market_new_price').removeClass('sell');
+				$('#market_new_price').addClass('buy');
+			}
+			$("#market_new_price").html(data[0]);
+		}
+		if(data[1]) {
+			$('#market_buy_price').removeClass('buy');
+			$('#market_buy_price').removeClass('sell');
+			if($("#market_buy_price").html() > data[1]) {
+				$('#market_buy_price').addClass('sell');
+			}
+			if($("#market_buy_price").html() < data[1]) {
+				$('#market_buy_price').addClass('buy');
+			}
+			$("#market_buy_price").html(data[1]);
+			$("#sell_best_price").html(data[1]);
+		}
+		if(data[2]) {
+			$('#market_sell_price').removeClass('buy');
+			$('#market_sell_price').removeClass('sell');
+			if($("#market_sell_price").html() > data[2]) {
+				$('#market_sell_price').addClass('sell');
+			}
+			if($("#market_sell_price").html() < data[2]) {
+				$('#market_sell_price').addClass('buy');
+			}
+			$("#market_sell_price").html(data[2]);
+
+			$("#buy_best_price").html(data[2]);
+		}
+		if(data[3]) {
+			$("#market_min_price").html(data[3]);
+		}
+		if(data[4]) {
+			$("#market_max_price").html(data[4]);
+		}
+		if(data[5]) {
+			if(data[5] > 10000) {
+				data[5] = (data[5] / 10000).toFixed(2) + "万"
+			}
+			if(data[5] > 100000000) {
+				data[5] = (data[5] / 100000000).toFixed(2) + "亿"
+			}
+			$("#market_volume").html(data[5]);
+		}
+		if(data[6]) {
+
+			$('#market_change').removeClass('buy');
+			$('#market_change').removeClass('sell');
+			if(data[6] > 0) {
+				$('#market_change').addClass('buy');
+				$("#market_change").html(data[6] + "%");
+			} else {
+				$('#market_change').addClass('sell');
+				$("#market_change").html((-data[6]) + "%");
+			}
+
+		}
+	}
+
+	function trade_menu(data) {
+		if(data) {
+			for(var i in data) {
+				$('.menu_price_zx_' + i).html(data[i]['price']);
+			}
+		}
+	}
+
+	function layertpwd() {
+		var html = '<div id="all_mask" class="all_mask"></div><div id="tpwd" class="all_mask_loginbox">' +
+			'<div class="login_title pl20">{#lang(交易密码输入设置)}</div><form id="tpwdsetting" class="set_verify" style="padding-left: 50px;">' +
+			'<ul class="tpwd"><li><label for="only"><input type="radio" id="only" value="1" name="aaatpwdsetting"> {#lang(每次登录只输入一次交易密码)} </label></li><li>' +
+			'<label for="every"><input type="radio" checked id="every" value="2" name="aaatpwdsetting"> {#lang(每笔交易都输入交易密码)}</label></li><li><label for="none">' +
+			'<input type="radio" id="none" name="aaatpwdsetting" value="3"> {#lang(每次交易都不需要输入交易密码)}</label></li><li><input type="password" id="aaapaypassword" name="paypassword" placeholder="{#lang(请输入交易密码)}" class="texts"/><a href="/findpwd/paypassword" class="move ml5">{#lang(忘记)}?</a>' +
+			'</li></ul><div class="save_verify"><input type="button"class="btns2" value="{#lang(保存)}" onclick="tpwdsettingaa()" /></div><div class="mask_wrap_close" id="pwd_close"><i class="fa fa-times fz_20 move" aria-hidden="true"></i></div></form></div>';
+		$('body').append(html);
+		//$('#tpwd').css('top', ($(window).height() / 2) - (265 / 2) + $(document).scrollTop());
+		$('.all_mask').css({
+			'height': $(document).height()
+		});
+		$('#pwd_close').click(function() {
+			$('#tpwd').remove();
+			$('#all_mask').remove();
+			$('#all_mask').remove();
+		})
+
+		$.get('/trade/tpwdsetting', function(d) {
+			if(d == 1) {
+				$('#only').prop('checked', true);
+			}
+			if(d == 2) {
+				$('#every').prop('checked', true);
+			}
+			if(d == 3) {
+				$('#none').prop('checked', true);
+			}
+		})
+	}
+
+	//保存交易密码设置
+	function tpwdsettingaa() {
+		var paypassword = $("#aaapaypassword").val();
+		var tpwdsetting = $("input[name='aaatpwdsetting']:checked").val();
+		if(paypassword == "" || paypassword == null) {
+			layer.tips('{#lang("请输入交易密码")}', '#aaapaypassword', {
+				tips: 3
+			});
+			return false;
+		}
+		if(tpwdsetting == "" || tpwdsetting == null) {
+			layer.tips('{#lang("请输入选择一个")}', '#tpwdsetting', {
+				tips: 3
+			});
+			return false;
+		}
+		$.post('/trade/uptpwdsetting', {
+			paypassword: paypassword,
+			tpwdsetting: tpwdsetting
+		}, function(d) {
+			if(d.status == 1) {
+				layer.msg('{#lang("设置成功")}', {
+					icon: 1
+				});
+				window.location.reload();
+			} else {
+				layer.msg(d.info, {
+					icon: 2
+				});
+			}
+
+		}, 'json');
+	}
+
+	var trans_lock = 0;
+	function tradeadd_buy() {
+		if(trans_lock) {
+			layer.msg('{#lang("不要重复提交")}', {
+				icon: 2
+			});
+			return;
+		}
+		trans_lock = 1;
+		var price = parseFloat($('#buy_price').val());
+		var num = parseFloat($('#buy-num').val());
+		var paypassword = $('#buy_paypassword').val();
+		console.log(num)
+		if(price == "" || price == null) {
+			layer.tips('{#lang("请输入内容")}', '#buy_price', {
+				tips: 3
+			});
+			return false;
+		}
+		if(num == "" || num == null) {
+			layer.tips('{#lang("请输入内容")}', '#buy_num', {
+				tips: 3
+			});
+			return false;
+		}
+
+		//加载层-风格3
+		layer.load(2);
+
+		//此处演示关闭
+		setTimeout(function() {
+			layer.closeAll('loading');
+			trans_lock = 0;
+		}, 10000);
+
+		var goole = "{$goole}";
+		if(goole == 1) {
+			layer.config({
+				extend: 'extend/layer.ext.js'
+			});
+			layer.ready(function() {
+				//默认prompt
+				layer.prompt({
+					title: '{#lang("输入谷歌验证码，并确认")}',
+					formType: 1
+				}, function(val) {
+					if(val) {
+						//需要执行的方法
+
+						$.post("{#url('trade/up')}", {
+							price: $('#buy_price').val(),
+							num:$('#buy_num').val(),
+							paypassword: $('#buy_paypassword').val(),
+							market: "{$market}",
+							type: 1,
+							goole: val,
+						}, function(data) {
+							layer.closeAll('loading');
+							trans_lock = 0;
+							if(data.status == 1) {
+								get_json_new();
+								//$("#buy_price").val('');
+								//$("#buy_num").val('');
+								//$("#sell_price").val('');
+								//$("#sell_num").val('');
+								layer.msg(data.info, {
+									icon: 1
+								});
+
+							} else {
+								layer.msg(data.info, {
+									icon: 2
+								});
+							}
+						}, 'json');
+
+					};
+				});
+			});
+		} else {
+			$.post("{#url('trade/up')}", {
+				price: $('#buy_price').val(),
+				num:$('#buy_num').val(),
+				paypassword: $('#buy_paypassword').val(),
+				market: "{$market}",
+				type: 1
+			}, function(data) {
+				layer.closeAll('loading');
+				trans_lock = 0;
+				if(data.status == 1) {
+					get_json_new();
+					//$("#buy_price").val('');
+					//$("#buy_num").val('');
+					//$("#sell_price").val('');
+					//$("#sell_num").val('');
+					layer.msg(data.info, {
+						icon: 1
+					});
+				} else {
+					layer.msg(data.info, {
+						icon: 2
+					});
+				}
+			}, 'json');
+			console.log(price,num,paypassword)
+		}
+
+	}
+
+
+	function tradeadd_sell() {
+		if(trans_lock) {
+			layer.msg('{#lang("不要重复提交")}', {
+				icon: 2
+			});
+			return;
+		}
+		trans_lock = 1;
+		var price = parseFloat($('#sell_price').val());
+		var num = parseFloat($('#sell_num').val());
+		var paypassword = $('#sell_paypassword').val();
+		if(price == "" || price == null) {
+			layer.tips('{#lang("请输入内容")}', '#sell_price', {
+				tips: 3
+			});
+			return false;
+		}
+		if(num == "" || num == null) {
+			layer.tips('{#lang("请输入内容")}', '#sell_num', {
+				tips: 3
+			});
+			return false;
+		}
+		layer.load(2);
+		//此处演示关闭
+		setTimeout(function() {
+			layer.closeAll('loading');
+			trans_lock = 0;
+		}, 10000);
+
+		var goole = "{$goole}";
+		if(goole == 1) {
+			layer.config({
+				extend: 'extend/layer.ext.js'
+			});
+			layer.ready(function() {
+				//默认prompt
+				layer.prompt({
+					title: '{#lang("输入谷歌验证码，并确认")}',
+					formType: 1
+				}, function(val) {
+					if(val) {
+						//需要执行的方法
+						$.post("{#url('trade/up')}", {
+							price: $('#sell_price').val(),
+							num: $('#sell_num').val(),
+							paypassword: $('#sell_paypassword').val(),
+							market: "{$market}",
+							type: 2,
+							goole: val,
+						}, function(data) {
+							layer.closeAll('loading');
+							trans_lock = 0;
+							if(data.status == 1) {
+								get_json_new();
+								//$("#buy_price").val('');
+								$("#buy_num").val('');
+								//$("#sell_price").val('');
+								$("#sell_num").val('');
+								layer.msg(data.info, {
+									icon: 1
+								});
+							} else {
+								layer.msg(data.info, {
+									icon: 2
+								});
+							}
+						}, 'json');
+
+					};
+				});
+			});
+		} else {
+
+			$.post("{#url('trade/up')}", {
+				price: $('#sell_price').val(),
+				num: $('#sell_num').val(),
+				paypassword: $('#sell_paypassword').val(),
+				market: "{$market}",
+				type: 2
+			}, function(data) {
+				layer.closeAll('loading');
+				trans_lock = 0;
+				if(data.status == 1) {
+					get_json_new();
+					//$("#buy_price").val('');
+					$("#buy_num").val('');
+					//$("#sell_price").val('');
+					$("#sell_num").val('');
+					layer.msg(data.info, {
+						icon: 1
+					});
+				} else {
+					layer.msg(data.info, {
+						icon: 2
+					});
+				}
+			}, 'json');
+		}
+
+	}
+
+	//撤销
+	function cancelaa(id) {
+		$.post("{#url('trade/chexiao')}", {
+			id: id
+		}, function(data) {
+			if(data.status == 1) {
+				layer.msg(data.info, {
+					icon: 1
+				});
+			} else {
+				layer.msg(data.info, {
+					icon: 2
+				});
+			}
+		}, 'json');
+	}
+
+	function toNum(num, round) {
+		return Math.round(num * Math.pow(10, round) - 1) / Math.pow(10, round);
+	}
+
+	$('#buy_price,#buy_num,#sell_price,#sell_num').css("ime-mode", "disabled").bind('keyup change', function() {
+
+		var buyprice = parseFloat($('#buy_price').val());
+		var buynum = parseFloat($('#buy_num').val());
+		var sellprice = parseFloat($('#sell_price').val());
+		var sellnum = parseFloat($('#sell_num').val());
+		var buymum = buyprice * buynum;
+		var sellmum = sellprice * sellnum;
+		var myrmb = $("#my_rmb").html();
+		var myxnb = $("#my_xnb").html();
+		var buykenum = 0;
+		var sellkenum = 0;
+		var buyfee = parseFloat("{$market_list[$market]['fee_buy']}");
+		var sellfee = parseFloat("{$market_list[$market]['fee_sell']}");
+
+		if(buyfee > 0) {
+			buymum = parseFloat(buymum / 100 * (100 + buyfee));
+		}
+		if(sellfee > 0) {
+			sellmum = parseFloat(sellmum / 100 * (100 - sellfee));
+		}
+
+		var round = parseInt("{$coin_list[$xnb]['round']}");
+		if(myrmb > 0) {
+			buykenum = myrmb / buyprice;
+		}
+		if(myxnb > 0) {
+			sellkenum = myxnb;
+		}
+		if(buyprice != null && buyprice.toString().split(".") != null && buyprice.toString().split(".")[1] != null) {
+			if(buyprice.toString().split('.')[1].length > round) {
+				$('#buy_price').val(buyprice.toFixed(round));
+			}
+		}
+		if(buynum != null && buynum.toString().split(".") != null && buynum.toString().split(".")[1] != null) {
+			if(buynum.toString().split('.')[1].length > (8 - round)) {
+				$('#buy_num').val(toNum(buynum, (8 - round)));
+			}
+		}
+		if(sellprice != null && sellprice.toString().split(".") != null && sellprice.toString().split(".")[1] != null) {
+			if(sellprice.toString().split('.')[1].length > round) {
+				$('#sell_price').val(sellprice.toFixed(round));
+			}
+		}
+		if(sellnum != null && sellnum.toString().split(".") != null && sellnum.toString().split(".")[1] != null) {
+			if(sellnum.toString().split('.')[1].length > (8 - round)) {
+				$('#sell_num').val(toNum(sellnum, (8 - round)));
+			}
+		}
+		if(buymum != null && buymum > 0) {
+			$('#buy_mum').html(buymum.toFixed(8) * 1);
+		}
+		if(sellmum != null && sellmum > 0) {
+			$('#sell_mum').html(sellmum.toFixed(8) * 1);
+		}
+		if(buykenum != null && buykenum > 0 && buykenum != 'Infinity') {
+
+			$('#buy_max').html(toNum(buykenum, (8 - round)));
+		} else {
+
+		}
+		if(sellkenum != null && sellkenum > 0 && sellkenum != 'Infinity') {
+
+			$('#sell_max').html(sellkenum);
+		}
+	}).bind("paste", function() {
+		return false;
+	}).bind("blur", function() {
+		if(this.value.slice(-1) == ".") {
+			this.value = this.value.slice(0, this.value.length - 1);
+		}
+	}).bind("keypress", function(e) {
+		var code = (e.keyCode ? e.keyCode : e.which); //兼容火狐 IE
+		if(this.value.indexOf(".") == -1) {
+			return(code >= 48 && code <= 57) || (code == 46);
+		} else {
+			return code >= 48 && code <= 57
+		}
+	});
+
+	// 买入/卖出 比例
+	function slider() {
+		var type = ['sell', 'buy'];
+		var round = "{$coin_list[$xnb]['round']}";
+		var $user = "{$user['id']}";
+
+		for(var i in type) {
+			$("#slider_" + type[i]).slider({
+				value: 0,
+				min: 0,
+				max: 100,
+				step: 10,
+				range: "min",
+				slide: function(a, t) {
+					var mycny = $('#my_rmb').text();
+					var mxn = $('#my_xnb').html();
+					var type = $(t.handle).attr('data_slide');
+					var buy_prices = $('#buy_price').val();
+					if(!$user) {
+						layer.msg('您尚未登录,无法计算买入数量');
+						return false;
+					}
+
+					if(type == 'buy') {
+						if(mycny == 0) {
+							layer.msg('您余额不足,请先充值');
+							return false;
+						}
+					} else {
+						if(mxn == 0) {
+							layer.msg('您当前币种不足,请先购买');
+							return false;
+						}
+					}
+
+					if(mycny > 0 && type == 'buy') {
+						var kenum = mycny / buy_prices;
+						if(kenum != null && kenum > 0 && kenum != 'Infinity') {
+							$('#buy_max').html(toNum(kenum, (8 - round)));
+						}
+					}
+					if(mxn > 0 && type == 'sell') {
+						sellkenum = mxn;
+						if(sellkenum != null && sellkenum > 0 && sellkenum != 'Infinity') {
+							$('#sell_max').html(sellkenum);
+						}
+					}
+
+					var e = parseFloat($("#" + type + '_max').text());
+
+					if(isNaN(e)) e = 0;
+					$("#" + type + ' .ui-slider-handle').addClass('ui-state-focus ui-state-active');
+					$("#" + type + "_num").val((e / 100 * t.value).toFixed(8 - parseInt(round)));
+					$("#ratio_num_" + type).text(t.value + "%");
+					if($('#' + type + '_price').val()) {
+						$("#" + type + "_mum").html(((e / 100 * t.value * $('#' + type + '_price').val())).toFixed(8));
+					}
+				}
+			})
+		}
+	}
+
+	slider();
+</script>
+<script>
+	if($("#trade_box").length > 0) {
+		$('#trade_box').addClass('active');
+	} else {
+		$('#trade_box').addClass('active');
+	}
+	
+	
+</script>
+<style>
+	@media only screen and (max-width: 1000px) and (min-width: 100px){
+		.autobox.kirte {
+    margin-top: 0;
+    min-width: auto;
+}.all_mask_loginbox {
+    margin-top: 30px !important;
+    left: 0 !important;
+    margin-left: 0 !important;
+    width: 100% !important;
+    top: 30px !important;
+}
+.mask_wrap {
+    padding-left: 0 !important;
+    width: 100% !important;
+}
+#all_mask_loginbox .login_text {
+    display: -webkit-box;
+}
+#all_mask_loginbox .mask_wrap_title {
+    display: block;
+    float: initial;
+    width: 20%;
+}
+.mask_wrap_title {
+    margin-left: 0 !important;
+}
+.intl-tel-input {
+    width: 40px !important;
+    top: 6px;
+    position: absolute !important;
+}
+.selected-flag {
+    width: 40px !important;
+    top: -4px !important;
+}
+#all_mask_loginbox .texts, .redB {
+    display: block;
+    width: initial;
+    -webkit-box-flex: 1;
+    margin-right: 20%;
+    float: initial;
+}
+#all_mask_loginbox .texts, .redB {
+    display: block;
+    width: initial;
+    -webkit-box-flex: 1;
+    margin-right: 20%;
+    float: initial;
+}
+#all_mask_loginbox .login_text {
+    display: -webkit-box;
+}
+.login_text {
+    width: 100% !important;
+}
+#all_mask_loginbox .login_text {
+    display: -webkit-box;
+}
+#all_mask_loginbox .texts, .redB {
+    display: block;
+    width: initial;
+    -webkit-box-flex: 1;
+    margin-right: 20%;
+    float: initial;
+}
+#all_mask_loginbox .login_text {
+    display: -webkit-box;
+}
+.mask_wrap {
+    padding-left: 0 !important;
+    width: 100% !important;
+}
+	}
+	.fa {
+    display: inline-block;
+    font-family: FontAwesome;
+    font-style: normal;
+    font-weight: normal;
+    line-height: 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    color: #4f94e7 !important;
+}
+.fa-times:before {
+    content: "\f00d";
+}
+.layui-layer-ico {
+    background: url(https://cdn.bootcss.com/layer/3.0.1/skin/default/icon.png) no-repeat;
+}
+</style>
+{include file="public:footer"}
+<style>
+	.footer_common{
+		display: none !important;
+	}
+	
+</style>
+<!--<link href="__CSS__/lhang/app.css" rel="stylesheet">-->
+	
+	<link href="//libs.baidu.com/fontawesome/4.0.3/css/font-awesome.min.css" rel="stylesheet">
+<!--	<link href="__CSS__/lhang/app.css" rel="stylesheet">
+	<link rel="stylesheet" href="__CSS__/style.css"/>
+	<link rel="stylesheet" href="__CSS__/common.css"/>
+	<link rel="stylesheet" href="__CSS__/trade.css"/>
+	<link rel="stylesheet" href="__CSS__/maina.css"/>
+	<link rel="stylesheet" href="__CSS__/jquery.mloading.css"/>
+	<script type="text/javascript" src="https://cdn.bootcss.com/jquery/1.8.0/jquery-1.8.0.js"></script>
+	<script type="text/javascript" src="__EXT__/jquery/jquery.cookies.2.2.0.js"></script>
+	<script type="text/javascript" src="__EXT__/jquery/jquery.mloading.js"></script>
+	<script type="text/javascript" src="https://cdn.bootcss.com/layer/3.0.1/layer.js"></script>
+	<script type="text/javascript" src="__EXT__/posfixed/posfixed.js"></script>
+	<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>-->
+	
+	<style>
+		.intl-tel-input .country-list{
+			text-align: left;
+		}
+		.layer-anim {
+    -webkit-animation-name: bounceIn;
+    animation-name: bounceIn;
+}
+.layui-layer {
+    border-radius: 2px;
+    -webkit-animation-fill-mode: both;
+    animation-fill-mode: both;
+    -webkit-animation-duration: .3s;
+    animation-duration: .3s;
+}
+.layui-layer {
+    -webkit-overflow-scrolling: touch;
+    top: 150px;
+    left: 0;
+    margin: 0;
+    padding: 0;
+    background-color: #fff;
+    -webkit-background-clip: content;
+    box-shadow: 1px 1px 50px rgba(0,0,0,.3);
+}
+.layui-layer, .layui-layer-shade {
+    position: fixed;
+    _position: absolute;
+    pointer-events: auto;
+}
+.layui-layer-page {
+    border-radius: 10px!important;
+}
+.layui-layer-page .layui-layer-content {
+    position: relative;
+    overflow: auto;
+}
+.layui-layer-page .layui-layer-content {
+    overflow: inherit!important;
+}
+.layui-layer-content {
+    position: relative;
+}
+p, a, div, b, strong, h1, h2, h3, h4, h5, h6, dt, button, dd, th, td, span, input, li {
+    /* font-family: tahoma, Microsoft YaHei, Arial, Helvetica, sans-serif; */
+}
+#login-formbox {
+    width: 480px;
+    background: #fff;
+    border-radius: 15px;
+    text-align: center;
+}
+.form-horizontal {
+    width: 480px;
+    height: 347px;
+}
+#login-formbox .heading {
+    display: block;
+    font-size: 30px;
+    font-weight: 700;
+    padding: 20px 0;
+    border-bottom: 1px solid #f0f0f0;
+    margin-bottom: 30px;
+    color: #999;
+}
+.heading {
+    display: block;
+    font-size: 11px;
+    letter-spacing: 1px;
+    margin-bottom: 5px;
+    text-transform: uppercase;
+}
+#login-formbox .form-group {
+    padding: 0 40px;
+    margin: 0 0 25px 0;
+    position: relative;
+}
+#login-formbox .form-group {
+    padding: 0 40px;
+    margin: 0 0 25px 0;
+    position: relative;
+}
+.help {
+    display: block;
+    font-size: .875rem;
+    margin-top: .25rem;
+}
+#login-formbox .intl-tel-input {
+    display: block;
+    left: 38px;
+    top: 25px;
+}
+.intl-tel-input {
+    position: relative;
+    display: inline-block;
+}
+.intl-tel-input .flag-dropdown {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    padding: 1px;
+}
+.intl-tel-input * {
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+}
+.intl-tel-input input, .intl-tel-input input[type=text], .intl-tel-input input[type=tel] {
+    position: relative;
+    z-index: 0;
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+    padding-left: 48px;
+    margin-left: 0;
+    transition: background-color 100ms ease-out;
+}
+input[type=text] {
+    line-height: 35px;
+}
+.intl-tel-input * {
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+}
+.mask_wrap_title, .texts {
+    width: initial;
+    float: initial;
+    display: inline-block;
+}
+.texts {
+    border: 1px solid #C5C5BC;
+    vertical-align: middle;
+    font-size: 14px;
+    width: 200px;
+    height: 34px;
+    line-height: 34px;
+    cursor: pointer;
+    border-radius: 4px;
+    background-color: #FFF;
+    padding: 5px;
+}
+.intl-tel-input .selected-flag {
+    z-index: 1;
+    position: relative;
+    width: 38px;
+    padding: 0px 0 0 4px;
+    margin: 5px;
+    height: 30px;
+    top: -25px;
+}
+.intl-tel-input .selected-flag {
+    top: -25px;
+}
+.intl-tel-input * {
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+}
+.selected-flag {
+    z-index: 1;
+    position: relative;
+    width: 42px;
+    height: 100%;
+    padding: 0 0 0 8px;
+}
+.intl-tel-input .selected-flag .iti-flag {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+}
+.iti-flag.cn {
+    height: 14px;
+    background-position: -1049px 0px;
+}
+.iti-flag {
+    width: 20px;
+    height: 15px;
+    box-shadow: 0px 0px 1px 0px #888;
+    background-image: url(static/extend/intlTelInput/img/flags.png);
+    background-repeat: no-repeat;
+    background-color: #DBDBDB;
+    background-position: 20px 0;
+}
+.intl-tel-input .selected-flag .arrow {
+    position: absolute;
+    top: 50%;
+    margin-top: -2px;
+    right: 4px;
+    width: 0;
+    height: 0;
+    border-left: 3px solid transparent;
+    border-right: 3px solid transparent;
+    border-top: 4px solid #555;
+}
+.intl-tel-input * {
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+}
+#login-formbox .form-control {
+    display: block;
+    width: 100%;
+    background: #f0f0f0;
+    border: none;
+    border-radius: 30px;
+    box-shadow: none;
+    padding: 0 20px 0 45px;
+    height: 40px;
+    transition: all 0.3s ease 0s;
+    font-size: 15px;
+}
+input[placeholder], [placeholder], [placeholder] {
+    color: #999;
+}
+#login-formbox .form-group i {
+    position: absolute;
+    top: 12px;
+    left: 60px;
+    font-size: 17px;
+    color: #c8c8c8;
+    transition: all 0.5s ease 0s;
+}
+.fa {
+    display: inline-block;
+    font: normal normal normal 14px/1 FontAwesome;
+    font-size: inherit;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+.fa-lock:before {
+    content: "\F023";
+}
+img {
+    max-width: 100%;
+}
+#login-formbox .text {
+    float: left;
+    margin-left: 7px;
+    line-height: 35px;
+    padding-top: 5px;
+    text-transform: capitalize;
+}
+.text {
+    color: #7A7A7A;
+    font-size: 12px;
+}
+#login-formbox .text a {
+    color: #333;
+}
+a, a:visited {
+    text-decoration: none;
+    -webkit-touch-callout: none;
+}
+#login-formbox .btn {
+    float: right;
+    font-size: 14px;
+    color: #fff;
+    background: #00b4ef;
+    border-radius: 30px;
+    padding: 10px 35px;
+    border: none;
+    text-transform: capitalize;
+    transition: all 0.5s ease 0s;
+}
+input[type=button], input[type=submit], .cursor, a, .hand {
+    cursor: pointer;
+}
+#login-formbox .form-group i {
+    position: absolute;
+    top: 12px;
+    left: 60px;
+    font-size: 17px;
+    color: #c8c8c8;
+    transition: all 0.5s ease 0s;
+}
+.intl-tel-input .selected-flag .iti-flag {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+}
+.iti-flag.cn {
+    height: 14px;
+    background-position: -1049px 0px;
+}
+.iti-flag {
+    width: 20px;
+    height: 15px;
+    box-shadow: 0px 0px 1px 0px #888;
+     background-image: url(static/extend/intlTelInput/img/flags.png);
+    background-repeat: no-repeat;
+    background-color: #DBDBDB;
+    background-position: 20px 0;
+}
+
+@media only screen and (max-width: 740px) and (min-width: 100px){
+	
+	.form-group i {
+	    position: absolute;
+	    top: 12px;
+	    left: 45px !important;
+	    font-size: 17px;
+	    color: #c8c8c8;
+	    transition: all 0.5s ease 0s;
+	}
+	#login-formbox .intl-tel-input {
+    display: block !important;
+    left: 38px !important;
+    top: 25px !important;
+}
+.intl-tel-input {
+    position: relative !important;
+    display: inline-block !important;
+}
+.intl-tel-input .flag-dropdown {
+    position: absolute !important;
+    top: 0 !important;
+    bottom: 0 !important;
+    padding: 1px !important;
+    
+}
+.intl-tel-input .selected-flag {
+    z-index: 1;
+    position: relative;
+    width: 38px !important;
+    padding: 0px 0 0 4px !important;
+    margin: 5px !important;
+    height: 30px !important;
+    top: -25px !important;
+}
+#login-formbox .btn {
+    padding: 10px 20px !important;
+}
+#login-formbox .btn {
+    float: right !important;
+    font-size: 14px !important;
+    color: #fff !important;
+    background: #00b4ef !important;
+    border-radius: 30px !important;
+    padding: 10px 35px;
+    border: none !important;
+    text-transform: capitalize !important;
+    transition: all 0.5s ease 0s !important;
+}
+}
+.container-fluid img{
+	width: 110px;
+}
+	</style>
+	

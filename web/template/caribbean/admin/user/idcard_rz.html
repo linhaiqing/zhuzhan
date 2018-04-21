@@ -1,0 +1,89 @@
+{include file="public:header"}
+<div class="tab-wrap">
+	<div class="tab-content">
+		<form id="form" action="/admin/user/idcard_check" method="post" class="form-horizontal">
+			<div id="tab" class="tab-pane in tab">
+				<div class="form-item cf">
+					<table>
+						<tr class="controls">
+							<td class="item-label">id :</td>
+							<td>
+								<input type="text" class="form-control" name="id" id="id"
+								       value="{$user_img['id']}" style="max-width: 400px;color:#000" readonly>
+							</td>
+							<td class="item-note">记录编号</td>
+						</tr>
+						<tr class="controls">
+							<td class="item-label">姓名 :</td>
+							<td>
+								<input type="text" class="form-control" name="{$user_img['truename']}"
+								       value="{$user_img['truename']}" style="min-width: 400px;color:#000" readonly>
+							</td>
+							<td class="item-note">真实姓名</td>
+						</tr>
+						<tr class="controls">
+							<td class="item-label">手持正面图片 :</td>
+							<td><img src="data:image/png;base64,{$user_img['img1']}" alt="" width="350" height="auto">
+							</td>
+							<td class="item-note">照片</td>
+						</tr>
+						<tr class="controls">
+							<td class="item-label">正面图片 :</td>
+							<td><img src="data:image/png;base64,{$user_img['img2']}" alt="" width="350" height="auto">
+							</td>
+							<td class="item-note">照片</td>
+						</tr>
+						<tr class="controls">
+							<td class="item-label">背面图片 :</td>
+							<td><img src="data:image/png;base64,{$user_img['img3']}" alt="" width="350" height="auto">
+							</td>
+							<td class="item-note">照片</td>
+						</tr>
+
+						<tr class="controls">
+						<td class="item-label">状态 :</td>
+							<td>
+							<select name="status" class="form-control" id="status" style="min-width: 400px;">
+								<option value="0" {if $user_img['status']==0} selected="selected"{/if}>不通过</option>
+								<option value="1" {if $user_img['status']==1} selected="selected"{/if}>通过</option>
+
+							   </select>
+							</td>
+						</td>
+						<td class="item-note">状态</td>
+						</tr>
+						<tr class="controls" style="margin: 10px 0px;height: 80px;">
+							<td class="item-label"></td>
+							<td>
+								<button class="btn submit-btn ajax-post" id="submit" type="button" target-form="form-horizontal">确 定
+								</button>
+								<a class="btn btn-return" href="/admin/user/index">返 回</a>
+							</td>
+							<td class="item-note"></td>
+						</tr>
+					</table>
+				</div>
+			</div>
+		</form>
+		<script type="text/javascript">
+			//提交表单
+			$('#submit').click(function () {
+			//	$('#form').submit();
+				var id=$('#id').val();
+				var status=$('#status').val();
+				$.post('/admin/user/idcard_check',{
+					id:id,
+					status:status
+				},function(data){
+				if(data.status ==1){
+					layer.msg(data.info,{icon:1});
+					setTimeout('location.reload()',1000);
+				}else{
+					layer.msg(data.info,{icon:2})
+				}
+				},'json')
+			});
+		</script>
+	</div>
+</div>
+{include file="public:footer"}

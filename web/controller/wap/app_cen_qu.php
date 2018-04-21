@@ -1,0 +1,1 @@
+<?phpnamespace wap;use Move\db;use move\ext\page;use Move\config;class app_cen_qu extends wap{	public function __construct()	{		parent::__construct();	}	public function index_h()	{		$this->display();	}	public function index()	{		$this->display();	}} 

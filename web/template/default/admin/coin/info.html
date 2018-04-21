@@ -1,0 +1,80 @@
+{include file="public:header"}
+<div id="main-content">
+    <div id="top-alert" class="fixed alert alert-error" style="display: none;">
+        <button class="close fixed" style="margin-top: 4px;">&times;</button>
+        <div class="alert-content">警告内容</div>
+    </div>
+    <div id="main" class="main">
+        <div class="main-title-h">
+            <span class="h1-title">服务器钱包信息</span>
+            <span class="h2-title">>><a href="/admin/coin/index">币种列表</a></span>
+        </div>
+
+        <div class="tab-wrap">
+
+            <div class="tab-content">
+                <form id="form" action="" method="post" class="form-horizontal">
+                    <div id="tab" class="tab-pane in tab">
+                        <div class="form-item cf">
+                            <table>
+                                <tr class="controls">
+                                    <td class="item-label">钱包名称 :</td>
+                                    <td></td>
+                                    <td class="item-note">{$data['coin']}</td>
+                                </tr>
+                                <tr class="controls">
+                                    <td class="item-label">钱包版本 :</td>
+                                    <td></td>
+                                    <td class="item-note">{if $data['c']['version']} {$data['c']['version']} {else} 钱包对接失败 {/if}</td>
+                                </tr>
+                                <tr class="controls">
+                                    <td class="item-label">总区块 :</td>
+                                    <td></td>
+                                    <td class="item-note">{$data['c']['headers']}</td>
+                                </tr>
+                                <tr class="controls">
+                                    <td class="item-label">已经加载区块 :</td>
+                                    <td></td>
+                                    <td class="item-note">{$data['c']['blocks']}</td>
+                                </tr>
+                                <tr class="controls">
+                                    <td class="item-label">加载进度 :</td>
+                                    <td></td>
+                                    <td class="item-note">{if $data['c']['blocks'] && $data['c']['blocks'] == $data['c']['headers']} <font color="red">数据已加载完毕</font> {else} 数据已加载:{$data['c']['headers']/$data['c']['blocks']*100}%(加载完毕前不可交易) {/if}</td>
+                                </tr>
+                                <tr class="controls">
+                                    <td class="item-label">钱包总额 :</td>
+                                    <td></td>
+                                    <td class="item-note">{$data['c']['balance']}</td>
+                                </tr>
+                                <tr class="controls">
+                                    <td class="item-label">站内总额 :</td>
+                                    <td></td>
+                                    <td class="item-note">{$data['num']}</td>
+                                </tr>
+
+                                <tr class="controls">
+                                    <td class="item-label">当前费率 :</td>
+                                    <td></td>
+                                    <td class="item-note">{$data['c']['paytxfee']}</td>
+                                </tr>
+	                            <tr class="controls">
+		                            <td class="item-label">节点数 :</td>
+		                            <td></td>
+		                            <td class="item-note">{$data['c']['nodes']}</td>
+	                            </tr>
+	                            <tr class="controls">
+		                            <td class="item-label">账户数 :</td>
+		                            <td></td>
+		                            <td class="item-note">{$data['c']['account_count']}</td>
+	                            </tr>
+                            </table>
+                        </div>
+                    </div>
+                    <br>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{include file="public:footer"}

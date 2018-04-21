@@ -1,0 +1,2256 @@
+{include file="trade:header"}
+<style>
+	body {
+		background: none !important;
+	}
+	
+	#app {
+		display: block;
+		min-height: 100%;
+		background: #ededed5e;
+		height: initial;
+	}
+	/*---滚动条默认显示样式--*/
+	
+	::-webkit-scrollbar-thumb {
+		background-color: rgba(0, 0, 0, 1);
+		height: 0px;
+		outline-offset: -2px;
+		outline: 0px solid #fff;
+		-webkit-border-radius: 4px;
+		border: 0px solid #fff;
+	}
+	/*---鼠标点击滚动条显示样式--*/
+	
+	::-webkit-scrollbar-thumb:hover {
+		background-color: rgba(0, 0, 0, 1);
+		height: 0px;
+		-webkit-border-radius: 4px;
+	}
+	/*---滚动条大小--*/
+	
+	::-webkit-scrollbar {
+		width: 0px;
+		height: 0px;
+	}
+	/*---滚动框背景样式--*/
+	
+	::-webkit-scrollbar-track-piece {
+		background-color: #fff;
+		-webkit-border-radius: 0;
+	}
+	/*....*/
+	
+	#changeKlinestyle p,
+	#changeKlinestyle {
+		display: inline-block;
+	}
+	
+	#changeKlinestyle {
+		border: none;
+	}
+	
+	#changeKlinestyle p {
+		border: 1px solid rgb(213, 213, 213);
+		margin-left: 10px;
+		padding: 2px 10px;
+		border-radius: 4px;
+		cursor: pointer;
+	}
+	
+	#changeKlinestyle p.action {
+		background: #1da4db;
+		color: #fff;
+		border-color: #1da4db;
+	}
+	
+	.felx_login {
+		display: none;
+		position: fixed;
+		width: 100%;
+		height: 100%;
+		background: rgba(0, 0, 0, 0.6);
+		z-index: 999;
+		top: 0;
+		left: 0;
+		justify-content: center;
+		align-items: center;
+	}
+	
+	.content-main {
+		padding: 1.5rem .75rem;
+	}
+	
+	.module.is-centered {
+		margin: auto;
+	}
+	
+	.box {
+		background-color: #fff;
+		-webkit-box-shadow: 0 0 48px -15px rgba(0, 0, 0, .35);
+		box-shadow: 0 0 48px -15px rgba(0, 0, 0, .35);
+		display: block;
+		padding-top: 2.5rem;
+		border-radius: 3px 3px 3px 3px;
+		-moz-border-radius: 3px 3px 3px 3px;
+		-webkit-border-radius: 3px 3px 3px 3px;
+		border: 2px solid #e4e4e4;
+	}
+	
+	*,
+	 :after,
+	 :before {
+		-webkit-box-sizing: inherit;
+		box-sizing: inherit;
+	}
+	
+	.title.is-4 {
+		font-size: 1.5rem;
+	}
+	
+	.subtitle:not(:last-child),
+	.title:not(:last-child) {
+		margin-bottom: 1.5rem;
+	}
+	
+	h1.title {
+		font-weight: 400;
+	}
+	
+	.title {
+		color: #363636;
+		font-family: Quicksnad, sans-serif;
+		font-size: 2rem;
+		font-weight: 500;
+		line-height: 1.125;
+	}
+	
+	.subtitle,
+	.title {
+		word-break: break-word;
+	}
+	
+	h1,
+	h2,
+	h3,
+	h4,
+	h5,
+	h6 {
+		font-size: 100%;
+		font-weight: 400;
+	}
+	
+	.subtitle em,
+	.subtitle span,
+	.subtitle strong,
+	.title em,
+	.title span,
+	.title strong {
+		font-weight: 500;
+	}
+	
+	.field:not(:last-child) {
+		margin-bottom: .75rem;
+	}
+	
+	*,
+	 :after,
+	 :before {
+		-webkit-box-sizing: inherit;
+		box-sizing: inherit;
+	}
+	
+	.control {
+		font-size: 1rem;
+		position: relative;
+		text-align: left;
+	}
+	
+	.control {
+		font-size: 1rem;
+		position: relative;
+		text-align: left;
+	}
+	
+	.control.tdax input.input {
+		border-radius: 0;
+	}
+	
+	.control.tdax input.input {
+		border-color: #ccc;
+	}
+	
+	.input,
+	.textarea {
+		-moz-appearance: none;
+		-webkit-appearance: none;
+		-ms-flex-align: center;
+		align-items: center;
+		border: 1px solid transparent;
+		border-radius: 3px;
+		-webkit-box-shadow: none;
+		display: -ms-inline-flexbox;
+		display: inline-flex;
+		font-size: 1rem;
+		height: 2.25em;
+		-ms-flex-pack: start;
+		justify-content: flex-start;
+		line-height: 1.5;
+		padding: calc(.375em - 1px) calc(.625em - 1px);
+		position: relative;
+		vertical-align: top;
+		background-color: #fff;
+		border-color: #dbdbdb;
+		color: #363636;
+		box-shadow: none;
+		max-width: 100%;
+		width: 100%;
+	}
+	
+	.button.is-success {
+		background-color: #58aa00;
+		border-color: transparent;
+		color: #fff;
+	}
+	
+	.control button,
+	.is-grouped>.control>button {
+		margin-left: 0;
+	}
+	
+	button.button,
+	input[type=submit].button {
+		line-height: 1;
+		padding-bottom: .4em;
+		padding-top: .35em;
+	}
+	
+	.block-0-3 {
+		width: 100%;
+	}
+	
+	.large-0-2 {
+		height: 40px;
+		padding: 15px 30px;
+	}
+	
+	.fontBold-0-1 {
+		font-weight: bold;
+	}
+	
+	.root-0-0 {
+		padding: 15px;
+		font-size: 0.875rem;
+		min-width: 88px;
+		border-radius: 0;
+	}
+	
+	.button {
+		-moz-appearance: none;
+		-webkit-appearance: none;
+		-ms-flex-align: center;
+		align-items: center;
+		border: 1px solid transparent;
+		border-radius: 3px;
+		-webkit-box-shadow: none;
+		box-shadow: none;
+		display: -ms-inline-flexbox;
+		display: inline-flex;
+		font-size: 1rem;
+		height: 2.25em;
+		-ms-flex-pack: start;
+		justify-content: flex-start;
+		line-height: 1.5;
+		padding-left: calc(.625em - 1px);
+		padding-right: calc(.625em - 1px);
+		position: relative;
+		vertical-align: top;
+		-webkit-touch-callout: none;
+		-webkit-user-select: none;
+		-moz-user-select: none;
+		-ms-user-select: none;
+		user-select: none;
+		background-color: #fff;
+		border-color: #dbdbdb;
+		color: #363636;
+		cursor: pointer;
+		-ms-flex-pack: center;
+		justify-content: center;
+		padding: calc(.375em - 1px) .75em;
+		text-align: center;
+		white-space: nowrap;
+	}
+	
+	.button>span {
+		font-family: Raleway, sans-serif;
+	}
+	
+	span {
+		font-style: inherit;
+		font-weight: inherit;
+	}
+	
+	*,
+	 :after,
+	 :before {
+		-webkit-box-sizing: inherit;
+		box-sizing: inherit;
+	}
+	
+	Inherited from button.button.root-0-0.is-success.block-0-3.fontBold-0-1.large-0-2 .button.is-success {
+		background-color: #58aa00;
+		border-color: transparent;
+		color: #fff;
+	}
+	
+	button.button,
+	input[type=submit].button {
+		line-height: 1;
+		padding-bottom: .4em;
+		padding-top: .35em;
+	}
+	
+	.fontBold-0-1 {
+		font-weight: bold;
+	}
+	
+	.root-0-0 {
+		padding: 15px;
+		font-size: 0.875rem;
+		min-width: 88px;
+		border-radius: 0;
+	}
+	
+	.has-text-centered {
+		text-align: center;
+	}
+	
+	a {
+		color: #3273dc;
+		cursor: pointer;
+		text-decoration: none;
+		-webkit-transition: none 86ms ease-out;
+		-o-transition: none 86ms ease-out;
+		transition: none 86ms ease-out;
+	}
+</style>
+
+<!--<div class="autobox kirte">
+	<div id="all_mask" class="all_mask" style="height: 0px; display: none;">
+		<div id="all_mask_loginbox" class="all_mask_loginbox" style="display: none; display: inline-block;">
+			<div class="login_title pl20">
+				{#lang('登录')} {if $game_app == 1}
+				<span onclick="saoma()" style="text-align: center;margin-left: 150px;color: #1a81d6;cursor:pointer;">{#lang('扫码登录')}</span> {/if}
+			</div>
+			<script>
+				function loginpop() {
+					var height = $(document).height();
+					var width = $(document).width();
+					if(height < 1000) {
+						height = 1000;
+					}
+
+					$('.all_mask').css({
+						'height': height,
+						'width': width
+					});
+					$('.all_mask').show();
+					$('#all_mask_loginbox').show();
+				}
+			</script>
+			<form id="form-login" class="mask_wrap login-fb">
+				<div class="login_text zin90" style="margin-left:-4px;">
+					<div class="mask_wrap_title">{#lang('账户')}：</div>
+					<input type="text" id="login_mobles" class="texts" style="display: none;">
+					<input type="text" id="login_moble" class="texts hg40 w250" placeholder="{#lang('请输入手机/邮箱/用户名')}" style="padding-left: 42px;" value="{#cookie('moble')}" />
+					<link rel="stylesheet" href="__EXT__/intlTelInput/css/intlTelInput.css">
+					<script src="__EXT__/intlTelInput/js/intlTelInput.js"></script>
+					<script>
+						$("#login_mobles").intlTelInput({
+							autoHideDialCode: false,
+							defaultCountry: "cn",
+							nationalMode: false,
+							preferredCountries: ['cn', 'us', 'hk', 'tw', 'mo'],
+						});
+
+						function saoma() {
+							layer.open({
+								type: 2,
+								title: '{#lang("打开手机APP,扫码登录")}',
+								shadeClose: true,
+								shade: 0.8,
+								area: ['300px', "300px"],
+								content: '/app/login/saoma' //iframe的url
+							});
+						}
+						
+						
+						
+					</script>
+					
+				</div>
+				<div class="login_text zin80">
+					<div class="mask_wrap_title">{#lang('密码')}：</div>
+					<input id="login_password" class="texts hg40 w250" type="password" placeholder="{#lang('请输入登录密码')}">
+				</div>
+				<div class="login_text zin80">
+					<div class="mask_wrap_title">{#lang('验证码')}：</div>
+					<div style="position: relative;display: inline-block;">
+						<input type="text" id="login_verify" value="" class="texts w145 hg40 w250" onkeydown="on_return();" placeholder="{#lang('请输入验证码')}" />
+						<span style="position: absolute;top: 0;right:0;height: 40px;z-index: 99;">
+							<img id="login_verify_up" class="codeImg reloadverify hg40" src="{#url('ajax/verify')}" title="{#lang('换一张')}" onclick="login_verify_ups();" height="34" width="100" style="height:40px;">
+						</span>
+					</div>
+				</div>
+				<div class="login_button login_text Nibe">
+					<div class="mask_wrap_title" style="color: rgba(225,225,225,0) !important;">{#lang('验证码')}：</div>
+					<input type="button" value="{#lang('登录')}" onclick="footer_login();" class="btns2  hg40 w250">
+				</div>
+				<div class="login-footer" style="border-bottom-left-radius: 3px; border-bottom-right-radius: 3px;text-align: center;">
+					<span style="color: #CCC; float: initial; margin-right: 25px;">
+				<a style="font-size: 14px;" href="/reg">{#lang('免费注册')}</a>｜<a href="/findpwd" style="font-size: 14px;">{#lang('忘记密码')}</a>
+			</span>
+				</div>
+			</form>
+			<div class="mask_wrap_close" onclick="wrapClose()"><i class="fa fa-times fz_20 move" aria-hidden="true"></i></div>
+		</div>
+	</div>
+</div>-->
+<style>
+	.all_mask{
+		opacity: initial !important;
+		background: rgba(0,0,0,.5) !important;
+	}
+	.login_text{
+		text-align: center;
+	}
+	.mask_wrap_title, .texts{
+		width: initial;
+		float: initial;
+		display: inline-block;
+	}
+	.country-list>li{
+		text-align: left;
+	}
+</style>
+	<div class="Hecai">
+		<div class="left_column">
+			<div class="trade_opens_box">
+						<div class="right" style="display: none;" id="trade_moshi_liaotian_1">
+							<div class="coinBox buyonesellone">
+								<div class="coinBoxBody buybtcbody2">
+									<div id="marqueebox1" class="">
+										<ul id="chat_content">
+										</ul>
+									</div>
+									<div id="marqueebox2">
+										<ul class="clearfix">
+											<li id="face" class="left">
+												<a href="javascript:void(0);" class="face faceBtn" id="face1">
+													<img src="__IMG__/face.gif" width="20"> </a>
+											</li>
+											<li id="msg" class="left">
+												<input type="text" name="msg" class="text" id="chat_text" style="width: 288px;">
+											</li>
+											<li id="send" class="right">
+												<input class="tijiao" type="button" value={#lang( '发送')} onclick="upChat()"></li>
+										</ul>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="entrust" id="trade_moshi_liaotian_2">
+
+							<div class="clear"></div>
+							<div class="entrust_list">
+								<table class="table_head">
+									<tr>
+										<td class="w10">{#lang('买/卖')}</td>
+										<td class="w35">{#lang('价格')}</td>
+										<td class="w20">{#lang('数量')}</td>
+										<td class="w35">{#lang('总额')}</td>
+									</tr>
+								</table>
+								<table class="el_dl sell" id="selllist">
+
+								</table>
+								<table class="el_dl buy" id="buylist">
+
+								</table>
+							</div>
+						</div>
+					</div>
+				</div
+		</div>
+		<div class="right_column">
+			<div class="right_boxv" style="padding-top: 15px;">
+				<div class="kline_inner" style="padding-top: 0;">
+					<div class="mt20 clear" id="Kline-change" style="margin: 0;">
+						<div class="subtab-do-market">
+							
+							<div class="changeKlinestyle" style="margin-bottom: 10px;">
+								<div id="changeKlinestyle" style="width:initial; font-size: 14px; margin-right: 2px;">
+									<!--<p value="1">{#lang('简易K线')}</p>-->
+									<p value="2" class="action" style="margin-left: 0;">{#lang('专业版K线')}</p>
+
+									<p value="3">{#lang('委托深度图')}</p>
+								</div>
+								<a href="/trade/chart" target="_blank" id="Gaxdin" style="margin-left: 10px;float: right;margin-top: 6px;" value='2'><img src="/upload/public/bbb.png" width="22px" height="22px"></a>
+							</div>
+						</div>
+						<div class="list-tab-box" style="padding-bottom: 0px;padding-top: 0px;" id="trade_kline_box">
+							<!--行情图-->
+							<div id="kline" style="height: 500px;border-top:#FFF1C9;">
+								<div id="paint_chart" style="height: 500px">
+									<iframe style="border-style: none;" border="0" width="100%" height="500" id="market_chart" scrolling="no" src="/trade/ordinary?market={$market}"></iframe>
+								</div>
+							</div>
+						</div>
+						</div>
+					</div>
+					<div class="left trade_opens_box" style="position: relative;margin-left: 25px;-webkit-box-flex: 1;">
+				<div class="fast_tr clear">
+					<a name="mark-trade"></a>
+					<ul class="tabbar" id="tabbar">
+						<li class="active">
+							<a class="in" href="javascript:;">{#lang('买入')}</a>
+						</li>
+						<li>
+							<a class="out" href="javascript:;">{#lang('卖出')}</a>
+						</li>
+					</ul>
+					<div id="tabcontent" class="tabcontent">
+						<div>
+							<form class="ft_box" id="form-buy" style="width: 100%;">
+								<dl>
+									<dt class="orange" style="margin-top: 0;">{#strtoupper($rmb)} {#lang('买入')} {#strtoupper($xnb)}</dt>
+
+									<dd>
+										<input type="text" id="buy_price" name="price" placeholder="{#lang('买入价格')} {#strtoupper($rmb)}/{#strtoupper($xnb)}" value="" class="trade-text">
+										<p>{#lang('最佳买价')}：
+											<span class="orange" id="buy_best_price" onclick="$('#buy_price').val($(this).html());">-</span>
+										</p>
+									</dd>
+									<dd>
+										<input type="text" id="buy_num" name="num" class="trade-text">
+										<p>{#lang('最大可买')}：
+											<span class="col_333" id="buy_max" title="{#lang('满仓(全买)，设置买入数量为最大值')}">-</span> {#strtoupper($xnb)}
+										</p>
+									</dd>
+									<dd>
+										<div class="slider_wrap">
+											<span>{#lang('买入比例')}：</span>
+											<div id="ratio_num_buy" class="ratio">0%</div>
+											<div class="sliderbox">
+												<div id="slider_buy" class="ui-slider ui-slider-horizontal ui-widget ui-widget-content ui-corner-all">
+													<div class="ui-slider-range ui-widget-header ui-slider-range-min"></div>
+													<a data_slide="buy" class="ui-slider-handle ui-state-default ui-corner-all" href="#" style="left: 0%;"></a>
+													<div class="ui-slider-range ui-widget-header ui-corner-all ui-slider-range-min" style="width: 0%;"></div>
+												</div>
+											</div>
+										</div>
+									</dd>
+									<dd>
+										<span>{#lang('手续费')}：</span> {$market_list[$market]['fee_buy']}%
+									</dd>
+									<dd>
+										<span>{#lang('总价')}：</span>
+										<span class="col_333" id="buy_mum">-</span> {#strtoupper($rmb)}
+									</dd>
+									<dd class="pwdtrade">
+										<div style="position:relative;">
+											<input id="buy_paypassword" name="pwtrade" type="password" class="trade-text" placeholder="{#lang('请输入交易密码')}">
+											<span onclick="layertpwd()" class="settings" style="right: 35px;"></span>
+										</div>
+									</dd>
+								</dl>
+								<div class="tm_buy">
+									<div class="trader_btn">
+										<div class="tan_btn" id="tm-buy"></div>
+										<input type="button" value="{#lang('买入')}" onclick="tradeadd_buy();">
+									</div>
+								</div>
+							</form>
+						</div>
+						<div class="hide">
+							<form class="ft_box" id="form-sell" style="width: 100%;">
+								<dl>
+									<dt class="green" style="margin-top: 0;">{#strtoupper($xnb)} {#lang('卖出')} {#strtoupper($rmb)}</dt>
+									<dd>
+										<input type="text" id="sell_price" name="price" placeholder="{#lang('卖出价格')} {#strtoupper($rmb)}/{#strtoupper($xnb)}" class="trade-text" />
+										<p>{#lang('最佳卖价')}：<span class="orange" id="sell_best_price" onclick="$('#sell_price').val($(this).html());" style="color: #690!important;">-</span></p>
+									</dd>
+									<dd>
+										<input type="text" id="sell_num" name="num" class="trade-text">
+										<p>{#lang('最大可卖')}：<span id="sell_max" class="col_333">0.00</span> {#strtoupper($xnb)}</p>
+									</dd>
+									<dd>
+										<div class="slider_wrap">
+											<span>{#lang('卖出比例')}：</span>
+											<div id="ratio_num_sell" class="ratio">0%</div>
+											<div class="sliderbox">
+												<div id="slider_sell" class="ui-slider ui-slider-horizontal ui-widget ui-widget-content ui-corner-all">
+													<div class="ui-slider-range ui-widget-header ui-slider-range-min"></div>
+													<a data_slide="sell" class="ui-slider-handle ui-state-default ui-corner-all" href="#" style="left: 0%;"></a>
+													<div class="ui-slider-range ui-widget-header ui-corner-all ui-slider-range-min" style="width: 0%;"></div>
+												</div>
+											</div>
+										</div>
+									</dd>
+									<dd>
+										<span>{#lang('手续费')}：</span> {$market_list[$market]['fee_sell']}%
+									</dd>
+									<dd>
+										<span>{#lang('总价')}：</span>
+										<span class="col_333" id="sell_mum">0.00</span> {#strtoupper($rmb)}
+									</dd>
+									<dd class="pwdtrade">
+										<input id="sell_paypassword" name="pwtrade" type="password" class="trade-text" placeholder="{#lang('请输入交易密码')}">
+										<span onclick="layertpwd()" class="settings"></span>
+									</dd>
+								</dl>
+								<div class="tm_sell">
+									<div class="trader_btn ">
+										<div class="tan_btn" id="tm-sell"></div>
+										<input class="bg_green  " type="button" value="{#lang('卖出')}" onclick="tradeadd_sell();">
+									</div>
+								</div>
+							</form>
+						
+					</div>
+				</div>
+			</div>
+			</div>
+				</div>
+				<div class="kline_right" style="margin-left: 0;">
+			<style>
+				.column-row:after {
+					content: '';
+					display: none;
+					clear: both;
+				}
+				#buylist, #selllist, .right_column, #trade_kline_box, .column-row, .Pimrn, .over_hidden, .over_auto, .fast_tr, .header_common{
+					border-color:rgba(0, 181, 255, 0.59) !important
+				}
+				.nobr {
+					border-top: 1px dashed #D2D2D2;
+				}
+				
+				.ft_box {
+					border-right: none !important;
+				}
+				
+				.trader_btn input {
+					width: 88%;
+					margin: 0 auto;
+					display: block;
+				}
+				
+				.piern {
+					display: flex;
+					justify-content: space-between;
+				}
+				
+				#buy_paypassword,
+				#sell_paypassword {
+					width: 93.5%;
+				}
+				
+				.w790,
+				.ft_box,
+				.ft_box,
+				.trade-text {
+					width: initial;
+				}
+				
+				.teinb,
+				.right_boxv {
+					display: -webkit-box;
+				}
+				
+				.left_conter,
+				.right_conter,
+				.left_hide_sell,
+				.right_hide_sell {
+					-webkit-box-flex: 1;
+				}
+				
+				.right_conter {
+					margin-left: 50px;
+					min-width: 98%;
+				}
+				
+				.ft_box dd p {
+					display: inline-block;
+				}
+				
+				.trade-text {
+					padding-right: initial;
+				}
+				
+				.autobox {
+					width: initial !important;
+				}
+				.select-product>span{
+					color: #7A7A7A;
+				}
+				.f_table th {
+					background: #FFF;
+					font-weight: 400;
+					height: 55px;
+					line-height: 55px;
+					text-align: center;
+					border-right: 1px dashed #D2D2D2;
+					font-size: 14px;
+				}
+				
+				.anime {
+					width: initial !important;
+				}
+				
+				.left_column {
+					width: 320px;
+					margin-left: 10px;
+					float: left;
+				}
+				
+				.right_column {
+					margin-left: 346px;
+					padding: 0 10px;
+					border: 1px solid #dbdbdb;
+					background: #fff;
+				}
+				
+				.kline_inner {
+					width: 70%;
+					padding: 10px 0;
+					background: #ffffff;
+					overflow-x: auto;
+					overflow-y: hidden;
+				}
+				
+				#kline {
+					padding: 0 !important;
+					margin-bottom: 0 !important;
+				}
+				
+				.kline_right {
+					-webkit-box-flex: 1;
+					margin-left: 25px;
+					background: #ffffff;
+				}
+				
+				.entrust_list {
+					width: auto !important;
+				}
+				
+				.kline_right .entrust {
+					border: none;
+				}
+				
+				.table_head {
+					font-size: 12px;
+				}
+				
+				.table_head tr td {
+					padding-top: 7px;
+					padding-bottom: 7px;
+					text-align: center;
+				}
+				
+				.el_dl tr td {
+					padding-top: 5px;
+					padding-bottom: 5px;
+					font-size: 12px;
+					text-align: center;
+					cursor: pointer;
+				}
+				
+				.buy {
+					color: #EE3B3B;
+				}
+				
+				.sell {
+					color: #1eae58;
+				}
+				
+				.w10 {
+					width: 13%;
+				}
+				
+				.w35 {
+					width: 34%;
+				}
+				
+				.w20 {
+					width: 20%;
+				}
+				
+				.tabbar {
+					height: 40px;
+					margin-bottom: 15px;
+					padding: 0 12px;
+				}
+				
+				.tabbar li {
+					float: left;
+					width: 50%;
+					height: 40px;
+					text-align: center;
+					border-bottom: 1px solid #efefef;
+				}
+				
+				.tabbar li a {
+					display: block;
+					height: 39px;
+					line-height: 39px;
+					color: #333;
+					font-size: 16px;
+					border-bottom: 1px solid #ffffff;
+				}
+				
+				.tabbar li.active .in {
+					color: #EE3B3B;
+					border-width: 2px;
+					border-color: #EE3B3B;
+				}
+				
+				.tabbar li.active .out {
+					color: #1eae58;
+					border-width: 2px;
+					border-color: #1eae58;
+				}
+				
+				.autobox.kirte {
+					margin: 90px auto 0;
+					padding: 0 10px
+				}
+				
+				.trade_opens_box {
+				}
+				
+				.ft_box {
+					width: 320px;
+				}
+				
+				.trader_btn {
+					width: 320px;
+				}
+				
+				.trader_btn input {
+					width: 90%;
+				}
+				
+				.trade_opens_box .ft_box dt {
+					height: 32px;
+					line-height: 32px;
+					padding-left: 12px;
+					font-size: 14px;
+				}
+				
+				body {
+					overflow-x: initial !important;
+				}
+				
+				.trade_opens_box .ft_box dd {
+					height: 32px;
+					padding-left: 12px;
+					line-height: 32px;
+				}
+				
+				.ui-slider {
+					width: 168px;
+				}
+				
+				.trade-text {
+					width: 140px;
+					height: 32px;
+					font-size: 12px;
+				}
+				
+				.header_container:after {
+					content: '';
+					display: block;
+					clear: both;
+				}
+				
+				.header_container h1 {
+					float: left;
+					width: 167px;
+				}
+				
+				.header_left {
+					float: left;
+				}
+				
+				.header_right {
+					float: right;
+					margin-top: 14px;
+				}
+				
+				.column-row:after {
+					content: '';
+					display: none;
+					clear: both;
+				}
+				
+				.column-row {
+					border-top: 1px solid #dbdbdb;
+				}
+				
+				.move_weituo {
+					padding-left: 0 !important;
+				}
+				
+				.account_table,
+				#entrust_over {
+					display: block !important;
+				}
+				
+				.column-row .column-item {
+					width: 49.1%;
+					float: left;
+				}
+				
+				.move_weituo {
+					padding-left: 25px;
+				}
+				
+				.Transaction th {
+					font-size: 12px;
+				}
+				#chart_time{
+					margin-left: 0 !important;
+				}
+				.Transaction td {
+					font-size: 12px;
+				}
+				/**
+				 * 以下样式为兼容手机处理
+				 */
+				
+				@media (max-width:1200px) {
+					.trade-text {
+    width: 48% !important;
+    height: 32px;
+    font-size: 12px;
+}
+.left_column{
+	margin-left: 0;
+}
+					.trade_opens_box{
+						margin-left: 0 !important;
+					}
+					#miss_div{
+						display: block;
+					}
+					#trade-nav-tabss, #all_coins, .all_coin_list, #all_coins ul{
+						width: 100%;
+					}
+					#trade-nav-tabss{
+						display: table;
+					}
+					#trade-nav-tabss dd{
+						display: table-cell;
+						padding: 0;
+						text-align: center;
+						line-height: 3.0rem;
+						height: initial;
+					}
+					#trade-nav-tabss dd:last-child{
+						border-right: none;
+					}
+					#all_coins{
+						border-top: 1px solid #EEE;
+					}
+					#miss_div{box-shadow: none;}
+					#all_coins ul li{border-top: none;width: 50%;text-align: center;}
+					#all_coins ul li a{
+						display: -webkit-box;
+						-webkit-box-pack: center;
+						-webkit-box-align: center;
+						text-align: center;
+						height:100%;
+					}
+					#all_coins ul li a img, #all_coins ul li a span{
+						display: inline-block;
+						float: initial !important;
+					}
+					#all_coins ul li a img{
+						vertical-align: bottom;
+					}
+					.pimvd{
+						display: block !important;
+					}
+					.all_mask_loginbox{
+						top: 10px;
+						left: 0 !important;
+						margin-left: 0 !important;
+						width: 100% !important;
+					}
+					.mask_wrap{
+						padding-left: 0 !important;
+						width: 100% !important;
+					}
+					.login_text{
+						width: 100% !important;
+					}
+					.mask_wrap_title{
+						margin-left: 0 !important;
+						/*width: 100px !important;*/
+					}
+					.piern {
+						display: inline-block;
+						width: 100%;
+					}
+					.site-header {
+						display: block !important;
+					}
+					.header_common {
+						display: none;
+					}
+					.login-footer span{
+						float: initial !important;
+					}
+					.login-footer{
+						text-align: center !important;
+					}
+					.Nibe{text-align: center !important;}
+					.header_common {
+						position: static;
+					}
+					.all_coin_list {
+						display: none;
+					}
+					.left_column {
+						float: none;
+						width: 100%;
+					}
+					.column-row .column-item {
+						width: 100% !important;
+						float: none;
+					}
+					.left_column .trade_opens_box {
+						width: 100%;
+					}
+					.left_column .left {
+						float: none;
+					}
+					.right_column {
+						margin-left: 0;
+					}
+					.header_container h1 {
+						float: none;
+						width: 167px;
+					}
+					.header_left {
+						float: none;
+					}
+					.header_right {
+						float: none;
+						padding-left: 15px;
+					}
+					.autobox.kirte {
+						margin-top: 0;
+						min-width: auto;
+					}
+					.right_boxv {
+						display: block;
+					}
+					.kline_inner {
+						width: 100%;
+					}
+					.kline_right {
+						width: 100%;
+						margin-left: 0;
+						margin-top: 15px;
+					}
+					.trade_opens_box,
+					.entrust_list {
+						width: 100% !important;
+					}
+					.column-row .column-item {
+						width: 100%;
+						float: none;
+					}
+					.move_weituo {
+						padding-left: 0;
+					}
+					.trade_opens_box .ft_box {
+						width: 100%;
+					}
+					.Transaction {
+						min-width: 620px;
+					}
+					.over_hidden {
+						width: 100%;
+						overflow-x: auto;
+						overflow-y: hidden;
+					}
+					.over_auto {
+
+						overflow-x: auto;
+						overflow-y: auto;
+					}
+					.scroll-x {
+						width: 100%;
+						overflow-x: auto;
+					}
+					.mobile-item {
+						text-align: left !important;
+					}
+					.all_coin_list{
+    		display: initial !important;
+    	}
+				}
+			</style>
+
+			<script type="text/javascript">
+				$(function() {
+					var tabbarItem = $('#tabbar').find('li');
+					var tabcontent = $('#tabcontent').children('div');
+					tabbarItem.each(function() {
+						$(this).click(function() {
+							$(this).addClass('active').siblings().removeClass('active');
+							var _index = $(this).index();
+							tabcontent.eq(_index).removeClass('hide').siblings().addClass('hide');
+						})
+					})
+				})
+
+
+			</script>
+			<style>
+				.subtab-do-market:after {
+					display: block;
+					content: '';
+					overflow: hidden;
+					height: 0;
+					clear: both;
+				}
+				
+				.subtab-do-market {
+					border: none !important;
+				}
+				
+				.l-status-dmsubtab {
+					display: inline-block;
+					height: 30px;
+					float: right;
+				}
+				
+				#trade_kline_box {
+					border: 1px solid #dbdbdb;
+				}
+				
+				.li-status-dmsubtab {
+					float: left;
+					display: inline-block;
+					margin-left: 14px;
+				}
+			</style>
+
+			<script>
+				$(function() {
+					if($.cookies.get('openKlineBlockSelect') == 1) {
+						$("#trade_kline_box").hide();
+						$('#openKlineBlockSelect option:eq(1)').attr('selected', 'selected');
+					}
+					if($.cookies.get('openTradeBlockSelect') == 1) {
+						$(".trade_opens_box").hide();
+						$('#openTradeBlockSelect option:eq(1)').attr('selected', 'selected');
+					}
+
+					$("#openKlineBlockSelect").change(function() {
+						var id = $("#openKlineBlockSelect option:selected").val();
+						if(id == 1) {
+							$("#trade_kline_box").hide();
+							$.cookies.set('openKlineBlockSelect', 1);
+						} else {
+
+							$("#trade_kline_box").show();
+							$.cookies.set('openKlineBlockSelect', 0);
+						}
+					});
+
+					$("#openTradeBlockSelect").change(function() {
+						var id = $("#openTradeBlockSelect option:selected").val();
+						if(id == 1) {
+							$(".trade_opens_box").hide();
+							$.cookies.set('openTradeBlockSelect', 1);
+						} else {
+							$(".trade_opens_box").show();
+							$.cookies.set('openTradeBlockSelect', 0);
+						}
+					});
+
+					
+					$('#changeKlinestyle p').click(function() {
+						var value = $(this).attr('value')
+						if(value == 3) {
+							$("#market_chart").attr("src", "/trade/depthlink?market={$market}");
+							$('#changeKlinestyle p').removeClass('action')
+							$('#Gaxdin').attr('value', 3)
+							$(this).addClass('action')
+						} else if(value == 2) {
+							$("#market_chart").attr("src", "/trade/kline_h?market={$market}");
+							$('#changeKlinestyle p').removeClass('action')
+							$('#Gaxdin').attr('value', 2)
+							$(this).addClass('action')
+						} else {
+							$("#market_chart").attr("src", "/trade/ordinary?market={$market}");
+							$('#changeKlinestyle p').removeClass('action')
+							$(this).addClass('action')
+							$('#Gaxdin').attr('value', 1)
+						}
+					});
+
+				});
+			</script>
+			<div class="list-tab-box" style="display:none">
+				<table class="f_table" id="investLog_content">
+					<thead>
+						<tr>
+							<th class="move_bg" style="    padding: 0 0px;color: #FFF;cursor:pointer;" onclick="hangqing()">{#lang('今日行情')}</th>
+							<th id="sublist-grid_c3">{#lang('可用')}{$coin_list[$xnb]['title']}</th>
+							<th id="sublist-grid_c4" style=" background-color: #F5EEEE;"><span id="my_xnb">0.000</span></th>
+							<th id="sublist-grid_c0">{#lang('冻结')}{$coin_list[$xnb]['title']}</th>
+							<th id="sublist-grid_c1" style="    background-color: #F5EEEE;">
+								<font id="my_xnbd">0.000</font>
+							</th>
+							<th id="sublist-grid_c8">{#lang('可用')}{$coin_list[$rmb]['title']}</th>
+							<th id="sublist-grid_c5" style="    background-color: #F5EEEE;"><span id="my_rmb">0.000</span></th>
+							<th id="sublist-grid_c9">{#lang('冻结')}{$coin_list[$rmb]['title']}</th>
+							<th id="sublist-grid_c6" style="    background-color: #F5EEEE;">
+								<font id="my_rmbd">0.000</font>
+							</th>
+						</tr>
+					</thead>
+				</table>
+			</div>
+			<script>
+				function hangqing() {
+					layer.alert("交易市场:{$market_list[$market]['title']}<br><br>" +
+						"{#lang('昨日收盘价')}:{#num($market_list[$market]['shou_price'],$coin_list[$xnb]['round'])}<br>" +
+						"{#lang('今日开盘价')}:{#num($market_list[$market]['kai_price'],$coin_list[$xnb]['round'])}<br>" +
+						"{#lang('最大买入价')}:{#num($market_list[$market]['buy_max'],$coin_list[$xnb]['round'])}<br>" +
+						"{#lang('最小买入价')}:{#num($market_list[$market]['buy_min'],$coin_list[$xnb]['round'])}<br>" +
+						"{#lang('最大卖出价')}:{#num($market_list[$market]['sell_max'],$coin_list[$xnb]['round'])}<br>" +
+						"{#lang('最小卖出价')}:{#num($market_list[$market]['sell_min'],$coin_list[$xnb]['round'])}<br>" +
+						"{#lang('今日涨幅限制')}:{#num($market_list[$market]['zhang'],0)}%<br>" +
+						"{#lang('今日跌幅限制')}:{#num($market_list[$market]['die'],0)}%<br>" +
+						"{#lang('今日开盘时间')}:{$market_list[$market]['kai_time']} {#lang('点')}<br>" +
+						"{#lang('今日收盘时间')}:{$market_list[$market]['shou_time']} {#lang('点')}<br>",
+
+						{
+							title: "{#lang('交易市场')}:{$market_list[$market]['title']} {#lang('的今日行情')}"
+						});
+				}
+			</script>
+			
+			<div class="column-row piern" style="">
+				<div class="column-item">
+					<div class="" style="border_bottom: 1px solid #D5D5D5; margin-top: 20px;">
+						<div class="">
+							<div class="TitleBox" style="border_top: 1px solid #D5D5D5;">
+								<h3 class="PlateTitle">{#lang('最新成交记录(全站)')}</h3>
+							</div>
+							<div class="over_hidden" style="border: 1px solid #dcdcdc;overflow: hidden;">
+								<div class="over_auto">
+									<table class="Transaction  no_border_right no_border_left_right">
+										<thead>
+											<tr>
+												<th>{#lang('时间')}</th>
+												<th>{#lang('买/卖')}</th>
+												<th>{#lang('成交价')}</th>
+												<th>{#lang('成交量')}</th>
+												<th><span>{#lang('总额')}</span></th>
+											</tr>
+										</thead>
+									</table>
+								</div>
+								<div class="over_auto" style="_height: 508px; max-height: 508px; overflow-x: auto; overflow-y: auto;padding-right: 10px;">
+									<table class="Transaction  no_border_right no_border_left_right">
+										<tbody id="orderlist" class="no-border-left-right">
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="column-item">
+					<div class="clear move_weituo over_auto account_table" style="margin-top: 20px;display: none;">
+						<div id="entrust_over" class=" over_auto" style="margin-bottom: 25px;">
+							<div class="TitleBox" style="border_top: 1px solid #D5D5D5;">
+								<h3 class="PlateTitle">{#lang('我的委托')}</h3>
+							</div>
+							<div class="over_auto " style="border: 1px solid #dcdcdc;overflow: scroll;min-height: 538px;position: relative">
+								<div class="show_shtop">
+									<p>
+										<a href="javascript:loginpop();" class="btns2" style="width: 70px;display: inline-block;text-align: center;margin: 0 3px">登陆</a>
+									</p>
+								</div>
+								<style>
+									.show_shtop {
+										position: absolute;
+										top: 50%;
+										width: 100%;
+										text-align: center;
+										display: none;
+									}
+								</style>
+								<table class="Transaction no_border_right no_border_left_right">
+									<thead>
+										<tr>
+											<th width="180">{#lang('时间')}</th>
+											<th width="80">{#lang('买/卖')}</th>
+											<th>{#lang('价格')}</th>
+											<th>{#lang('数量')}</th>
+											<th style="min-width: 70px;">{#lang('已成交')}</th>
+											<th>{#lang('总额')}</th>
+											<th width="80">{#lang('操作')}</th>
+										</tr>
+									</thead>
+									<tbody id="entrustlist" class="no-border-left-right">
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<style>
+				.Pimrn a {
+					color: #7a7a7a;
+				}
+			</style>
+			<div data-v-2b4da480="" class="Pimrn" style="border-top: 1px solid #dbdbdb;padding: 20px 0;margin-top: 30px;color: #7a7a7a;">
+				<p data-v-2b4da480="" class="p_txt" style="display: inline-block;margin-right: 20px;line-height: initial;">{#lang('首页')}</p>
+				<a href="##" class="p_txt" style="display: inline-block;margin-right: 20px;line-height: initial;" onclick="window.location.href='/article/index/typeid/8'">{#lang('隐私策略')}</a>
+				<a href="##" class="p_txt" style="display: inline-block;margin-right: 20px;line-height: initial;" onclick="window.location.href='/article/index/typeid/11'">{#lang('新闻公告')}</a>
+				<a href="##" class="p_txt" style="display: inline-block;margin-right: 20px;line-height: initial;" onclick="window.location.href='/article/index/typeid/9'">{#lang('条件条款')}</a>
+				<a href="##" class="p_txt" style="display: inline-block;margin-right: 20px;line-height: initial;" onclick="window.location.href='/article/index/typeid/10'">{#lang('反洗钱政策')}</a>
+				<a href="##" class="p_txt" style="display: inline-block;margin-right: 20px;line-height: initial;" onclick="window.location.href='/article/index/typeid/7'">{#lang('帮助')}</a>
+
+			</div>
+		</div>
+		
+	</div>
+
+<script type="text/javascript" src="__EXT__/jquery/jquery-ui.js"></script>
+<script>
+	$(function() {
+
+		$('.all_coin_price').hover(function() {
+			$('.all_coin_list').show()
+		}, function() {
+			$('.all_coin_list').hide()
+		});
+
+		get_json();
+
+		var $li = $('.tevwx > dd');
+		var $ul = $('.MIsnn > ul');
+		var $li_sit = $('.Hinder > dd');
+		var $ul_sit = $('.Terav')
+		$li.mouseover(function() {
+			var $this = $(this);
+			var $t = $this.index();
+			$li.removeClass();
+			$this.addClass('current');
+			$ul.css('display', 'none');
+			$ul.eq($t).css('display', 'block');
+		});
+		$li_sit.click(function() {
+			var $this = $(this);
+			var $t = $this.index();
+			$li_sit.removeClass();
+			$this.addClass('current');
+			$ul_sit.css('display', 'none');
+			$ul_sit.eq($t).css('display', 'block');
+		});
+
+	});
+
+	function on_return() {
+		var theEvent = window.event || arguments.callee.caller.arguments[0]; //回车登录
+		var code = theEvent.keyCode;
+		if(code == 13) {
+			footer_login();
+		}
+	}
+
+	function wrapClose() {
+		$('.all_mask').hide();
+		$('.all_mask_loginbox').hide();
+	}
+
+	function login_verify_ups() {
+		$('#login_verify_up').attr('src', "{#url('verify/code')}?t=" + Math.random());
+	}
+
+	function footer_login() {
+		var moble = $("#login_moble").val();
+		var mobles = $("#login_mobles").val();
+		var password = $("#login_password").val();
+		var verify = $("#login_verify").val();
+
+		if(moble == "" || moble == null) {
+			layer.tips('{#lang("请输入手机号")}', '#login_moble', {
+				tips: 2
+			});
+			return false;
+		}
+		if(password == "" || password == null) {
+			layer.tips('{#lang("请输入登录密码")}', '#login_password', {
+				tips: 2
+			});
+			return false;
+		}
+		if(verify == "" || verify == null) {
+			layer.tips('{#lang("请输入验证码")}', '#login_verify', {
+				tips: 2
+			});
+			return false;
+		}
+
+		$.post("{#url('login/up_login')}", {
+			moble: moble,
+			mobles: mobles,
+			password: password,
+			verify: verify,
+			login_token: "{$login_token}",
+		}, function(data) {
+			if(data.status == 1) {
+				$.cookies.set('move_moble', moble);
+				layer.msg(data.info, {
+					icon: 1
+				});
+				if(data.url) {
+					window.location = data.url;
+				} else {
+					window.location.reload();
+				}
+			} else {
+				$("#login_verify_up").click();
+				layer.msg(data.info, {
+					icon: 2
+				});
+				if(data.url) {
+					window.location = data.url;
+				}
+			}
+		}, "json");
+	}
+
+	$('.buy_best_price').click(function() {
+		//alert(1)
+		//	$('#buy_price').val($(this).html)
+	})
+
+	$('#sell_best_price').click(function() {
+		//$('#sell_price').val($(this).html)
+	})
+	// 自动填价格
+	function autotrust(_this, type, cq) {
+
+		if(type == 'sell') {
+			$('#buy_price').val($(_this).children().eq(cq).html()).css({
+				'color': '#333',
+				'font_size': '14px'
+			});
+			if($("#my_rmb").html() > 0) {
+				$("#buy_max").html(toNum(($("#my_rmb").html() / $('#buy_price').val()), 6));
+			}
+			if($('#buy_num').val()) {
+				$("#buy_mum").html(($('#buy_num').val() * $('#buy_price').val()).toFixed(8) * 1);
+			}
+		}
+
+		if(type == 'buy') {
+			$('#sell_price').val($(_this).children().eq(cq).html()).css({
+				'color': '#333',
+				'fontSize': '14px'
+			});
+			if($("#my_xnb").html() > 0) {
+
+				$("#sell_max").html($("#my_xnb").html());
+			}
+			if($('#sell_num').val()) {
+				$("#sell_mum").html(($('#sell_num').val() * $('#sell_price').val()).toFixed(8) * 1);
+			}
+		}
+
+	}
+
+	function get_json_new() {
+		$.getJSON("/trade/index_json/market/{$market}?t=" + Math.random(), function(data) {
+			if(data) {
+				if(data['menu']) {
+					trade_menu(data['menu']);
+				}
+				if(data['top']) {
+					trade_top(data['top']);
+				}
+				if(data['depth']) {
+					trade_depth(data['depth']);
+				}
+				if(data['order']) {
+					$('#entrust_over').show();
+					trade_order(data['order']);
+				} else {
+					$('#entrust_over').hide();
+				}
+				if(data['trades']) {
+					trade_trades(data['trades']);
+				}
+				if(data['finance']) {
+					trade_finance(data['finance']);
+				}
+			}
+		});
+	}
+
+	function get_json() {
+
+		$.getJSON("/trade/index_json/market/{$market}?t=" + Math.random(), function(data) {
+			if(data) {
+				if(data['menu']) {
+					trade_menu(data['menu']);
+				}
+				if(data['top']) {
+					trade_top(data['top']);
+				}
+				if(data['depth']) {
+					trade_depth(data['depth']);
+				}
+				if(data['order']) {
+					$('#entrust_over').show();
+					trade_order(data['order']);
+				} else {
+					$('#entrust_over').hide();
+				}
+				if(data['trades']) {
+					trade_trades(data['trades']);
+				}
+				if(data['finance']) {
+					trade_finance(data['finance']);
+				}
+			}
+
+			setTimeout('get_json()', 5000);
+		});
+	}
+
+	function trade_finance(data) {
+		if(data[0]) { // 可用rmb
+			var rmb = data[0].toFixed(2);
+			$("#my_rmb").html(rmb);
+		} else {
+			$("#my_rmb").html('0.00');
+		}
+
+		if(data[1]) { // 冻结rmb
+			var rmbd = data[1].toFixed(2);
+			$("#my_rmbd").html(rmbd);
+		} else {
+			$("#my_rmbd").html('0.00');
+		}
+
+		if(data[2]) { // 可用xx币
+			var xnb = data[2].toFixed(8);
+			$("#my_xnb").html(xnb);
+		} else {
+			$("#my_xnb").html('0.00');
+		}
+
+		if(data[3]) { // 冻结xx币
+			var xnbd = data[3].toFixed(8);
+			$("#my_xnbd").html(xnbd);
+		} else {
+			$("#my_xnbd").html('0.00');
+		}
+
+		if(data[4]) {
+			$('#my_finance').html(data[4]);
+		} else {
+			$("#my_finance").html('0.00');
+		}
+
+	}
+
+	// 得到成交记录
+	function trade_trades(data) {
+		var list = '';
+		for(var i in data) {
+			if(data[i][1] == 1) {
+				list += '<tr title="{#lang(以这个价格卖出)}"onclick="autotrust(this,\'buy\',2)"><td class="buy"   width="">' + data[i][0] + '</td><td class="buy"   width="">{#lang("买")}</td><td class="buy"   width="">' + data[i][2] + '</td><td class="buy"  width="">' + data[i][3] + '</td><td class="buy">' + data[i][4] + '</td></tr>';
+			} else {
+				list += '<tr title="{#lang(以这个价格买入)}" onclick="autotrust(this,\'sell\',2)"><td class="sell"   width="">' + data[i][0] + '</td><td class="sell"   width="">{#lang("卖")}</td><td class="sell"   width="">' + data[i][2] + '</td><td class="sell"  width="">' + data[i][3] + '</td><td class="sell">' + data[i][4] + '</td></tr>';
+			}
+		}
+		$("#orderlist").html(list);
+	}
+
+	// 得到委托订单
+	function trade_order(data) {
+		var list = '';
+		var cont = data.length;
+
+		if(cont > 7) {
+			cont = 7
+		}
+
+		for(i = 0; i < cont; i++) {
+			if(data[i][1] == 1) {
+				list += '<tr title="{#lang(以这个价格卖出)}" onclick="autotrust(this,\'buy\',2)"><td class="buy">' + data[i][0] + '</td>' +
+					'<td class="buy" >' + '{#lang("买")}' + '</td>' +
+					'<td class="buy" >' + data[i][2] + '</td>' +
+					'<td class="buy">' + data[i][3] + '</td>' +
+					'<td class="buy">' + data[i][4] + '</td>' +
+					'<td class="buy">' + (data[i][2] * data[i][3]).toFixed(8) + '</td>' +
+					'<td><a class="move" id="' + data[i][5] + '" onclick="cancelaa(\'' + data[i][5] + '\')" href="javascript:void(0);">{#lang("撤销")}</a></td>' +
+					'</tr>';
+			} else {
+				list += '<tr title="{#lang(以这个价格买入)}" onclick="autotrust(this,\'sell\',2)">' +
+					'<td class="sell">' + data[i][0] + '</td><td class="sell" >{#lang("卖")}</td>' +
+					'<td class="sell">' + data[i][2] + '</td><td class="sell">' + data[i][3] + '</td>' +
+					'<td class="sell">' + data[i][4] + '</td><td class="sell">' + (data[i][2] * data[i][3]).toFixed(8) + '</td>' +
+					'<td><a class="move" id="' + data[i][5] + '" onclick="cancelaa(\'' + data[i][5] + '\')" href="javascript:void(0);">{#lang("撤销")}</a></td></tr>';
+			}
+		}
+		if(cont >= 7) {
+			list += '<tr><td style="text-align:center;" colspan="7"><a href="/trade/trades/market/{$market}" class="move">{#lang("更多委托信息")}</a>&nbsp;&nbsp;</td></tr>;'
+		}
+		$('#entrustlist').html(list);
+		if(list) {
+			$('.move_weituo').show();
+		}
+
+	}
+
+	function trade_depth(data) {
+		var list = '';
+		if(data['s']) {
+			if(data['s'] != 'no') {
+
+				if(data['s']) {
+
+					var chang = data['s'].length;
+					if(chang > 10) {
+						chang = 10;
+					}
+					var sellk = chang;
+					// for(i = 0; i < chang; i++) {
+					// 	list += '<dl title="{#lang(以这个价格买入)}" style="cursor: pointer;" onclick="autotrust(this,\'sell\',1)">' +
+					// 		'<dt class="sell"  style="width: 40px;padding-left: 5px;">{#lang("卖")}' + (sellk - i) + '</dt>' +
+					// 		'<dd class="sell"  style="width: 80px;text-align: right;">' + data['s'][i][0] + '</dd>' +
+					// 		'<dd class="sell"  style="width: 110px;text-align: right;">' + data['s'][i][1] + '</dd>' +
+					// 		'<dd class="sell"  style="width: 120px;text-align: right;">' + (data['s'][i][0] * data['s'][i][1]).toFixed(8) + '</dd>' +
+					// 		'</dl>';
+					// }
+					for(i = 0; i < chang; i++) {
+						list += '<tr title="{#lang(以这个价格买入)}" onclick="autotrust(this,\'sell\',1)">' +
+							'<td>{#lang("卖")}' + (sellk - i) + '</td>' +
+							'<td>' + data['s'][i][0] + '</td>' +
+							'<td>' + data['s'][i][1] + '</td>' +
+							'<td>' + (data['s'][i][0] * data['s'][i][1]).toFixed(8) + '</td>' +
+							'</tr>';
+					}
+				}
+			}
+
+		}
+		$("#selllist").html(list);
+		list = '';
+		if(data['b']) {
+			if(data['b'] != 'no') {
+				var i = 0;
+				var chang;
+
+				chang = data['b'].length;
+				if(chang > 10) {
+					chang = 10;
+				}
+
+				for(i = 0; i < chang; i++) {
+					// list += '<dl title="{#lang(以这个价格卖出)}" style="cursor: pointer;" onclick="autotrust(this,\'buy\',1)">' +
+					// 	'<dt class="buy"  style="width: 40px;padding-left: 5px;">{#lang("买")}' + (i + 1) + '</dt>' +
+					// 	'<dd class="buy"  style="width: 80px;text-align: right;">' + data['b'][i][0] + '</dd>' +
+					// 	'<dd class="buy"  style="width: 110px;text-align: right;">' + data['b'][i][1] + '</dd>' +
+					// 	'<dd class="buy"  style="width: 120px;text-align: right;">' + (data['b'][i][0] * data['b'][i][1]).toFixed(8) + '</dd>' +
+					// 	'</dl>';
+					list += '<tr title="{#lang(以这个价格卖出)}" onclick="autotrust(this,\'buy\',1)">' +
+						'<td>{#lang("买")}' + (i + 1) + '</td>' +
+						'<td>' + data['b'][i][0] + '</td>' +
+						'<td>' + data['b'][i][1] + '</td>' +
+						'<td>' + (data['b'][i][0] * data['b'][i][1]).toFixed(8) + '</td>' +
+						'</tr>';
+				}
+			}
+
+		}
+		$("#buylist").html(list);
+	}
+
+	function trade_top(data) {
+		if(data[0]) {
+			if($("#market_new_price").html() > data[0]) {
+				$('#market_new_price').removeClass('buy');
+				$('#market_new_price').addClass('sell');
+			}
+			if($("#market_new_price").html() < data[0]) {
+				$('#market_new_price').removeClass('sell');
+				$('#market_new_price').addClass('buy');
+			}
+			$("#market_new_price").html(data[0]);
+		}
+		if(data[1]) {
+			$('#market_buy_price').removeClass('buy');
+			$('#market_buy_price').removeClass('sell');
+			if($("#market_buy_price").html() > data[1]) {
+				$('#market_buy_price').addClass('sell');
+			}
+			if($("#market_buy_price").html() < data[1]) {
+				$('#market_buy_price').addClass('buy');
+			}
+			$("#market_buy_price").html(data[1]);
+			$("#sell_best_price").html(data[1]);
+		}
+		if(data[2]) {
+			$('#market_sell_price').removeClass('buy');
+			$('#market_sell_price').removeClass('sell');
+			if($("#market_sell_price").html() > data[2]) {
+				$('#market_sell_price').addClass('sell');
+			}
+			if($("#market_sell_price").html() < data[2]) {
+				$('#market_sell_price').addClass('buy');
+			}
+			$("#market_sell_price").html(data[2]);
+
+			$("#buy_best_price").html(data[2]);
+		}
+		if(data[3]) {
+			$("#market_min_price").html(data[3]);
+		}
+		if(data[4]) {
+			$("#market_max_price").html(data[4]);
+		}
+		if(data[5]) {
+			if(data[5] > 10000) {
+				data[5] = (data[5] / 10000).toFixed(2) + "万"
+			}
+			if(data[5] > 100000000) {
+				data[5] = (data[5] / 100000000).toFixed(2) + "亿"
+			}
+			$("#market_volume").html(data[5]);
+		}
+		if(data[6]) {
+
+			$('#market_change').removeClass('buy');
+			$('#market_change').removeClass('sell');
+			if(data[6] > 0) {
+				$('#market_change').addClass('buy');
+				$("#market_change").html(data[6] + "%");
+			} else {
+				$('#market_change').addClass('sell');
+				$("#market_change").html((-data[6]) + "%");
+			}
+
+		}
+	}
+
+	function trade_menu(data) {
+		if(data) {
+			for(var i in data) {
+				$('.menu_price_zx_' + i).html(data[i]['price']);
+			}
+		}
+	}
+
+	function layertpwd() {
+		var html = '<div id="all_mask" class="all_mask"></div><div id="tpwd" class="all_mask_loginbox">' +
+			'<div class="login_title pl20">{#lang(交易密码输入设置)}</div><form id="tpwdsetting" class="set_verify" style="padding-left: 50px;">' +
+			'<ul class="tpwd"><li><label for="only"><input type="radio" id="only" value="1" name="aaatpwdsetting"> {#lang(每次登录只输入一次交易密码)} </label></li><li>' +
+			'<label for="every"><input type="radio" checked id="every" value="2" name="aaatpwdsetting"> {#lang(每笔交易都输入交易密码)}</label></li><li><label for="none">' +
+			'<input type="radio" id="none" name="aaatpwdsetting" value="3"> {#lang(每次交易都不需要输入交易密码)}</label></li><li><input type="password" id="aaapaypassword" name="paypassword" placeholder="{#lang(请输入交易密码)}" class="texts"/><a href="/findpwd/paypassword" class="move ml5">{#lang(忘记)}?</a>' +
+			'</li></ul><div class="save_verify"><input type="button"class="btns2" value="{#lang(保存)}" onclick="tpwdsettingaa()" /></div><div class="mask_wrap_close" id="pwd_close"><i class="fa fa-times fz_20 move" aria-hidden="true"></i></div></form></div>';
+		$('body').append(html);
+		//$('#tpwd').css('top', ($(window).height() / 2) - (265 / 2) + $(document).scrollTop());
+		$('.all_mask').css({
+			'height': $(document).height()
+		});
+		$('#pwd_close').click(function() {
+			$('#tpwd').remove();
+			$('#all_mask').remove();
+			$('#all_mask').remove();
+		})
+
+		$.get('/trade/tpwdsetting', function(d) {
+			if(d == 1) {
+				$('#only').prop('checked', true);
+			}
+			if(d == 2) {
+				$('#every').prop('checked', true);
+			}
+			if(d == 3) {
+				$('#none').prop('checked', true);
+			}
+		})
+	}
+
+	//保存交易密码设置
+	function tpwdsettingaa() {
+		var paypassword = $("#aaapaypassword").val();
+		var tpwdsetting = $("input[name='aaatpwdsetting']:checked").val();
+		if(paypassword == "" || paypassword == null) {
+			layer.tips('{#lang("请输入交易密码")}', '#aaapaypassword', {
+				tips: 3
+			});
+			return false;
+		}
+		if(tpwdsetting == "" || tpwdsetting == null) {
+			layer.tips('{#lang("请输入选择一个")}', '#tpwdsetting', {
+				tips: 3
+			});
+			return false;
+		}
+		$.post('/trade/uptpwdsetting', {
+			paypassword: paypassword,
+			tpwdsetting: tpwdsetting
+		}, function(d) {
+			if(d.status == 1) {
+				layer.msg('{#lang("设置成功")}', {
+					icon: 1
+				});
+				window.location.reload();
+			} else {
+				layer.msg(d.info, {
+					icon: 2
+				});
+			}
+
+		}, 'json');
+	}
+
+	var trans_lock = 0;
+	function tradeadd_buy() {
+		if(trans_lock) {
+			layer.msg('{#lang("不要重复提交")}', {
+				icon: 2
+			});
+			return;
+		}
+		trans_lock = 1;
+		var price = parseFloat($('#buy_price').val());
+		var num = parseFloat($('#buy-num').val());
+		var paypassword = $('#buy_paypassword').val();
+		console.log(num)
+		if(price == "" || price == null) {
+			layer.tips('{#lang("请输入内容")}', '#buy_price', {
+				tips: 3
+			});
+			return false;
+		}
+		if(num == "" || num == null) {
+			layer.tips('{#lang("请输入内容")}', '#buy_num', {
+				tips: 3
+			});
+			return false;
+		}
+
+		//加载层-风格3
+		layer.load(2);
+
+		//此处演示关闭
+		setTimeout(function() {
+			layer.closeAll('loading');
+			trans_lock = 0;
+		}, 10000);
+
+		var goole = "{$goole}";
+		if(goole == 1) {
+			layer.config({
+				extend: 'extend/layer.ext.js'
+			});
+			layer.ready(function() {
+				//默认prompt
+				layer.prompt({
+					title: '{#lang("输入谷歌验证码，并确认")}',
+					formType: 1
+				}, function(val) {
+					if(val) {
+						//需要执行的方法
+
+						$.post("{#url('trade/up')}", {
+							price: $('#buy_price').val(),
+							num:$('#buy_num').val(),
+							paypassword: $('#buy_paypassword').val(),
+							market: "{$market}",
+							type: 1,
+							goole: val,
+						}, function(data) {
+							layer.closeAll('loading');
+							trans_lock = 0;
+							if(data.status == 1) {
+								get_json_new();
+								//$("#buy_price").val('');
+								//$("#buy_num").val('');
+								//$("#sell_price").val('');
+								//$("#sell_num").val('');
+								layer.msg(data.info, {
+									icon: 1
+								});
+
+							} else {
+								layer.msg(data.info, {
+									icon: 2
+								});
+							}
+						}, 'json');
+
+					};
+				});
+			});
+		} else {
+			$.post("{#url('trade/up')}", {
+				price: $('#buy_price').val(),
+				num:$('#buy_num').val(),
+				paypassword: $('#buy_paypassword').val(),
+				market: "{$market}",
+				type: 1
+			}, function(data) {
+				layer.closeAll('loading');
+				trans_lock = 0;
+				if(data.status == 1) {
+					get_json_new();
+					//$("#buy_price").val('');
+					//$("#buy_num").val('');
+					//$("#sell_price").val('');
+					//$("#sell_num").val('');
+					layer.msg(data.info, {
+						icon: 1
+					});
+				} else {
+					layer.msg(data.info, {
+						icon: 2
+					});
+				}
+			}, 'json');
+			console.log(price,num,paypassword)
+		}
+
+	}
+
+
+	function tradeadd_sell() {
+		if(trans_lock) {
+			layer.msg('{#lang("不要重复提交")}', {
+				icon: 2
+			});
+			return;
+		}
+		trans_lock = 1;
+		var price = parseFloat($('#sell_price').val());
+		var num = parseFloat($('#sell_num').val());
+		var paypassword = $('#sell_paypassword').val();
+		if(price == "" || price == null) {
+			layer.tips('{#lang("请输入内容")}', '#sell_price', {
+				tips: 3
+			});
+			return false;
+		}
+		if(num == "" || num == null) {
+			layer.tips('{#lang("请输入内容")}', '#sell_num', {
+				tips: 3
+			});
+			return false;
+		}
+		layer.load(2);
+		//此处演示关闭
+		setTimeout(function() {
+			layer.closeAll('loading');
+			trans_lock = 0;
+		}, 10000);
+
+		var goole = "{$goole}";
+		if(goole == 1) {
+			layer.config({
+				extend: 'extend/layer.ext.js'
+			});
+			layer.ready(function() {
+				//默认prompt
+				layer.prompt({
+					title: '{#lang("输入谷歌验证码，并确认")}',
+					formType: 1
+				}, function(val) {
+					if(val) {
+						//需要执行的方法
+						$.post("{#url('trade/up')}", {
+							price: $('#sell_price').val(),
+							num: $('#sell_num').val(),
+							paypassword: $('#sell_paypassword').val(),
+							market: "{$market}",
+							type: 2,
+							goole: val,
+						}, function(data) {
+							layer.closeAll('loading');
+							trans_lock = 0;
+							if(data.status == 1) {
+								get_json_new();
+								//$("#buy_price").val('');
+								$("#buy_num").val('');
+								//$("#sell_price").val('');
+								$("#sell_num").val('');
+								layer.msg(data.info, {
+									icon: 1
+								});
+							} else {
+								layer.msg(data.info, {
+									icon: 2
+								});
+							}
+						}, 'json');
+
+					};
+				});
+			});
+		} else {
+
+			$.post("{#url('trade/up')}", {
+				price: $('#sell_price').val(),
+				num: $('#sell_num').val(),
+				paypassword: $('#sell_paypassword').val(),
+				market: "{$market}",
+				type: 2
+			}, function(data) {
+				layer.closeAll('loading');
+				trans_lock = 0;
+				if(data.status == 1) {
+					get_json_new();
+					//$("#buy_price").val('');
+					$("#buy_num").val('');
+					//$("#sell_price").val('');
+					$("#sell_num").val('');
+					layer.msg(data.info, {
+						icon: 1
+					});
+				} else {
+					layer.msg(data.info, {
+						icon: 2
+					});
+				}
+			}, 'json');
+		}
+
+	}
+
+	//撤销
+	function cancelaa(id) {
+		$.post("{#url('trade/chexiao')}", {
+			id: id
+		}, function(data) {
+			if(data.status == 1) {
+				layer.msg(data.info, {
+					icon: 1
+				});
+			} else {
+				layer.msg(data.info, {
+					icon: 2
+				});
+			}
+		}, 'json');
+	}
+
+	function toNum(num, round) {
+		return Math.round(num * Math.pow(10, round) - 1) / Math.pow(10, round);
+	}
+
+	$('#buy_price,#buy_num,#sell_price,#sell_num').css("ime-mode", "disabled").bind('keyup change', function() {
+
+		var buyprice = parseFloat($('#buy_price').val());
+		var buynum = parseFloat($('#buy_num').val());
+		var sellprice = parseFloat($('#sell_price').val());
+		var sellnum = parseFloat($('#sell_num').val());
+		var buymum = buyprice * buynum;
+		var sellmum = sellprice * sellnum;
+		var myrmb = $("#my_rmb").html();
+		var myxnb = $("#my_xnb").html();
+		var buykenum = 0;
+		var sellkenum = 0;
+		var buyfee = parseFloat("{$market_list[$market]['fee_buy']}");
+		var sellfee = parseFloat("{$market_list[$market]['fee_sell']}");
+
+		if(buyfee > 0) {
+			buymum = parseFloat(buymum / 100 * (100 + buyfee));
+		}
+		if(sellfee > 0) {
+			sellmum = parseFloat(sellmum / 100 * (100 - sellfee));
+		}
+
+		var round = parseInt("{$coin_list[$xnb]['round']}");
+		if(myrmb > 0) {
+			buykenum = myrmb / buyprice;
+		}
+		if(myxnb > 0) {
+			sellkenum = myxnb;
+		}
+		if(buyprice != null && buyprice.toString().split(".") != null && buyprice.toString().split(".")[1] != null) {
+			if(buyprice.toString().split('.')[1].length > round) {
+				$('#buy_price').val(buyprice.toFixed(round));
+			}
+		}
+		if(buynum != null && buynum.toString().split(".") != null && buynum.toString().split(".")[1] != null) {
+			if(buynum.toString().split('.')[1].length > (8 - round)) {
+				$('#buy_num').val(toNum(buynum, (8 - round)));
+			}
+		}
+		if(sellprice != null && sellprice.toString().split(".") != null && sellprice.toString().split(".")[1] != null) {
+			if(sellprice.toString().split('.')[1].length > round) {
+				$('#sell_price').val(sellprice.toFixed(round));
+			}
+		}
+		if(sellnum != null && sellnum.toString().split(".") != null && sellnum.toString().split(".")[1] != null) {
+			if(sellnum.toString().split('.')[1].length > (8 - round)) {
+				$('#sell_num').val(toNum(sellnum, (8 - round)));
+			}
+		}
+		if(buymum != null && buymum > 0) {
+			$('#buy_mum').html(buymum.toFixed(8) * 1);
+		}
+		if(sellmum != null && sellmum > 0) {
+			$('#sell_mum').html(sellmum.toFixed(8) * 1);
+		}
+		if(buykenum != null && buykenum > 0 && buykenum != 'Infinity') {
+
+			$('#buy_max').html(toNum(buykenum, (8 - round)));
+		} else {
+
+		}
+		if(sellkenum != null && sellkenum > 0 && sellkenum != 'Infinity') {
+
+			$('#sell_max').html(sellkenum);
+		}
+	}).bind("paste", function() {
+		return false;
+	}).bind("blur", function() {
+		if(this.value.slice(-1) == ".") {
+			this.value = this.value.slice(0, this.value.length - 1);
+		}
+	}).bind("keypress", function(e) {
+		var code = (e.keyCode ? e.keyCode : e.which); //兼容火狐 IE
+		if(this.value.indexOf(".") == -1) {
+			return(code >= 48 && code <= 57) || (code == 46);
+		} else {
+			return code >= 48 && code <= 57
+		}
+	});
+
+	// 买入/卖出 比例
+	function slider() {
+		var type = ['sell', 'buy'];
+		var round = "{$coin_list[$xnb]['round']}";
+		var $user = "{$user['id']}";
+
+		for(var i in type) {
+			$("#slider_" + type[i]).slider({
+				value: 0,
+				min: 0,
+				max: 100,
+				step: 10,
+				range: "min",
+				slide: function(a, t) {
+					var mycny = $('#my_rmb').text();
+					var mxn = $('#my_xnb').html();
+					var type = $(t.handle).attr('data_slide');
+					var buy_prices = $('#buy_price').val();
+					if(!$user) {
+						layer.msg('您尚未登录,无法计算买入数量');
+						return false;
+					}
+
+					if(type == 'buy') {
+						if(mycny == 0) {
+							layer.msg('您余额不足,请先充值');
+							return false;
+						}
+					} else {
+						if(mxn == 0) {
+							layer.msg('您当前币种不足,请先购买');
+							return false;
+						}
+					}
+
+					if(mycny > 0 && type == 'buy') {
+						var kenum = mycny / buy_prices;
+						if(kenum != null && kenum > 0 && kenum != 'Infinity') {
+							$('#buy_max').html(toNum(kenum, (8 - round)));
+						}
+					}
+					if(mxn > 0 && type == 'sell') {
+						sellkenum = mxn;
+						if(sellkenum != null && sellkenum > 0 && sellkenum != 'Infinity') {
+							$('#sell_max').html(sellkenum);
+						}
+					}
+
+					var e = parseFloat($("#" + type + '_max').text());
+
+					if(isNaN(e)) e = 0;
+					$("#" + type + ' .ui-slider-handle').addClass('ui-state-focus ui-state-active');
+					$("#" + type + "_num").val((e / 100 * t.value).toFixed(8 - parseInt(round)));
+					$("#ratio_num_" + type).text(t.value + "%");
+					if($('#' + type + '_price').val()) {
+						$("#" + type + "_mum").html(((e / 100 * t.value * $('#' + type + '_price').val())).toFixed(8));
+					}
+				}
+			})
+		}
+	}
+
+	slider();
+</script>
+<script>
+	if($("#trade_box").length > 0) {
+		$('#trade_box').addClass('active');
+	} else {
+		$('#trade_box').addClass('active');
+	}
+	
+	
+</script>
+<style>
+	.trade-text {
+    width: 52%;
+    height: 32px;
+    font-size: 12px;
+}
+.intl-tel-input .selected-flag{
+	top:-25px;
+}
+.footer_common{
+	display: none !important;
+}
+.all_coin_list{
+	display: initial;
+	top: -1px;
+}
+.fixed_area{
+	display: none;
+}
+.Hecai{
+	margin-top: 70px;
+}
+@media only screen and (min-width: 100px) and (max-width: 740px) {
+	.Hecai{
+	margin-top:5px;
+}
+.kline_inner{
+	display: none;
+}
+}
+</style>
+
+
+{include file="public:footer"}

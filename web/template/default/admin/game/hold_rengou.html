@@ -1,0 +1,141 @@
+{include file="public:header"}
+<div id="main-content">
+    <div id="top-alert" class="fixed alert alert-error" style="display: none;">
+        <button class="close fixed" style="margin-top: 4px;">&times;</button>
+        <div class="alert-content">警告内容</div>
+    </div>
+    <div id="main" class="main">
+        <block name="body">
+            <div class="container-span">
+                <div class="span4">
+                    <div class="columns-mod">
+                        <div class="hd cf">
+                            <h5>结束超募认购</h5>
+                        </div>
+                        <div class="bd">
+                            <div class="sys-info">
+                                <table id="qianbao_table">
+                                    <tr>
+                                        <th>
+                                            <table id="qianbao_tablea">
+                                                <tr>
+                                                    <td>认购名称: <span style="color: red;">{$hold['name']}</span> </td>
+                                                    <td>认购总量: <span style="color: red;">{$total}</span> </td>
+                                                </tr>
+
+                                                <tr>
+                                                    <td>认购币种: <span style="color: red;">{$hold['coinname']}</span></td>
+                                                    <td>支付币种: <span style="color: red;">{$hold['buycoin']}</span></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>认购次数: <span style="color: red;">{$log_num}</span></td>
+                                                    <td>结束时间: <span style="color: red;">{#addtime($hold['sndtime'])}</span></td>
+                                                </tr>
+	                                            <tr>
+		                                            <td>待处理数: <span style="color:magenta;" id="needNum">{$need_deal}</span></td>
+		                                            <td>已处理数: <span style="color: red;" id="chuli">{$deal_done}</span></td>
+                                                </tr>
+	                                            <tr>
+		                                            <td colspan="2"><button class="btn" onclick="start_endRengou();">开始结算</button></td>
+		                                            <td>本次处理批处理数量<input id="deal_num" value="" placeholder="不填则执行到处理完"/></td>
+	                                            </tr>
+	                                            <tr style="display:none">
+		                                            <td> <div id="holdid">{$hold['id']}</div> </td>
+		                                            <td> <div id="endtime">{$hold['sndtime']}</div></td>
+	                                            </tr>
+                                            </table>
+
+                                        </th>
+                                        <td>
+                                            <div id="loader"></div>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                        <script type="text/javascript" src="__EXT__/jquery/jquery.percentageloader-0.1.min.js"></script>
+                        <script type="text/javascript">
+                            var $loader;
+                            $loader = $("#loader").percentageLoader({
+                                width: 200,
+                                height: 200,
+                                progress: 0
+                            });
+                            (function (){
+	                            var need = parseFloat($('#needNum').html());
+	                            var deal = parseFloat($('#chuli').html());
+	                            console.log(deal);
+	                            console.log(need);
+	                            var progress = 0;
+	                            if( need != 0 && deal != 0){
+		                            progress = parseFloat(deal/(need+deal));
+	                            }
+	                            console.log(progress);
+	                            $loader.setProgress(progress);
+                            })();
+                            $loader.setValue('等待');
+
+                            var lock_click = 0;
+                            var count = -1;
+                            function start_endRengou() {
+                                if (lock_click) {
+                                    layer.msg('点击太频繁...');
+                                    return;
+                                }
+                                lock_click = 1;
+
+	                            count = $('#deal_num').val();
+	                            if(count == '' || count <= 0){
+		                            count = -1;
+	                            }
+
+	                            console.log('count='+count);
+                                request(count-1);
+                            }
+
+                            /*
+                            * 状态statue说明:
+                            * 0操作表之前的参数错误
+                            * 1正常处理完一条记录
+                            * 2认购项目已经处理完了
+                            * 3操作表之后错误,已回滚
+                            * */
+                            function request(ind) {
+	                           var index = ind;
+	                            console.log('index '+index);
+	                            var holdid = $('#holdid').html();
+
+//                                console.log(holdid);
+                                $.post('/admin/hold/jiesuan', {
+	                                id: holdid
+                                },function (data) {
+//                                    console.log(data);
+	                                lock_click = 0;
+                                    if (data.status === 1) {
+                                        $('#qianbao_table').append('<tr><td colspan="2" style="color: green">' + data.info.msg + '</td></tr>');
+	                                    $loader.setProgress(data.info.progress);
+	                                    if(index > 0){
+		                                    index--;
+		                                    request(index);
+	                                    }
+	                                    else if(index < 0) {
+		                                    request(index);
+	                                    }
+                                    } else if (data.status === 0) {
+                                        $('#qianbao_table').append('<tr><td colspan="2" style="color: yellowgreen;font-weight: bold">' + data.info.msg + '</td></tr>');
+                                    } else if (data.status == 2) {
+                                        $('#qianbao_table').append('<tr><td colspan="2" style="color: green;font-weight: bold">' + data.info + '</td></tr>');
+	                                    $loader.setProgress(1);
+                                    } else if (data.status == 3) {
+                                        $('#qianbao_table').append('<tr><td colspan="2" style="color: red;font-weight: bold">' + data.info.msg + '</td></tr>');
+                                    }
+                                },'json');
+                            }
+                        </script>
+                    </div>
+                </div>
+            </div>
+        </block>
+    </div>
+</div>
+{include file="public:footer"}

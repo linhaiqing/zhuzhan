@@ -1,0 +1,413 @@
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+	<meta name="renderer" content="webkit">
+	<meta name="format-detection" content="telephone=no">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<title>{$config['web_title']}</title>
+	<meta name="Keywords" content="{$config['web_keywords']}">
+	<meta name="Description" content="{$config['web_description']}">
+	<meta name="author" content="movesay.com">
+	<meta name="coprright" content="movesay.com">
+	<link rel="stylesheet" href="./static/chbtc/home/css/module.index.css">
+	<link rel="stylesheet" href="./static/chbtc/home/css/module.common.css">
+	<link rel="stylesheet" href="./static/chbtc/home/css/module.base.css">
+	<link rel="stylesheet" href="./static/default/home/css/style.css">
+	<link rel="stylesheet" href="__EXT__/bootstrap/css/bootstrap.min.css">
+	<link rel="stylesheet" href="__EXT__/Font-Awesome-4.4.0/css/font-awesome.min.css">
+	<script src="__EXT__/jquery/jquery.min.js"></script>
+	<script type="text/javascript" src="__EXT__/jquery/jquery.cookies.2.2.0.js"></script>
+	<script src="__EXT__/layer/layer.js"></script>
+	<script src="__JS__/cnbt.js" charset="UTF-8"></script>
+	<style>
+		@media screen  and (min-width: 400px) and (max-width:1200px){
+
+			.boxs{
+				min-width:1650px;
+			}
+			.bk-menuBar{
+				min-width:1650px;
+			}
+
+			.navbar-collapse{
+				left:-74px;
+			}
+			.navbar-header{
+				margin-left:160px;
+			}
+			.form-inline{
+				margin-left:172px;
+			}
+			.move{
+				left:200px;
+			}
+			.daohang{
+				padding:0px 122px;
+			}
+			#footer{
+				min-height:400px;
+			}
+
+			.footer_bottom{
+				min-height:100px;
+			}
+
+			.autobox{
+				min-height:80px;
+
+			}
+
+			.links_img{
+				min-width:200px;
+			}
+
+			.bk-pageTop{
+				margin-bottom:55px;
+			}
+
+			.bk-page-home{
+				min-height:846px;
+			}
+		    .navbar-nav{
+			    margin-right:205px;
+		    }
+
+		}
+
+		.links_img{
+
+			transition-duration:1.5s;
+			-moz-transition-duration:1.5s; /* Firefox 4 */
+			-webkit-transition-duration:1.5s; /* Safari 和 Chrome */
+			-o-transition-duration:1.5s;
+		}
+
+		.hover{
+
+			transform:scale(1.2);
+			-ms-transform:scale(1.2); /* IE 9 */
+			-webkit-transform:scale(1.2); /* Safari 和 Chrome */
+			-o-transform:scale(1.2); /* Opera */
+		}
+
+		#login_verify{
+			width:145px;
+		}
+
+		#login_verify_up{
+			margin-top:-34px;
+		}
+
+		.texts{
+			height:40px;
+		}
+
+		.btns2{
+			margin-left:23px;
+			border:none;
+			height:40px;
+		}
+
+		.left{
+			width:100%;
+		}
+
+		.container{
+			width:1200px;
+		}
+		.country{
+			text-align:left;
+		}
+		.bk-anime-bg{
+			height: 700px;
+			overflow:hidden;
+		}
+		.bk-pageTop{
+			min-height:800px;
+		}
+		.navbar-collapse{
+			float:right;
+		}
+
+	</style>
+<body>
+
+<div class="bk-menuBar" style="height:200px">
+	<div class="container daohang" style="height:200px;margin:auto">
+		<div class="navbar-header" style="margin-top:75px">
+			{if $config['web_logo']}
+			<a href="/"><img src="__UP__/{$config['web_logo']}" alt="" style="height: 60px;    margin-top: 12px;"/></a>
+			{else}
+				<a class="navbar-brand bk-nav-logo" href="#" title="">
+				<i class="move-self move-logo2 move" style="left:366px;margin-top:75px"></i></a>
+			{/if}
+
+
+
+		</div>
+		<script>
+			$('.move-logo2').css({'position':'static'})
+		</script>
+		<nav class="navbar-collapse bk-navbar collapse" aria-expanded="false" id="bitMenu" style="margin-top:58px">
+			<ul class="nav navbar-nav navbar-right" style="margin-right:0px;matgin-top:75px">
+				<li><a href="#" target="_self" class="active">首页</a></li>
+				<ul class="dropdown-menu animated bk-secd-menu fadeIn" data-animation="fadeIn" role="menu" id="M_transDrop">
+				</ul>
+				</li>						{foreach $daohang as$k=>$v}
+				<li>
+					<a href="{$v['url']}" >{$v.title}</a>
+				</li>
+				                             {/foreach}
+				<li>
+					{if $user}
+
+				<li class="nologin"><a href="/user/index.html" target="_self" class="darker">{$user['username']}</a>
+				</li>
+				<li class="nologin"><a href="{#url('login/loginout')}" target="_self">{#lang('退出')}</a></li>
+				                             {else}
+				<li class="nologin"><a href="javascript:loginpop();" target="_self" class="darker">{#lang('登录')}</a>
+				</li>
+				<li class="nologin"><a href="/reg" target="_self">{#lang('注册')}</a></li>
+				                             {/if}
+			</ul>
+		</nav>
+	</div>
+</div>
+
+<div class="bk-pageTop" id="bk-pageTop" style="height: 800px;">
+	<div class="bk-page-home">
+		<div class="bk-anime-bg" style="background-image:url(__IMG__/homechart.gif)"></div>
+		<div class="bk-page-table">
+			<div class="bk-page-tableCell">
+				<div class="container" style="position:relative;margin-top:60px;height:100%">
+					<div class="bk-homeMarket">
+
+						<div class="item" onclick="window.top.location.href='#'">
+
+							<h4><span>BTC/CNY</span> 最新价格</h4>
+							<p>
+								<b class="text-primary price" style="display: inline; opacity: 0.7599;">￥25.6 </b><i style="display:none" class="fa fa-arrow-up"></i><i style="display:none" class=" fa fa-arrow-down"></i>
+							</p>
+						</div>
+
+						<div class="item" onclick="window.top.location.href='#'">
+
+							<h4><span>BTC/CNY</span> 最高价</h4>
+							<p>
+								<b class="text-primary price" style="display: inline;">￥53.82
+									<i style="display:none" class="fa fa-arrow-up"></i><i style="display:none" class=" fa fa-arrow-down"></i></b>
+							</p>
+						</div>
+
+						<div class="item etcDisplay" onclick="window.top.location.href='#'">
+
+							<h4><span>BTC/CNY</span> 最低价</h4>
+							<p>
+								<b class="text-primary price" style="display: inline;">￥8.27
+									<i style="display:none" class="fa fa-arrow-up"></i><i style="display:none" class=" fa fa-arrow-down"></i></b>
+							</p>
+						</div>
+
+						<div class="item" onclick="window.top.location.href='#'">
+
+							<h4><span>BTC/CNY</span> 卖一价</h4>
+							<p>
+								<b class="text-primary price" style="display: inline; opacity: 0.7599;">￥25.6
+									<i style="display:none;width:10px" class="fa fa-arrow-up"></i><i style="display:none" class=" fa fa-arrow-down"></i></b>
+							</p>
+						</div>
+
+						<div class="item" onclick="window.top.location.href='#'">
+
+							<h4><span>BTC/CNY</span> 买一价</h4>
+							<p>
+								<b class="text-primary price" style="display: inline; opacity: 0.7599;">￥25.6
+									<i style="display:none" class="fa fa-arrow-up"></i><i style="display:none" class=" fa fa-arrow-down"></i></b>
+							</p>
+						</div>
+					</div>
+					<div class="bk-themeWord" style="margin-bottom:0px">
+						<h2>全球领先的数字资产交易平台</h2>
+						<p>国际数字资产产业联盟，全球最早的比特币交易平台之一，无信用违约，赢得无数口碑，最值得信赖！</p>
+					</div>
+					{if $user} {else}
+					<div class="bk-homeLogin nologin" style="">
+						<form class="form-inline" method="get" name="homeForm" id="indexloginUser" autocomplete="off">
+							<div class="form-group form-group-lg">
+								<input type="text" id="chbtc_mobles" class="form-control" style="display: none;"><input type="text" id="chbtc_moble" class="form-control hg40 w250" placeholder="请输入手机/邮箱/用户名" style="padding-left: 42px;" value="{#cookie('moble')}"/>
+								<link rel="stylesheet" href="__EXT__/intlTelInput/css/intlTelInput.css">
+								<script src="__EXT__/intlTelInput/js/intlTelInput.js"></script>
+								<script>
+									$("#chbtc_mobles").intlTelInput({
+										autoHideDialCode: false,
+										defaultCountry: "cn",
+										nationalMode: false,
+										preferredCountries: ['cn', 'us', 'hk', 'tw', 'mo'],
+									});
+								</script>
+							</div>
+							<div class="form-group form-group-lg">
+								<input type="password" class="form-control" id="chbtc_password" placeholder="请输入登录密码" name="pwd" pattern="limit(6,30)" errormsg="" autocomplete="off">
+							</div>
+							<div class="form-group form-group-lg">
+								<input type="text" class="form-control" id="chbtc_verify" placeholder="请输入验证码" name="yam" pattern="limit(6,30)" errormsg="" autocomplete="off">
+								<img id="login_verifyII" class="codeImg reloadverify hg40" src="{#url('ajax/verify')}" title="{#lang('换一张')}" onclick="login_verify_upsII();" width="100" height="40" style="margin-left:8px;margin-top:0px;">
+							</div>
+							<div class="form-group form-group-lg">
+								<input type="hidden" name="remember" id="remember" value="12">
+								<button type="button" class="btn btn-primary btn-lg btn3" id="doLogins" onclick="chbtc_login();">登录</button>
+							</div>
+							<div class="form-group form-group-lg text-left">
+								<a href="#" style="color:red" target="_blank" title="忘记或未设置登录密码？">忘记或未设置登录密码？</a><br>
+							</div>
+						</form>
+					</div>
+					{/if}
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="bk-exchange-stock" id="bk-pageExchange">
+
+	<div class="container">
+		<div class="bk-stock-price text-left">
+			<p class="ppp">&nbsp;&nbsp;<i class="fa fa-line-chart fa-fw"></i> &nbsp;
+				<select>
+				<option value="" checked="checked">演示币</option><option value="">动说币</option><option value="">测试币</option>
+				</select>最新成交价：<b id="M_btcLastPrice" class="text-primary">￥5567<i class="icon-arrow-up fa-fw"></i></b> &nbsp;&nbsp;24Hr 最高价：<b id="M_btcMaxPrice">￥5583.52</b> &nbsp;&nbsp;24Hr 最低价：<b id="M_btcMinPrice">￥5555</b> &nbsp;&nbsp;24Hr 成交量：<b id="M_btcVolume">฿208392.186</b>
+				<a class="btn btn-second btn-sm pull-right" href="https://trans.chbtc.com/markets/btc" target="_blank">查看行情&gt;&gt;</a>
+			</p>
+		</div>
+		<div class="left w790" style="position: relative;">
+			<!--行情图-->
+			<div id="kline">
+				<div id="paint_chart" style="height: 400px">
+					<iframe style="border-style: none;" border="0" width="100%" height="400" id="market_chart" src="/trade/ordinary?market={$market}"></iframe>
+				</div>
+			</div>
+			<div class="trade_note">
+				<div class="text">{#lang('风险提示：数字货币投资存在一定的风险，请适量控制您的资金，不要投资您所不了解的数字货币，拒绝传销组织，警惕虚假宣传。')}</div>
+			</div>
+		</div>
+	</div>
+	</div>
+
+	<div class="bk-introduce">
+		<div class="container">
+			<h3>金融级别比特币交易平台</h3>
+			<p>超过3年的安全运营、多重技术安全防护、7X24小时服务支持</p>
+			<div class="row" style="margin:auto -36px">
+				<div class="col-xs-3"><i class="bk-ico begin2"></i><h4>多年行业经验<br>获得良好市场口碑</h4></div>
+				<div class="col-xs-3"><i class="bk-ico moresafe"></i><h4>专业金融安全级别<br>重金多重安全防护</h4></div>
+				<div class="col-xs-3"><i class="bk-ico fullheart"></i><h4>资金流转快速<br>用心服务每一天</h4></div>
+				<div class="col-xs-3"><i class="bk-ico seven24"></i><h4>7X24小时电话客服<br>多年来从未间断</h4></div>
+			</div>
+		</div>
+	</div>
+	<div class="bk-homeNews">
+		<div class="container">
+			<div class="row">
+				{foreach $index_article as $k=>$vo}
+				<div class="col-xs-4">
+					<div class="hd clearfix">
+						<h3 class="pull-left">{$vo.title}</h3>
+						<a class="pull-right" href="/article/index/id/{$vo['id']}">更多&gt;&gt;</a>
+					</div>
+
+					<div class="bd" style="height:auto; overflow:hidden;">
+						<ul>
+							{foreach $vo.list as $k=>$v}
+							<li>
+								<i class=" fa fa-angle-double-right" style="margin-left:-220px;"></i>
+								<a href="/article/detail/id/{$v.id}" title="{$v.title}" target="_self">{$v.title}</a>
+								<sapn style="display:block;float:right;overflow:hidden;color:#49596F;">{#addtime($v.time,'Y-m-d')}</sapn>
+							</li>
+							{/foreach}
+						</ul>
+					</div>
+				</div>
+				{/foreach}
+			</div>
+		</div>
+	</div>
+	{if $links}
+	<div class="bk-firendLink" style="margin-top:25px">
+		<div class="container">
+			<div class="hd clearfix">
+				<h3 class="pull-left">友情链接</h3>
+			</div>
+			<div class="fd">
+				<ul class="clearfix">
+					{foreach $links as $k=>$v}
+					<li>
+						<a href="{$v.value}" target="_blank"><img class="links_img" style="width:135px;height:50px;" src="__UP__/{$v.img}" alt="{$v.name}"></a>
+					</li>
+					{/foreach}
+				</ul>
+			</div>
+		</div>
+	</div>
+	{/if}
+	<script>
+		//鼠标悬停放大图片
+		$(".links_img").mouseover(function () {
+			$(this).addClass('hover');
+		});
+		$(".links_img").mouseout(function () {
+			$(this).removeClass('hover');
+		})
+	</script>
+
+	<script>
+		function chbtc_login() {
+			var moble    = $("#chbtc_moble").val();
+			var mobles   = $("#chbtc_mobles").val();
+			var password = $("#chbtc_password").val();
+			var verify   = $("#chbtc_verify").val();
+
+			if (moble == "" || moble == null) {
+				layer.tips('请输入手机号', '#chbtc_moble', {tips: 2});
+				return false;
+			}
+			if (password == "" || password == null) {
+				layer.tips('请输入登录密码', '#chbtc_password', {tips: 2});
+				return false;
+			}
+			if (verify == "" || verify == null) {
+				layer.tips('请输入验证码', '#chbtc_password', {tips: 2});
+				return false;
+			}
+
+			$.post("{#url('login/up_login')}", {
+				moble: moble,
+				mobles: mobles,
+				password: password,
+				verify: verify,
+				login_token: "{$login_token}",
+			}, function (data) {
+
+				if (data.status == 1) {
+
+					layer.msg(data.info, {icon: 1, offset: ['500px', '850px']});
+					if (data.url) {
+						window.location = data.url;
+					} else {
+						window.location.reload();
+					}
+				} else {
+					$("#login_verifyII").click();
+					layer.msg(data.info, {icon: 2, offset: ['500px', '850px']});
+
+					if (data.url) {
+						window.location = data.url;
+					}
+				}
+			}, "json");
+		}
+
+		function login_verify_upsII() {
+			$('#login_verifyII').attr('src', "{#url('verify/code')}?t=" + Math.random());
+		}
+	</script>
+	{include file='public:footer'}

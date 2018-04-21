@@ -1,0 +1,76 @@
+{include file="public:header"}
+<div id="main-content">
+    <div id="top-alert" class="fixed alert alert-error" style="display: none;">
+        <button class="close fixed" style="margin-top: 4px;">&times;</button>
+        <div class="alert-content">警告内容</div>
+    </div>
+    <div id="main" class="main">
+        <div class="main-title-h">
+            <span class="h1-title">扩展中心</span>
+        </div>
+        <div class="cf"></div>
+        <div class="data-table table-striped">
+            <div class="with-padding">
+                <ul class="module-list">
+                    {foreach $data['tmp'] as $k => $v}
+                    <li class="clearfix">
+                        <div class="cover-wrapper">
+                            <div class="cover-icon" style="color: #FFF;font-size: 42px;    height: 148px;background: {$v['class']};">
+                                {$v['title']}
+                            </div>
+                        </div>
+                        <div class="content-wrapper">
+                            <div class="title">
+                                <a href="#">{$v['title']} <span class="text-muted">{$v['name'] nofilter}</span></a>
+                                <div class="pull-right">
+                                    <span class="label label-info">1.0.0</span>
+                                </div>
+                            </div>
+                            <div>
+                                <p class="text-muted text-ellipsis">{$v['shuoming'] nofilter}</p>
+                            </div>
+                            <div>开发者： <a style="color: #666">{$v['gongsi']}</a></div>
+                            <div class="clearfix bottom-btns">
+                                <div class="pull-left">
+                                    {if $v['menu'] ==1}
+                                    <a class="btn btn-danger ajax-get" href="/admin/cloud/game_menu/id/{$v['id']}/menu/0">前台不显示</a> {else}
+                                    <a class="btn btn-success  ajax-get" href="/admin/cloud/game_menu/id/{$v['id']}/menu/1">前台显示</a> {/if} {if $v['anzhuang'] ==1}
+                                    <a class="btn btn-danger" href="/admin/cloud/game_uninstall/id/{$v['id']}">卸载</a> {if $v['status'] ==1}
+                                    <a class="btn btn-danger ajax-get" href="/admin/cloud/game_status/id/{$v['id']}/status/0">禁用</a> {else}
+                                    <a class="btn btn-success  ajax-get" href="/admin/cloud/game_status/id/{$v['id']}/status/1">启用</a> {/if} {else}
+                                    <a class="btn btn-success  ajax-get" href="/admin/cloud/game_install/id/{$v['id']}/status/1">安装</a> {/if}
+                                </div>
+                                <div class="pull-right">
+                                    <span class="label label-circle label-danger">应用模块</span>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    {/foreach}
+                </ul>
+            </div>
+            <div class="page">{$pages['show'] nofilter}</div>
+        </div>
+    </div>
+</div>
+<script>
+    function gengxin() {
+
+        $.post("{#url('/admin/cloud/game_gengxin')}", {}, function (data) {
+            if (data.status == 1) {
+                layer.msg('更新成功', {icon: 1});
+                if (data.url) {
+                    window.location = data.url;
+                } else {
+                    window.location.reload();
+                }
+            } else {
+                layer.msg('更新失败', {icon: 2});
+                if (data.url) {
+                    window.location = data.url;
+                }
+            }
+        }, 'json');
+    }
+</script>
+{include file="public:footer"}

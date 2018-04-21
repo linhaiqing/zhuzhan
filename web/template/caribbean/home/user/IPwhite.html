@@ -1,0 +1,155 @@
+{include file="public:header"}
+<link rel="stylesheet" href="__CSS__/newtrade/finan.css">
+<link rel="stylesheet" href="__EXT__/layui-v2.2.2/css/layui.css">
+<style>
+	.layui-form{
+		width:500px;
+		margin:auto;
+	}
+	.layui-form .layui-btn-lg{
+		width:200px;
+	}
+	*, :after, :before{
+		box-sizing: content-box;
+	}
+</style>
+<div class="back pat-20">
+	<div class="container f14">
+		<div class="clearfix">
+			{include file="user:left"}
+			<div class="fr gray-border content color-white col-pho-12">
+				<div class="pad-sm">
+					<div class="change_title" style="border-bottom: 2px solid #69B0E4;">
+						<ul id="tabChangeNav" class="clearfix mgt-10">
+							<li class="cur show">
+								<a href="/finan/out"><span class="blue" style="border:none;"><div class="with-line">
+									{#lang('IP白名单')}</div></span></a>
+							</li>
+
+						</ul>
+					</div>
+					<div class="tab-content mgt-20 f12" style="margin-left: 70px">
+						<div class="pwtrade mart30 mt50">
+							<form class="layui-form" >
+								<div class="layui-form-item">
+									<label class="layui-form-label">{#lang('当前IP')}：</label>
+									<div class="layui-input-block">
+										<input type="text" name="title" value="{#get_ip()}" class="layui-input layui-btn-disabled" readonly>
+									</div>
+								</div>
+								<div class="layui-form-item layui-form-text">
+									<label class="layui-form-label">{#lang('IP地址')}：</label>
+									<div class="layui-input-block">
+										<textarea id="IPlist" name="desc" placeholder="请输入内容" class="layui-textarea">{$whitelist['whitelist']}</textarea>
+									</div>
+									<lable class="layui-form-label"> </lable><p>{#lang('多个IP请用逗号 " , " 隔开')}</p>
+								</div>
+								<div class="layui-form-item">
+									<label class="layui-form-label">{#lang('绑定时间')}：</label>
+									<div class="layui-form-mid layui-word-aux">{#addtime($whitelist['addtime'])}</div>
+								</div>
+								<div class="layui-form-item">
+									<label class="layui-form-label">{#lang('当前手机')}：</label>
+									<div class="layui-form-mid layui-word-aux">{#substr_replace($user['moble'],'***',7,4)} ({#lang('接收验证码')})</div>
+								</div>
+								<div class="layui-form-item step5" >
+									<label class="layui-form-label">{#lang('验证码')}：</label>
+									<div class="layui-input-block">
+										{if $sys_sms['sms']==1}
+										<input type="button" value="{#lang('发送短信验证码')}" class="layui-btn  layui-btn-warm layui-btn-sm" onclick="send_moble_new('sms')" />
+										{/if}
+										{if $sys_sms['tel']==1}
+										<input type="button" value="{#lang('发送语音验证码')}" class="layui-btn  layui-btn-warm layui-btn-sm" onclick="send_moble_new('tel')" />
+										{/if}
+									</div>
+								</div>
+								<div class="layui-form-item step6"  style="display:none">
+									<label class="layui-form-label">{#lang('验证码')}：</label>
+									<div class="layui-input-inline">
+										<input type="text" name="title" placeholder="{#lang('请输入短信验证码')}" class="layui-input" id="moble_verify_new">
+									</div>
+									<div class="layui-form-mid layui-word-aux" id="reg_moble_new"></div>
+								</div>
+								<div class="layui-form-item">
+									<div class="layui-input-block">
+										<div class="layui-btn layui-btn-normal layui-btn-lg" onclick="IP_up()">立即提交</div>
+									</div>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script>
+	function send_new() {
+		$(".step6").hide();
+		$(".step5").show();
+	}
+
+	function send_moble_new(type) {
+		var IPlist = $('#IPlist').val();
+		if (IPlist == "" || IPlist == null) {
+			layer.tips("{#lang('请输入IP地址')}", '#IPlist', {tips: 3});
+			return false;
+		}
+		$.post("{#url('verify/whitelist')}", {
+			type: type,
+		}, function (data) {
+			if (data.status == 1) {
+				layer.msg(data.info, {icon: 1});
+				$(".step5").hide();
+				$(".step6").show();
+				var obj      = $('#reg_moble_new');
+				var wait     = 60;
+				var interval = setInterval(function () {
+					obj.html(wait + "{#lang('秒可再次发送')}");
+					wait--;
+					if (wait < 0) {
+						clearInterval(interval);
+						obj.html('<a class="move" onclick="send_new()">{#lang("没有收到？重新发送")}</a>');
+					}
+					;
+				}, 1000);
+			} else {
+				layer.msg(data.info, {icon: 2});
+				if (data.url) {
+					window.location = data.url;
+				}
+			}
+		}, "json");
+	}
+	function IP_up() {
+		var whitelist    = $('#IPlist').val();
+		var moble_verify = $('#moble_verify_new').val();
+		if (whitelist == "" || whitelist == null) {
+			layer.tips("{#lang('请输入IP地址')}", '#IPlist', {tips: 3});
+			return false;
+		}
+		if (moble_verify == "" || moble_verify == null) {
+			layer.msg("{#lang('请输入验证码')}",{icon:5});
+			return false;
+		}
+
+		$.post("{#url('user/whitelist_up')}", {
+			whitelist: whitelist,
+			moble_verify: moble_verify
+		}, function (data) {
+			if (data.status == 1) {
+				layer.msg(data.info, {icon: 1});
+				setTimeout('location.reload()', 1000);
+			} else {
+				layer.msg(data.info, {icon: 2});
+				if (data.url) {
+					window.location = data.url;
+				}
+			}
+		}, "json");
+	}
+</script>
+<script>
+	$('.user_IPwhite').addClass('current');
+</script>
+{include file="public:footer"}

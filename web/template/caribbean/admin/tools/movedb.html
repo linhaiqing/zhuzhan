@@ -1,0 +1,346 @@
+{include file="public:header"}
+<div id="main-content">
+	<div id="top-alert" class="fixed alert alert-error" style="display: none;">
+		<button class="close fixed" style="margin-top: 4px;">&times;</button>
+		<div class="alert-content">警告内容</div>
+	</div>
+	<div id="main" class="main">
+		<div class="main-title-h">
+			<span class="h1-title">数据检查</span>
+		</div>
+		<block name="body">
+			<div class="container-span">
+				<div class="span4" style="margin: 0 0px;width: 100%;">
+					<div class="columns-mod">
+						<div class="hd cf">
+							<h5>系统信息</h5>
+						</div>
+						<div class="bd">
+							<div class="sys-info">
+								<table>
+									<tr>
+										<td style="color:red;">
+											为了数据安全,操作前确保:<br>
+											1.数据库已备份<br>
+											2.临时关闭前台访问.<br>
+											3.技术人员方可操作<br>
+											否则极易造成数据异常<br>
+										</td>
+									</tr>
+									<tr>
+										<td>
+											<div style="float:left;">
+												<button class="btn" onclick="start_check();">开始检查</button>
+											</div>
+											<div id="step-info" style="float:left;float:left;height: 33px;line-height: 33px;font-size: 13px;font-weight: bold;">
+
+												<span id="load_msg" style="color: green;"></span>
+
+												<span id="load_text" style="color: red;"></span>
+											</div>
+										</td>
+									</tr>
+								</table>
+							</div>
+
+							<div id="compare_data" class="sys-info" style="display:none">
+								<div class="columns-mod">
+									<div class="hd cf">
+										<h5>本地孤表</h5>
+										<span style="float: right;font-size: 14px;height: 45px;line-height: 45px;"
+										      onclick="show_click('a_data',this)">收起</span>
+									</div>
+									<div class="bd">
+										<div class="sys-info">
+											<table id="a_data">
+												<tr>
+													<td>无</td>
+												</tr>
+											</table>
+										</div>
+									</div>
+								</div>
+								<br>
+								<div class="columns-mod">
+									<div class="hd cf">
+										<h5>源站孤表</h5>
+										<span style="float: right;font-size: 14px;height: 45px;line-height: 45px;"
+										      onclick="show_click('b_data',this)">收起</span>
+									</div>
+									<div class="bd">
+										<div class="sys-info">
+											<table id="b_data">
+												<tr><td>无</td></tr>
+											</table>
+										</div>
+									</div>
+								</div>
+								<br>
+								<div class="columns-mod">
+									<div class="hd cf">
+										<h5>差异表信息</h5>
+										<a style="float: left;font-size: 8px;height: 45px;line-height: 45px;width: 120px;cursor:pointer;color: red;" href="http://tool.oschina.net/diff" target="_blank">在线比对工具</a>
+										<span style="float: right;font-size: 14px;height: 45px;line-height: 45px;"
+										      onclick="show_click('ab_inv',this)">收起</span>
+									</div>
+									<div class="bd">
+										<div class="sys-info">
+											<table id="ab_inv">
+												<tr><td>无</td></tr>
+											</table>
+										</div>
+									</div>
+								</div>
+
+							</div>
+						</div>
+						<script type="text/javascript">
+							function show_click(id,o){
+								$("#"+id).fadeToggle(300);
+								if($(o).html() == "收起"){
+									$(o).html("显示");
+								}else{
+									$(o).html("收起");
+								}
+							}
+
+
+							var load_id = 1;
+							function load_text(){
+								window.setInterval(function() {
+									if(load_id++ >6){
+										load_id = 1;
+									}
+									var str = "";
+									for(var i=1;i<load_id;i++){
+										str +=">";
+									}
+//									console.log(str);
+									$("#load_text").html(str);
+								},500)
+							}
+
+							function load_text_display(type){
+								if(type){
+									$("#load_text").show();
+								}else{
+									$("#load_text").hide();
+								}
+							}
+
+
+
+							var click_lock = 0;
+							function start_check() {
+								if (click_lock) {
+									layer.msg('正在处理中...');
+									return;
+								}
+								click_lock = 1;
+
+								layer.load(1, {
+									shade: [0.1, '#fff'] //0.1透明度的白色背景
+								});
+								load_text();
+
+								var str = "";
+								var tmp_str = "生成本地表信息";
+								$("#load_msg").html(tmp_str);
+
+								$.getJSON('/admin/tools/movedb?step=1').success(function (data) {
+									layer.closeAll();
+									if (data.status == 1) {
+										str += "本地表信息OK >> ";
+
+										tmp_str = "获取远程表信息";
+										$("#load_msg").html(str + tmp_str);
+
+										$.getJSON('/admin/tools/movedb?step=2').success(function (data) {
+											if (data.status == 1) {
+												str += "远程表信息OK >> ";
+												tmp_str = "开始比对信息";
+												$("#load_msg").html(str + tmp_str);
+												$.getJSON('/admin/tools/movedb?step=3').success(function (data) {
+													click_lock = 0;
+													if (data.status == 1) {
+														load_text_display(0);
+														str += "比对成功!";
+														$("#load_msg").html(str);
+														console.log(data);
+														$("#compare_data").show();
+														data = data.info;
+														var i=0;
+														var show_str = "";
+
+														var a_data = data.a_data;
+														for(i in a_data){
+															show_str += "<tr id='del_"+i+"'><td>" +i+"<button class=\"btn btn-danger btn-xs\" onclick=\"del_table('"+i+"');\" style='margin-left:20px'>删除</button></td></tr>";
+														}
+														$("#a_data").html(show_str);
+
+														var b_data = data.b_data;
+														show_str = "";
+														for(i in b_data){
+															//show_str += "<tr id='pull_"+i+"'><td>"+i+"<button class=\"btn btn-info btn-xs\" onclick=\"get_store_table('"+i+"');\" style='margin-left:20px'>拉取</button></td></tr>";
+														}
+														//$("#b_data").html(show_str);
+
+														var ab_inv = data.ab_inv;
+														show_str = "";
+														for(i in ab_inv){
+															show_str += "<tr id='tr_"+i+"'><td>"+i+"</td>" +
+																	"<td><button class=\"btn btn-warning btn-xs\" onclick=\"start_repair('"+i+"');\">查看修复</button></td>" +
+																	"<td>"+ab_inv[i]['client']['show']+"<br>"+ab_inv[i]['server']['show']+"" +
+																	"<div id='"+i+"_server' style='display:none;'>"+ab_inv[i]['server']['columns']+"</div>"+
+																	"<div id='"+i+"_server_struct' style='display:none;'>"+ab_inv[i]['server']['struct']+"</div>"+
+
+																	"<div id='"+i+"_client' style='display:none;'>"+ab_inv[i]['client']['columns']+"</div>"+
+																	"<div id='"+i+"_client_struct' style='display:none;'>"+ab_inv[i]['client']['struct']+"</div>"+
+																	"</td></tr>";
+														}
+														$("#ab_inv").html(show_str);
+													} else {
+														load_text_display(0);
+														$("#load_msg").html("比对结果失败 请刷新重试");
+													}
+												});
+											} else {
+												load_text_display(0);
+												$("#load_msg").html("远程表信息FAIL 请刷新重试");
+											}
+										});
+									} else {
+										load_text_display(0);
+										$("#load_msg").html("本地表信息FAIL 请刷新重试");
+									}
+								});
+							}
+
+							function start_repair(table_name){
+								var server_str = $("#"+table_name+"_server").html();
+								var client_str = $("#"+table_name+"_client").html();
+								if(!server_str || !client_str){
+									layer.msg("表信息获取失败");
+								}
+								server_data = JSON.parse(server_str);
+								client_data = JSON.parse(client_str);
+
+
+								var str = '<div class="data-table table-striped"> <form action="" name="table_name_map" id="table_name_map" method="post"><table><thead><tr> <th>本地字段</th> <th>远程字段</th><th>备注</th> </tr></thead><tbody>';
+								str += '<input name="_movesay_table_name" type="hidden" value="'+table_name+'">';
+
+								var flag = 0;
+								var server_data_remain = server_data;
+								for(i in client_data){
+									str += '<tr> <td class="text-ellipsis"> '+i+' </td> <td class="text-ellipsis">';
+									str += '<select name="'+i+'" >';
+									str += '<option value="">无</option>';
+
+									flag = 0;
+									for(j in server_data){
+										if(i == j){
+											delete server_data_remain[j];
+											flag = 1;
+											str += '<option value="'+j+'" selected="selected">'+j+'</option>';
+										}else{
+											str += '<option value="'+j+'">'+j+'</option>';
+										}
+									}
+									if(flag){
+										str += '</select></td><td>无</td></tr>';
+									}else{
+										str += '</select></td><td style="color:red;">选择映射字段,否则视为弃用</td></tr>';
+									}
+								}
+
+								//新表孤立
+								var server_data_remain_str = "";
+								if(server_data_remain){
+									for(var k in server_data_remain){
+										server_data_remain_str += " "+k;
+									}
+									if(server_data_remain_str){
+										str += '<tr> <td colspan="3" style="color:red;">新表孤立字段:'+server_data_remain_str+'</td></tr>';
+									}
+								}
+
+
+
+								str += '<tr><td colspan="2"><a href="javascript:void(0);" class="btn" onclick="confirm_repair(\''+table_name+'\');">确认修复</button></td><td>说明:修复后原表添加_TMP后缀备份</td></tr></tbody></table></form></div>';
+
+								str += '<div style="margin: 10px;background-color: #eff2f5;"><span style="background-color: #c0cdda;display: block;height: 35px;line-height: 35px;padding-left: 10px;">本地和远程表详情:</span>' +
+										'<ul style="padding: 10px;">' +
+										$("#"+table_name+"_server_struct").html() +
+										'</ul><ul style="padding: 10px;">' +
+										$("#"+table_name+"_client_struct").html() +
+										'</ul></div>';
+
+								layer.open({
+									type: 1,
+									title:"修复"+table_name+"表",
+									closeBtn: 1,
+									area: ['900px', '600px'], //宽高
+									content: str
+								});
+							}
+
+							// 确认修复
+							function confirm_repair(table_name){
+								var table_name_map = $('#table_name_map').serializeArray();
+								console.log(table_name_map);
+								var index = layer.load(1, {
+									shade: [0.1,'#fff'] //0.1透明度的白色背景
+								});
+								$.post("/admin/tools/movedb?step=repair",table_name_map,function(data){
+									layer.closeAll();
+									if(data.status == 1){
+										$("#tr_" + table_name).remove();
+									}
+									layer.msg(data.info);
+									console.log(data);
+								},"json");
+							}
+
+							function del_table(table_name){
+								layer.confirm('确定删除此表？(变为DEL_前缀)', {
+									btn: ['确定','取消'] //按钮
+								}, function(){
+									$.post("/admin/tools/movedb?step=del",{
+										table_name:table_name
+									},function(data){
+										layer.closeAll();
+										if(data.status == 1){
+											$("#del_" + table_name).remove();
+										}
+										layer.msg(data.info);
+										console.log(data);
+									},"json");
+								}, function(){
+								});
+							}
+
+							function get_store_table(table_name){
+								layer.confirm('确定拉取远程表结构?', {
+									btn: ['确定','取消'] //按钮
+								}, function(){
+									$.post("/admin/tools/movedb?step=pull",{
+										table_name:table_name
+									},function(data){
+										layer.closeAll();
+										if(data.status == 1){
+											$("#pull_" + table_name).remove();
+										}
+										layer.msg(data.info);
+										console.log(data);
+									},"json");
+								}, function(){
+								});
+							}
+						</script>
+					</div>
+				</div>
+			</div>
+		</block>
+	</div>
+</div>
+{include file="public:footer"}

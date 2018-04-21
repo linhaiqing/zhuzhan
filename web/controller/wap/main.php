@@ -1,0 +1,1 @@
+<?phpnamespace wap;use Move\db;use move\ext\page;use Move\config;class main extends wap{	public function __construct()	{		parent::__construct();	}	public function main1()	{		$this->display();	}	public function main2()	{		$this->display();	}	public function main3()	{		$this->display();	}	public function main4()	{		$this->display();	}} 

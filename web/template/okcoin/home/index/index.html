@@ -1,0 +1,446 @@
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<meta name="applicable-device" content="pc">
+	<!--<title>动说科技交易平台</title>-->
+	<title>{$config['web_title']}</title>
+	<meta name="Keywords" content="{$config['web_keywords']}">
+	<meta name="Description" content="{$config['web_description']}">
+	<!--<meta name="baidu-site-verification" content="76Dfnv6l55">-->
+	<!--<meta name="description" content="OKCoin美元站是安全、稳定、可信的比特币美元交易平台。我们提供美元和比特币的现货交易、比特币现货杠杆、比特币p2p借贷、比特币虚拟合约等，采用ssl、冷存储、gslb、分布式服务器等先进技术，确保比特币交易的安全、快捷、稳定。">-->
+	<!--<meta name="keywords" content="比特币，比特币交易网，比特币交易平台，OKCoin，比特币行情，比特币交易">-->
+	<!--<meta name="Author" content="okcoin">-->
+	<!--<meta name="Copyright" content="OKCoin.com 版权所有">-->
+	<!--<link href="__CSS__/banner.css" rel="stylesheet" type="text/css" media="screen, projection">-->
+	<link href="__CSS__/coincommon_v2.css" rel="stylesheet" type="text/css" media="screen, projection">
+	<!--<link href="__CSS__/jquery-ui.css" rel="stylesheet" type="text/css" media="screen, projection">-->
+	<link href="__CSS__/bodych.css" rel="stylesheet" type="text/css" media="screen, projection">
+	<link href="__CSS__/index_int.css" rel="stylesheet" type="text/css" media="screen, projection">
+	<link href="/static/default/home/css/style.css" rel="stylesheet" type="text/css" media="screen, projection">
+	<link href="__CSS__/okcoin.css" rel="stylesheet" type="text/css" media="screen, projection">
+	<link rel="stylesheet" href="__EXT__/Font-Awesome-4.4.0/css/font-awesome.css">
+	<script type="text/javascript" src="__EXT__/jquery/jquery.min.js"></script>
+	<script type="text/javascript" src="__EXT__/jquery/jquery.cookies.2.2.0.js"></script>
+	<script type="text/javascript" src="__EXT__/posfixed/posfixed.js"></script>
+	<link rel="stylesheet" href="__CSS__/index_a.css"/>
+
+
+</head>
+<body>
+
+<input type="hidden" id="coinMainUrl" value="https://www.okcoin.com"> <input type="hidden" id="forwardUrl" value="">
+<input type="hidden" id="symbol" value="0">
+<div class="indexTop clear" style="min-width: 1180px;">
+	<div class="topContent">
+		<div class="nav1 clear" id="nav1" style="background:none;">
+			<div class="nav1-sub clear">
+				{if $user}
+
+				<div class="tuichu">
+					<a href="">{$user['username']}</a>&nbsp;&nbsp;&nbsp;&nbsp;
+					<a href="{#url('login/loginout')}">退出</a></div>
+				<div class="banner-tag login-banner-tag" style="left:1200px;top:130px;width:356px;">
+					<div class="user-base">
+                    <span class="user-base-sp">
+                        Hi,<a href="#" target="_blank">{$user["username"]}</a>
+                    </span>
+						<div class="user-info-block">
+							<table>
+								<tr>
+									<td>{#lang('可用')} CNY</td>
+									<td>{#lang('冻结')}</td>
+									<td>{#lang('总资产')}</td>
+								</tr>
+								<tr>
+									<td>￥{#num($user_coin['cny'])}</td>
+									<td>￥{#num($user_coin['cnyd'])}</td>
+									<td>￥{#num($user['zzc'])}</td>
+								</tr>
+							</table>
+						</div>
+					</div>
+					<ul class="clearfix">
+						<div class="user-info-fina">
+							<a href="/finan/pay.html">CNY {#lang('充值')}</a>
+							<a href="/finan/out.html">CNY {#lang('提现')}</a>
+							<a href="/finan/trades.html" class="w82">{#lang('委托管理')}</a>
+						</div>
+					</ul>
+					<a href="/finan.html" target="_blank" class="green-link-btn">{#lang('去财务中心')}</a>
+					<a href="/finan/invit.html" target="_blank" class="transparent-link-btn">
+						<i class="icon-hot-tag"></i> {#lang('推荐好友拿奖励')} </a>
+				</div>
+				{else}
+				<div class="nav-quick" style="padding-top: 15px;">
+					<div class="rightArea" style="padding-right:0px;">
+						<!-- 						<span style="color:#ffffff;float: left;margin-top: 6px;">|</span> -->
+						<a class="loadMessage" href="javascript:loginpop();" style="margin-left:15px;color:#FFF;">登录</a>
+						<!-- 						<span style="color:#ffffff;float: left;margin-top: 6px;margin-left:15px;">|</span> -->
+						<a class="loadMessage" href="reg" style="margin-left:15px;color:#FFF;">注册</a>
+					</div>
+				</div>
+				{/if}
+			</div>
+		</div>
+		<div class="indexHead">
+			<div class="logo" style="margin-top: 12px;">
+				{if $config['web_logo']} <a href="/"><img src="__UP__/{$config['web_logo']}" alt=""/></a> {else}
+				<a href="/" class="xiaozhu-logo"> <i class="move-self move-logo2 move"></i> </a> {/if}
+			</div>
+			<div class="accountinfo" style="padding-top: 18px;">
+				<ul class="menu1">
+					<li class="cur"><a href="/"> <span class="">首页</span></a></li>
+					{foreach $daohang as $k=>$v}
+					<li class=""><a href="{$v['url']}"><span>{$v['title']}</span></a></li>
+					{/foreach}
+
+				</ul>
+			</div>
+		</div>
+		<div class="indexExplain" style="">
+			<h1 style="line-height: 70px;margin-top:88px;text-align:left;">
+				<span>动说科技交易平台</span><br>
+				<span style="margin-bottom:90px;margin-top:30px;font-size:16px;display:inline-block;line-height:30px;"></span>
+			</h1>
+			<div class="newDataNumber" style="margin-top:25px;float: left;">
+				<div id="up_zzjs" class="up_zzjs">
+					<div id="marqueebox" style="margin-top: 0px;">
+						<!--<div id="up_li" class="up_li">-->
+						<!--<a href="/future/market.do?symbol=0" class="symbol123"> <span>BTC合约：</span>-->
+						<!--<span class="number">最新成交价:-->
+						<!--<em class="bold">$</em><span name="futureBtcLastPrice" class="bold">798.83</span>-->
+						<!--</span> &nbsp;&nbsp;-->
+						<!--<span class="">24小时成交量:-->
+						<!--<em class="bold">฿ </em><span name="futureBtcVolume" class="bold">237,287.81</span>-->
+						<!--</span>-->
+						<!--</a>-->
+						<!--<br>-->
+						<!--<a href="/future/market.do?symbol=1" class="symbol123"> <span>LTC合约：</span>-->
+						<!--<span class="number">最新成交价:-->
+						<!--<em class="bold">$</em><span name="futureLtcLastPrice" class="bold">3.675</span>-->
+						<!--</span> &nbsp;&nbsp;-->
+						<!--<span class="">24小时成交量:-->
+						<!--<em class="bold"> Ł </em><span name="futureLtcVolume" class="bold">2,489,638.26</span>-->
+						<!--</span>-->
+						<!--</a>-->
+						<!--</div>-->
+
+					</div>
+				</div>
+			</div>
+		</div>
+		{if $user} {else}
+		<div style="float: right;">
+			<div class="userLogin" style="margin-bottom: 10px;">
+				<form method="post" action="#" id="form_login" autocomplete="off">
+					<span class="title">登录</span>
+					<ul>
+						<li>
+							<p class="title">账户</p>
+							<input type="text" id="index_login_mobles" class="loginInput" style="display: none;"><input type="text" id="index_login_moble" class="loginInput" placeholder="请输入手机/用户名" style="padding-left: 42px;" value="{#cookie('moble')}"/>
+							<link rel="stylesheet" href="__EXT__/intlTelInput/css/intlTelInput.css">
+							<script src="__EXT__/intlTelInput/js/intlTelInput.js"></script>
+							<script>
+								$("#index_login_mobles").intlTelInput({
+									autoHideDialCode: false,
+									defaultCountry: "cn",
+									nationalMode: false,
+									preferredCountries: ['cn', 'us', 'hk', 'tw', 'mo'],
+								});
+							</script>
+							<!--<input id="login_moble" class="loginInput" type="text" tabindex="1" name="username" placeholder="请输入邮箱/手机号">-->
+						</li>
+						<li>
+							<p class="title">
+								密码
+							</p>
+									<span style="position: relative">
+									<input id="index_login_password" class="loginInput" type="password" tabindex="2" placeholder="请输入密码" name="password" maxlength="32">
+									<span id="capStatus11" style="display:none;position:absolute;z-index:36;left:00px;top:25px;"><img width="111" height="34" src="https://img.okcoin.cn/v_20161219001/image/keyboard/prompt.png"></span>
+								</span>
+						</li>
+						<li>
+							<p class="title">验证码</p>
+							<input class="loginInput" type="text" id="index_login_verify" tabindex="1" name="username" placeholder="请输入验证码" value="">
+						<span style="vertical-align: -17px;line-height: 20px;">
+				<img id="index_login_verify_up" class="codeImg reloadverify hg40" src="{#url('ajax/verify')}" title="{#lang('换一张')}" onclick="index_login_verify_ups();" width="105" height="36">
+			</span>
+						</li>
+						<li class="error">
+							<p class="errorbg" id="indexLoginTips" style="display: none;"></p>
+							<input type="hidden" id="numberClick" value="1">
+						</li>
+						<li>
+							<input id="indexLoginSubmit" class="loginButton" type="button" tabindex="3" value="登录" onclick="index_okcoin_login();">
+						</li>
+						<li>
+							<div class="helpful">
+								<span class="zhuce"><a href="/reg">免费注册</a></span>
+								<span class="mima"><a href="/findpwd" rel="nofollow">忘记密码</a></span>
+							</div>
+						</li>
+					</ul>
+				</form>
+			</div>
+		</div>
+		{/if}
+		<div class="activeEnter clear" style="margin:30px 0 70px;display: none;">
+			<!-- 微信关注OKLink 活动入口  -->
+				<span style="position:relative;">
+					<span class="okLink okLinkImg"></span>
+					<span class="code codeImg"></span>
+				</span>
+			<!--微信下单介绍链接 -->
+			<a class="wechatXiadan" href="/t-223.html"></a>
+		</div>
+	</div>
+</div>
+<div class="indexIntroduce" style="min-width: 1180px;">
+	<div class="introduceContent">
+		<h1 style="font-weight:bold">著名的金融服务商</h1>
+		<h3>我们拥有安全的机制、可靠的技术、贴心的服务</h3>
+		<table class="introduceTable">
+			<tbody>
+			<tr>
+				<td>
+					<span class="safe"></span>
+				</td>
+				<td>
+					<span class="reliable"></span>
+				</td>
+				<td>
+					<span class="service"></span>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<span class="title tit_safe" style="margin-left:63px">安全</span>
+				</td>
+				<td>
+					<span class="title tit_kekao">可靠</span>
+				</td>
+				<td>
+					<span class="title tit_tiexin" style="padding-left:100px;">贴心</span>
+				</td>
+			</tr>
+			<tr class="safe_footer">
+				<td class="safe_1">
+					<span class="fontsize-14" style="padding-right:200px">冷存储、SSL、多重加密</span><br>
+					<span class="fontsize-14" style="padding-right:200px">等银行级别安全技术</span><br>
+					<span class="fontsize-14" style="padding-right:200px">十年金融安全经验的安全团队</span><br>
+				</td>
+				<td class="safe_2">
+					<span class="fontsize-14">专业级高速撮合引擎</span><br> <span class="fontsize-14">GSLB与分布式集群技术</span><br>
+					<span class="fontsize-14">分布全球数据中心</span><br>
+				</td>
+				<td class="safe_3">
+					<span class="fontsize-14" style="padding-left:200px">7×24小时系统稳定</span><br>
+					<span class="fontsize-14" style="padding-left:200px">7×24小时客服在线</span><br>
+					<span class="fontsize-14" style="padding-left:200px">7×24小时技术支持</span><br>
+				</td>
+			</tr>
+			</tbody>
+		</table>
+	</div>
+</div>
+<!--index_article-->
+{if $index_article}
+<div class="article_zong">
+	<div class="article">
+		{foreach $index_article as $k=>$v}
+		<div class="article_center">
+			<div class="arti_ul">
+				<div class="header_top">
+					<span>{$v['title']}</span> <span style="float:right" class="mor"><a href="/article/index/id/{$v['id']}">更多+</a></span>
+				</div>
+				{foreach $v['list'] as $k1=>$v1}
+				<div class="header_foot">
+					<div class="foot_l">
+						<i class="fa  fa-chevron-right"></i>&nbsp<a href="/article/detail/id/{$v1['id']}">{$v1['title']}</a>
+					</div>
+					<div class="foot_r">{#addtime($v1['addtime'],"m-d")}</div>
+				</div>
+				{/foreach}
+			</div>
+		</div>
+		{/foreach}
+	</div>
+</div>
+{/if}
+<div class="indexProductService" style="min-width: 1180px;">
+	<div>
+		<p class="bigTitle" style="margin-top:100px;">
+			为动说专业投资者提供更好的金融服务
+		</p>
+		<div class="productsInfo clear">
+			<dl>
+				<dt class="spot">
+				<p style="font-size:28px;">现货交易</p>                </dt>
+				<dd >
+					<p>动说币/美元交易，快速、安全、可靠</p>
+				</dd>
+			</dl>
+			<dl class="leftDis">
+				<dt class="futures">
+				<p style="font-size:28px;">虚拟合约</p>                </dt>
+				<dd >
+					<p>以BTC/LTC结算，多合约、长周期、易套保</p>
+				</dd>
+			</dl>
+			<dl class="leftDis">
+				<dt class="margin">
+				<p style="font-size:28px;">融资融币</p>                </dt>
+				<dd >
+					<p>杠杆交易, 更高回报, 看涨看跌, 均可盈利</p>
+				</dd>
+			</dl>
+			<dl class="leftDis">
+				<dt class="lending">
+				<p style="font-size:28px;">P2P借贷</p>                </dt>
+				<dd>
+					<p>安全、高息，让您的币不再闲置</p>
+				</dd>
+			</dl>
+		</div>
+	</div>
+</div>
+<!--友情链接-->{if $links}
+<div class="links_bg">
+	<div class="links">
+		<div class="links_top">合作伙伴</div>
+		<div class="links_botm">
+			<ul class="links_ul">
+				{foreach $links as $k=>$v}
+				<li class="links_li"><a href="{$v['value']}"><img src="__UP__/{$v['img']}" class="links_img"></a></li>
+				{/foreach}
+			</ul>
+		</div>
+	</div>
+</div>
+{/if}
+<!--<input type="hidden" id="siteFlag" value="2"> <input type="hidden" id="coinMainUrl" value="https://www.okcoin.com">-->
+<!--<input type="hidden" id="footsetFlag" value="2">-->
+<!--<input type="hidden" id="__pre_url" value="https://img.okcoin.cn/v_20161219001">-->
+<!--<input type="hidden" id="footLanguageType" value="0"> <input type="hidden" id="domain_siteflag" value="2">-->
+<!--<script type="text/javascript" src="__JS__/language_zh_CN.js"></script>-->
+<!--<script type="text/javascript" src="__JS__/errorEnum.js"></script>-->
+<!--<script type="text/javascript" src="__JS__/jquery-1.8.2.js"></script>-->
+<script type="text/javascript" src="__EXT__/layer/layer.js"></script>
+<!--<script type="text/javascript" src="__JS__/jquery-ui-1.9.0.custom.js"></script>-->
+<!--<script type="text/javascript" src="__JS__/auto.js"></script>-->
+<!--<script type="text/javascript" src="__JS__/coincommon.js"></script>-->
+<!--<script src="__JS__/coin.js"></script>-->
+<!--<script type="text/javascript" src="__JS__/index.js"></script>-->
+<script>
+	function index_okcoin_login() {
+		var moble = $("#index_login_moble").val();
+
+		var mobles   = $("#index_login_mobles").val();
+		var password = $("#index_login_password").val();
+		var verify   = $("#index_login_verify").val();
+
+
+		if (moble == "" || moble == null) {
+			layer.tips('请输入手机号', '#index_login_moble', {tips: 2});
+			return false;
+		}
+		if (password == "" || password == null) {
+			layer.tips('请输入登录密码', '#index_login_password', {tips: 2});
+			return false;
+		}
+		if (verify == "" || verify == null) {
+			layer.tips('请输入验证码', '#index_login_verify', {tips: 2});
+			return false;
+		}
+
+		$.post("{#url('login/up_login')}", {
+			moble: moble,
+			mobles: mobles,
+			password: password,
+			verify: verify,
+			login_token: "{$login_token}",
+		}, function (data) {
+
+			if (data.status == 1) {
+
+
+				layer.msg(data.info, {icon: 1, offset: ['250px', '800px']});
+				if (data.url) {
+					window.location = data.url;
+
+				} else {
+					window.location.reload();
+
+				}
+			} else {
+
+				$("#index_login_verify_up").click();
+				layer.msg(data.info, {icon: 2, offset: ['250px', '800px']});
+				if (data.url) {
+					window.location = data.url;
+				}
+			}
+		}, "json");
+	}
+	function index_login_verify_ups() {
+		$('#index_login_verify_up').attr('src', "{#url('verify/code')}?t=" + Math.random());
+	}
+</script>
+<script>
+	$(function () {//市场价格清单
+
+		$.get("/ajax/get_market_list_data", {},
+				function (data) {
+
+
+					if (data.status == 1) {
+						var tot = '';
+						var json = data.url;
+					//	console.log(data);
+						$.each(json, function (i, obj) {
+
+//							console.log(obj['name']);
+//							console.log(i);
+							tot += '<div id="up_li" class="up_li">';
+							tot += '<a href="/trade/index/market/' + obj['name'] + '">' + '<span>' + obj['title'] + '</span>';
+							tot += '<span class="number">' + '最新成交价:' + '<strong>' + obj['new_price'] + '</strong>' + '</span>' + ' &nbsp;&nbsp;' + '<span>' + '24小时成交量:' + '<strong>' + obj['volume'] + '</strong>' + '</span>';
+							tot += '<a href="/trade/index/market/' + obj['name'] + '">' + '<br>' + '<a href="/trade/index/market/' + obj['name'] + '">' + '<span>' + obj['title'] + '</span>';
+							tot += '<span class="number">' + '最新成交价:' + '<strong>' + obj['new_price'] + '</strong>' + '</span>' + '&nbsp;&nbsp;' + '<span class="">' + '24小时成交量:' + '<strong>' + obj['volume'] + '</strong>' + '</span>';
+							tot += '</a>'
+							tot += '</div>'
+
+						});
+
+					}
+
+					$("#marqueebox").html(tot);
+				}, "json");
+
+
+	});
+</script>
+<script>
+	function autoScroll(obj) {
+		$(obj).find("#marqueebox").animate({
+
+			marginTop: "-50px"
+		}, 500, function () {
+			$(this).css({marginTop: "0px"}).find(".newsList_p:first").appendTo("#marqueebox");
+			//当前第一条插入最后
+		})
+
+	}
+	$(function () {
+		setInterval('autoScroll("#up_zzjs")', 3000);
+
+		$(".links_li a img").mouseover(function () {
+			$(this).addClass('hover');
+		});
+		$(".links_li a img").mouseout(function () {
+			$(this).removeClass('hover');
+		});
+	})
+
+</script>
+{include file="public:footer"}
+

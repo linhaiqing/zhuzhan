@@ -1,0 +1,137 @@
+@charset "utf-8";
+/********************header***************/
+.relative {
+	position: relative;
+}
+
+.allheader {
+	background: #0D0D50;
+	position: relative;
+}
+.allheader-index {
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: 1000;
+	width: 100%;
+}
+
+.header-mark {
+	position: relative;
+	top: 0;
+	left: 0;
+	z-index: 1000;
+	opacity: .25;
+	filter: alpha(opacity = 25);
+	background: #000;
+	width: 100%;
+	height: 78px;
+}
+
+.header-mark-bot {
+	position: relative;
+	top: 0;
+	left: 0;
+	z-index: 1000;
+	opacity: .25;
+	filter: alpha(opacity = 25);
+	background: #fff;
+	width: 100%;
+	height: 1px;
+}
+
+.header {
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: 10000;
+	width: 100%;
+}
+
+.navbar {
+	margin-bottom: 0;
+}
+
+.navbar-default {
+	min-width: inherit;
+	display: inline-block;
+}
+
+.header .header-nav {
+	border-top: none;
+	padding-top: 12px;
+}
+@media (min-width: 768px)
+.container {
+    width: 750px !important;
+}
+
+.header .header-nav a {
+	color: #fff;
+	font-size: 16px;
+}
+
+.header .navbar-nav .active a {
+	color: #da2e22;
+}
+
+.header .navbar-nav .active .line, .header .nav>li>a:hover .line,
+.header.nav>li>a:active .line, .header.nav>li>a:focus .line, .header.nav>li>a:link .line
+{
+	background: #da2e22;
+	width: 100%;
+	height: 2px;
+	position: absolute;
+	bottom: -31px;
+	left: 0;
+	transition: width 0.2s;
+}
+
+.header .login-register {
+	float: right;
+	position: relative;
+	padding: 10px 0;
+	margin-left: 20px;
+}
+
+.header .login-register .lr-mark {
+	position: absolute;
+	top: 10px;
+	left: 0;
+	z-index: 10;
+	opacity: .25;
+	filter: alpha(opacity = 25);
+	background: #fff;
+	width: 100%;
+	height: 30px;
+}
+
+.header .login-register .lr-con {
+	position: relative;
+	top: 0;
+	left: 0;
+	z-index: 10000;
+	width: 100%;
+	height: 30px;
+	line-height: 30px;
+}
+
+.header .login-register .lr-item {
+	font-size: 14px !important;
+	color: #fff;
+	height: 30px;
+	display: inline-block;
+	padding: 0 10px;
+}
+
+.header .login-register .lr-item a {
+	font-size: 14px !important;
+	display: inline-block;
+}
+.header .top .user-slide .slide-box{
+	right: -4px;
+}
+.navbar-nav li a:hover{
+	background:none;
+	color:#da2e22;
+}

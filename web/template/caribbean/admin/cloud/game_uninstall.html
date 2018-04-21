@@ -1,0 +1,284 @@
+{include file="public:header"}
+<div id="main-content">
+    <div id="top-alert" class="fixed alert alert-error" style="display: none;">
+        <button class="close fixed" style="margin-top: 4px;">&times;</button>
+        <div class="alert-content">警告内容</div>
+    </div>
+    <div id="main" class="main">
+        <div class="main-title-h">
+            <span class="h1-title">模块卸载</span> <span class="h2-title">>><a href="/admin/cloud/game">模块列表</a></span>
+        </div>
+        <div class="tab-wrap">
+            {if $step==1}
+            <div class="tab-content">
+                <div class="form-horizontal">
+                    <div id="tab" class="tab-pane in tab">
+                        <div class="form-item cf">
+                            <table>
+                                <tr class="controls">
+                                    <td class="item-label">模块名称 :</td>
+                                    <td>{$game['name']}</td>
+                                    <td class="item-note"></td>
+                                </tr>
+                                <tr class="controls">
+                                    <td class="item-label">模块标题 :</td>
+                                    <td>{$game['title']}</td>
+                                    <td class="item-note"></td>
+                                </tr>
+                                <tr class="controls">
+                                    <td class="item-label">模块链接 :</td>
+                                    <td>{$game['url']}</td>
+                                    <td class="item-note"></td>
+                                </tr>
+                                <tr class="controls">
+                                    <td class="item-label">开发作者 :</td>
+                                    <td>{$game['gongsi']}</td>
+                                    <td class="item-note"></td>
+                                </tr>
+                                <tr class="controls">
+                                    <td class="item-label">卸载检查 :</td>
+                                    <td>检查应用是否可以卸载</td>
+                                    <td class="item-note"></td>
+                                </tr>
+                                <tr class="controls" style="margin: 10px 0px;height: 80px;">
+                                    <input type="hidden" name="id" value="{$game['id']}"
+                                            class="text input-large"/>
+                                    <td class="item-label"></td>
+                                    <td>
+                                        <button class="btn submit-btn" id="submit" type="submit" onclick="setp_1()">开始卸载</button>
+                                        <a class="btn btn-return" href="{$_SERVER['HTTP_REFERER']}">返 回</a>
+                                    </td>
+                                    <td class="item-note"></td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                    <br>
+                </div>
+            </div>
+            <script>
+                function setp_1() {
+                    $.post("/admin/cloud/game_uninstall", {
+                        id:"{$game['id']}",
+                        step:1,
+
+                    }, function (data) {
+                        if (data.status == 1) {
+                            layer.msg(data.info, {icon: 1});
+                            window.location = "/admin/cloud/game_uninstall/id/{$game['id']}/step/2";
+                        } else {
+                            layer.msg(data.info, {icon: 2});
+                            if (data.url) {
+                                window.location = data.url;
+                            }
+                        }
+                    }, 'json');
+                }
+            </script>
+            {/if}
+
+            {if $step==2}
+            <div class="tab-content">
+                <div class="form-horizontal">
+                    <div class="tab-pane in tab">
+                        <div class="form-item cf">
+                            <table>
+                                <tr class="controls">
+                                    <td class="item-label">模块名称 :</td>
+                                    <td>{$game['name']}</td>
+                                    <td class="item-note"></td>
+                                </tr>
+                                <tr class="controls">
+                                    <td class="item-label">模块标题 :</td>
+                                    <td>{$game['title']}</td>
+                                    <td class="item-note"></td>
+                                </tr>
+                                <tr class="controls">
+                                    <td class="item-label">模块链接 :</td>
+                                    <td>{$game['url']}</td>
+                                    <td class="item-note"></td>
+                                </tr>
+                                <tr class="controls">
+                                    <td class="item-label">开发作者 :</td>
+                                    <td>{$game['gongsi']}</td>
+                                    <td class="item-note"></td>
+                                </tr>
+                                <tr class="controls">
+                                    <td class="item-label">卸载项目 :</td>
+                                    <td>开始卸载数据库</td>
+                                    <td class="item-note"></td>
+                                </tr>
+                                <tr class="controls" style="margin: 10px 0px;height: 80px;">
+                                    <input type="hidden" name="id" value="{$game['id']}"
+                                            class="text input-large"/>
+                                    <td class="item-label"></td>
+                                    <td>
+                                        <button class="btn submit-btn"  type="submit" onclick="setp_2()">开始卸载数据库</button>
+                                        <a class="btn btn-return" href="{$_SERVER['HTTP_REFERER']}">返 回</a>
+                                    </td>
+                                    <td class="item-note"></td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                    <br>
+                </div>
+            </div>
+            <script>
+                function setp_2() {
+                    $.post("/admin/cloud/game_uninstall", {
+                        id:"{$game['id']}",
+                        step:2,
+
+                    }, function (data) {
+                        if (data.status == 1) {
+                            layer.msg(data.info, {icon: 1});
+                            window.location = "/admin/cloud/game_uninstall/id/{$game['id']}/step/3";
+                        } else {
+                            layer.msg(data.info, {icon: 2});
+                            if (data.url) {
+                                window.location = data.url;
+                            }
+                        }
+                    }, 'json');
+                }
+            </script>
+            {/if}
+            {if $step==3}
+            <div class="tab-content">
+                <div class="form-horizontal">
+                    <div class="tab-pane in tab">
+                        <div class="form-item cf">
+                            <table>
+                                <tr class="controls">
+                                    <td class="item-label">模块名称 :</td>
+                                    <td>{$game['name']}</td>
+                                    <td class="item-note"></td>
+                                </tr>
+                                <tr class="controls">
+                                    <td class="item-label">模块标题 :</td>
+                                    <td>{$game['title']}</td>
+                                    <td class="item-note"></td>
+                                </tr>
+                                <tr class="controls">
+                                    <td class="item-label">模块链接 :</td>
+                                    <td>{$game['url']}</td>
+                                    <td class="item-note"></td>
+                                </tr>
+                                <tr class="controls">
+                                    <td class="item-label">开发作者 :</td>
+                                    <td>{$game['gongsi']}</td>
+                                    <td class="item-note"></td>
+                                </tr>
+                                <tr class="controls">
+                                    <td class="item-label">卸载项目 :</td>
+                                    <td>开始卸载数据库</td>
+                                    <td class="item-note"></td>
+                                </tr>
+                                <tr class="controls" style="margin: 10px 0px;height: 80px;">
+                                    <input type="hidden" name="id" value="{$game['id']}"
+                                            class="text input-large"/>
+                                    <td class="item-label"></td>
+                                    <td>
+                                        <button class="btn submit-btn"  type="submit" onclick="setp_2()">开始卸载数据库</button>
+                                        <a class="btn btn-return" href="{$_SERVER['HTTP_REFERER']}">返 回</a>
+                                    </td>
+                                    <td class="item-note"></td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                    <br>
+                </div>
+            </div>
+            <script>
+                function setp_2() {
+                    $.post("/admin/cloud/game_uninstall", {
+                        id:"{$game['id']}",
+                        step:2,
+
+                    }, function (data) {
+                        if (data.status == 1) {
+                            layer.msg(data.info, {icon: 1});
+                            window.location = "/admin/cloud/game_uninstall/id/{$game['id']}/step/3";
+                        } else {
+                            layer.msg(data.info, {icon: 2});
+                            if (data.url) {
+                                window.location = data.url;
+                            }
+                        }
+                    }, 'json');
+                }
+            </script>
+            {/if}
+            {if $step==3}
+            <div class="tab-content">
+                <div class="form-horizontal">
+                    <div class="tab-pane in tab">
+                        <div class="form-item cf">
+                            <table>
+                                <tr class="controls">
+                                    <td class="item-label">模块名称 :</td>
+                                    <td>{$game['name']}</td>
+                                    <td class="item-note"></td>
+                                </tr>
+                                <tr class="controls">
+                                    <td class="item-label">模块标题 :</td>
+                                    <td>{$game['title']}</td>
+                                    <td class="item-note"></td>
+                                </tr>
+                                <tr class="controls">
+                                    <td class="item-label">模块链接 :</td>
+                                    <td>{$game['url']}</td>
+                                    <td class="item-note"></td>
+                                </tr>
+                                <tr class="controls">
+                                    <td class="item-label">开发作者 :</td>
+                                    <td>{$game['gongsi']}</td>
+                                    <td class="item-note"></td>
+                                </tr>
+                                <tr class="controls">
+                                    <td class="item-label">卸载项目 :</td>
+                                    <td>开始卸载文件</td>
+                                    <td class="item-note"></td>
+                                </tr>
+                                <tr class="controls" style="margin: 10px 0px;height: 80px;">
+                                    <input type="hidden" name="id" value="{$game['id']}"
+                                            class="text input-large"/>
+                                    <td class="item-label"></td>
+                                    <td>
+                                        <button class="btn submit-btn"  type="submit" onclick="setp_3()">开始卸载数据库</button>
+                                        <a class="btn btn-return" href="{$_SERVER['HTTP_REFERER']}">返 回</a>
+                                    </td>
+                                    <td class="item-note"></td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                    <br>
+                </div>
+            </div>
+            <script>
+                function setp_3() {
+                    $.post("/admin/cloud/game_uninstall", {
+                        id:"{$game['id']}",
+                        step:3,
+
+                    }, function (data) {
+                        if (data.status == 1) {
+                            layer.msg(data.info, {icon: 1});
+                            window.location = "/admin/cloud/game_uninstall/id/{$game['id']}/step/4";
+                        } else {
+                            layer.msg(data.info, {icon: 2});
+                            if (data.url) {
+                                window.location = data.url;
+                            }
+                        }
+                    }, 'json');
+                }
+            </script>
+            {/if}
+        </div>
+    </div>
+</div>
+{include file="public:footer"}

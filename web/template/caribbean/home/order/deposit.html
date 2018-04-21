@@ -1,0 +1,128 @@
+{include file="public:header"}
+<div class="back pat-20">
+	<div class="container f14">
+		<div class="clearfix">
+	{include file="order:left"}
+			<div class="content fr color-white gray-border">
+				<div class="pad-sm">
+					<div class="alert-info alert">
+						<b class="blue-low">温馨提示： </b>您充值比特币到上述地址后，需要整个比特币网络节点的确认; 您的比特币地址由系统自动生成改变，可以重复充值。
+					</div>
+					<div>
+						<div class="default-box">
+							<div id="addressQrCode" class="qrcode hide-sm fr">
+							</div>
+							<p>请将BTC汇入如下地址
+								<span id="foo"  value="13HiriWFC7pRs6fmnzLSWKxGzhhmmfhPau" class="blue sm-span">13HiriWFC7pRs6fmnzLSWKxGzhhmmfhPau</span>
+							   &nbsp;<a  id="copy-button" class="hide-sm" data-clipboard-target="#foo">
+									<img src="/static/bw/img/copy.png"></a>
+							</p>
+							<p>我们会在收到比特币网络 1 个确认后给您入账</p>
+
+							<div class="clearfix"></div>
+						</div>
+						<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+							<div class="modal-dialog" role="document">
+								<div class="modal-content">
+									<div class="modal-header">
+										<button type="button" class="close" data-dismiss="modal" aria-label="Close"></button>
+										<h4 class="modal-title" id="myModalLabel">我的历史地址</h4>
+									</div>
+									<div class="modal-body">
+										<table width="100%" border="0" cellspacing="0" cellpadding="0" class="table">
+											<colgroup>
+												<col>
+												<col width="20%">
+											</colgroup>
+											<tr>
+												<th align="left">地址</th>
+												<th align="left">使用情况</th>
+											</tr>
+
+											<tr>
+												<td>13HiriWFC7pRs6fmnzLSWKxGzhhmmfhPau</td>
+												<td>
+													now
+												</td>
+											</tr>
+
+										</table>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<!-- start分页页面 -->
+						<form id="searchForm" action="/deposit" method="post">
+							<input id="pageNo" name="pageNo" type="hidden" value="1"/>
+							<input id="pageSize" name="pageSize" type="hidden" value="10"/>
+						</form>
+						<!-- end分页页面 -->
+
+						<div class="box-deafult">
+							<h4 style="display:inline-block" class="title colorboard-font mgb-10" >
+								充值记录</h4>
+
+							<p class="mgr-20 fr"><a id="addresses" class="mgr-20">查看历史地址</a></p>
+							<table width="100%" border="0" cellspacing="0" cellpadding="0" class="table mgt-10">
+								<colgroup>
+									<col width="43%">
+									<col width="12%" class="sm-25">
+									<col width="20%" class="sm-25">
+									<col width="12%" class="hide-sm">
+									<col>
+								</colgroup>
+								<tr>
+									<th align="left">地址</th>
+									<th align="left">金额</th>
+									<th align="left" class="hide-sm">最后更新时间</th>
+									<th align="left">充值状态</th>
+									<th align="left"></th>
+								</tr>
+
+
+								<tr class="table_crumbs">
+									<td colspan="4" class="center">
+										<i class="fa fa-info-circle blue-theme f18" aria-hidden="true"></i> 暂无充值记录</td>
+								</tr>
+
+
+							</table>
+							<!-- start分页页面 -->
+							<div class="pages fr"></div>
+							<!-- end分页页面 -->
+
+						</div>
+					</div>
+				</div>
+			</div>
+
+		</div>
+	</div>
+</div>
+<script>
+	$('.deposit').addClass('current');
+	$(function () {
+		foreachI18nList( $(".i18n-time-zone-date"), 2);
+		$('#addressQrCode').qrcode({width: 120, height: 120, text: "13HiriWFC7pRs6fmnzLSWKxGzhhmmfhPau"});
+	});
+
+	var clipboard = new Clipboard('#copy-button');
+
+	clipboard.on('success', function(e) {
+		e.clearSelection();
+		alert('充值地址已经复制到剪切板:13HiriWFC7pRs6fmnzLSWKxGzhhmmfhPau');
+	});
+
+	$("#addresses").click(function () {
+		$('#myModal').modal('show');
+	});
+
+	function page(n, s) {
+		$("#pageNo").val(n);
+		$("#pageSize").val(s);
+		$("#searchForm").submit();
+		return false;
+	}
+</script>
+{include file="public:footer"}

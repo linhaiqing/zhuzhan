@@ -1,0 +1,1 @@
+<?phpnamespace ext;use Move\db;class sys{}

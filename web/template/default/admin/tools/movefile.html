@@ -1,0 +1,257 @@
+{include file="public:header"}
+<div id="main-content">
+	<div id="top-alert" class="fixed alert alert-error" style="display: none;">
+		<button class="close fixed" style="margin-top: 4px;">&times;</button>
+		<div class="alert-content">警告内容</div>
+	</div>
+	<div id="main" class="main">
+		<div class="main-title-h">
+			<span class="h1-title">文件检查 （仅供参考）</span>
+		</div>
+		<block name="body">
+			<div class="container-span">
+				<div class="span4" style="margin: 0 0px;width: 100%;">
+					<div class="columns-mod">
+						<div class="hd cf">
+							<h5>系统信息</h5>
+						</div>
+						<div class="bd">
+							<div class="sys-info">
+								<table>
+									<tr>
+										<td style="color:red;">
+											为了系统安全,操作前确保:<br>
+											1.旧网站更目录已备份<br>
+											2.临时关闭前台访问.<br>
+											3.技术人员方可操作<br>
+											否则极易造成平台各种异常<br>
+										</td>
+									</tr>
+									<tr>
+										<td>
+											<div style="float:left;">
+												<button class="btn" onclick="start_check();">开始检查</button>
+											</div>
+											<div id="step-info" style="float:left;float:left;height: 33px;line-height: 33px;font-size: 13px;font-weight: bold;">
+
+												<span id="load_msg" style="color: green;"></span>
+
+												<span id="load_text" style="color: red;"></span>
+											</div>
+										</td>
+									</tr>
+								</table>
+							</div>
+
+							<div id="compare_data" class="sys-info" style="display:none">
+								<div class="columns-mod">
+									<div class="hd cf">
+										<h5>本地孤立文件</h5>
+										<span style="float: right;font-size: 14px;height: 45px;line-height: 45px;"
+										      onclick="show_click('a_data',this)">收起</span>
+									</div>
+									<div class="bd">
+										<div class="sys-info">
+											<table id="a_data">
+												<tr>
+													<td>无</td>
+												</tr>
+											</table>
+										</div>
+									</div>
+								</div>
+								<br>
+								<div class="columns-mod">
+									<div class="hd cf">
+										<h5>源站孤立文件</h5>
+										<span style="float: right;font-size: 14px;height: 45px;line-height: 45px;"
+										      onclick="show_click('b_data',this)">收起</span>
+									</div>
+									<div class="bd">
+										<div class="sys-info">
+											<table id="b_data">
+												<tr><td>无</td></tr>
+											</table>
+										</div>
+									</div>
+								</div>
+								<br>
+								<div class="columns-mod">
+									<div class="hd cf">
+										<h5>差异文件</h5>
+										<span style="float: right;font-size: 14px;height: 45px;line-height: 45px;"
+										      onclick="show_click('ab_inv',this)">收起</span>
+									</div>
+									<div class="bd">
+										<div class="sys-info">
+											<table id="ab_inv">
+												<tr><td>无</td></tr>
+											</table>
+										</div>
+									</div>
+								</div>
+
+							</div>
+						</div>
+						<script type="text/javascript">
+							function show_click(id,o){
+								$("#"+id).fadeToggle(300);
+								if($(o).html() == "收起"){
+									$(o).html("显示");
+								}else{
+									$(o).html("收起");
+								}
+							}
+
+
+							var load_id = 1;
+							function load_text(){
+								window.setInterval(function() {
+									if(load_id++ >6){
+										load_id = 1;
+									}
+									var str = "";
+									for(var i=1;i<load_id;i++){
+										str +=">";
+									}
+//									console.log(str);
+									$("#load_text").html(str);
+								},500)
+							}
+
+							function load_text_display(type){
+								if(type){
+									$("#load_text").show();
+								}else{
+									$("#load_text").hide();
+								}
+							}
+
+
+
+							var click_lock = 0;
+							function start_check() {
+								if (click_lock) {
+									layer.msg('正在处理中...');
+									return;
+								}
+								click_lock = 1;
+
+								layer.load(1, {
+									shade: [0.1, '#fff'] //0.1透明度的白色背景
+								});
+								load_text();
+
+								var str = "";
+								var tmp_str = "生成本地目录树";
+								$("#load_msg").html(tmp_str);
+
+								$.getJSON('/admin/tools/movefile?step=1').success(function (data) {
+									layer.closeAll();
+									if (data.status == 1) {
+										str += "本地目录OK >> ";
+
+										tmp_str = "获取远程目录树";
+										$("#load_msg").html(str + tmp_str);
+
+										$.getJSON('/admin/tools/movefile?step=2').success(function (data) {
+											if (data.status == 1) {
+												str += "远程目录OK >> ";
+												tmp_str = "开始比对信息";
+												$("#load_msg").html(str + tmp_str);
+												$.getJSON('/admin/tools/movefile?step=3').success(function (data) {
+													click_lock = 0;
+													if (data.status == 1) {
+														load_text_display(0);
+														str += "比对成功!";
+														$("#load_msg").html(str);
+														console.log(data);
+														$("#compare_data").show();
+														data = data.info;
+														var i=0;
+														var show_str = "";
+
+														var a_data = data.a_data;
+														for(i in a_data){
+															//show_str += "<tr><td>" + a_data[i]["0"]+"</td><td><a  href='" + a_data[i]["0"]+"' target='_blank'>立即查看</a></td></tr>";
+															show_str += "<tr><td>" + a_data[i]["0"]+" <a href='javascript:void(0);' data='"+a_data[i]["0"]+"' onclick='delfile(this)'>此文件可能存在风险，删除这个文件</a></td></tr>";
+														}
+														$("#a_data").html(show_str);
+
+														var b_data = data.b_data;
+														show_str = "";
+														for(i in b_data){
+															//show_str += "<tr><td>"+b_data[i]["0"]+"</td><td><a  href='" + b_data[i]["0"]+"' target='_blank'>立即查看</a></td></tr>";
+															show_str += "<tr><td>"+b_data[i]["0"]+" </td></tr>";
+														}
+														$("#b_data").html(show_str);
+
+														var ab_inv = data.ab_inv;
+														show_str = "";
+														for(i = 0;i< ab_inv.length;i++){
+															//show_str += "<tr><td>"+ab_inv[i]+"</td><td><a  href='" + ab_inv[i]+"' target='_blank'>立即查看</a></td></tr>";
+															show_str += "<tr><td style='color:red;'>"+ab_inv[i]+"   和官网比较发现差异 本地可能被修改过 </td></tr>";
+														}
+														$("#ab_inv").html(show_str);
+
+
+
+
+
+													} else {
+														load_text_display(0);
+														$("#load_msg").html("比对结果失败 请刷新重试");
+													}
+												});
+											} else {
+												load_text_display(0);
+												$("#load_msg").html("远程目录FAIL 请刷新重试");
+											}
+										});
+									} else {
+										load_text_display(0);
+										$("#load_msg").html("本地目录FAIL 请刷新重试");
+									}
+								});
+
+
+							}
+						</script>
+					</div>
+				</div>
+			</div>
+		</block>
+	</div>
+</div>
+
+<script>
+	function delfile(o) {
+		var path = $(o).attr("data");
+		console.log(path);
+
+		if (path == '' || path == null) {
+			layer.msg("路径未获取", {icon: 1});
+			return false;
+		}
+
+		layer.confirm('是否确定删除此文件？', {
+			btn: ['确定','取消'] //按钮
+		}, function(){
+			$.post("/admin/tools/delfile", {
+				path: path
+			}, function (data) {
+				if (data.status == 1) {
+					layer.msg(data.info, {icon: 1});
+					$(o).parent().parent().remove();
+				} else {
+					layer.msg(data.info, {icon: 2});
+					if (data.url) {
+						window.location = data.url;
+					}
+				}
+			}, 'json');
+		}, function(){
+		});
+	}
+</script>
+{include file="public:footer"}

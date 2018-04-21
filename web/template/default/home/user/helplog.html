@@ -1,0 +1,171 @@
+{include file="public:header"}
+<link rel="stylesheet" href="__CSS__/newtrade/finan.css">
+<div class="back pat-20">
+	<div class="container f14">
+		<div class="clearfix">
+			{include file="user:left"}
+			<div class="fr gray-border content color-white col-pho-12">
+				<div class="pad-sm">
+					<div class="change_title">
+						<ul id="tabChangeNav" class="clearfix mgt-10">
+							<li>
+								<a href="{#url('user/help')}" ><span class="blue"><div class="with-line">
+									{#lang('发起提问')}</div></span></a>
+							</li>
+							<li class="cur">
+								<a href="{#url('user/helplog')}" ><span class="blue"><div class="with-line">
+									{#lang('问题列表')}</div></span></a>
+							</li>
+							<li>
+								<a href="{#url('user/news')}" ><span class="blue"><div class="with-line">
+									{#lang('消息列表')}</div></span></a>
+							</li>
+
+						</ul>
+					</div>
+					<div class="tab-content mgt-20 f12">
+						<div class="cnyin_record">
+							<div class="f_body">
+								<table class="f_table" style="width:98%;margin:0px auto;">
+									<thead>
+									<tr>
+										<th>{#lang('用户名')}</th>
+										<th>{#lang('联系方式')}</th>
+										<th>{#lang('问题类型')}</th>
+										<th>{#lang('问题描述')}</th>
+										<th>{#lang('问题回复')}</th>
+										<th>{#lang('提问时间')}</th>
+										<th>{#lang('回复时间')}</th>
+										<th> <span>
+                                   <select id="status-select">
+	                                   <option value="">--{#lang('状态')}--</option>
+	                                   <option value="1">{#lang('已解决')}</option>
+	                                   <option value="2">{#lang('未解决')}</option>
+                                   </select>
+							    </span>
+										</th>
+										<th>{#lang('操作')}</th>
+									</tr>
+									</thead>
+									<tbody>
+									{foreach $pages['list'] as $k => $v}
+									<tr>
+										<td>{$v["username"]}</td>
+										<td>{$v["contact"]}</td>
+										<td>{$v["typetitle"]}</td>
+										<td>  <a onclick='showC("{$v['content']}")' href="javascript:void(0)" class="cancel"> {#mb_substr($v['content'],0,4,"UTF8")."...."}</a> </td>
+										{if $v['back'] }
+										<td>  <a onclick='showA("{$v['back']}")' href="javascript:void(0)" class="cancel"> {#mb_substr($v['back'],0,4,"UTF8")."...."}</a> </td>
+										{else}
+										<td></td>
+										{/if}
+										<td>{#addtime($v['addtime'])}</td>
+										<td>{#addtime($v['endtime'])}</td>
+										<td>{if $v["status"]==2}
+										    {#lang('未解决')}
+										    {else if $v["status"]==1}
+										    {#lang('已解决')}
+										    {/if}
+										</td>
+										<td>
+											<a class="cancel" href="javascript:void(0)" id="{$v['id']}" onclick="del(this)">{#lang('删除')}</a>
+										</td>
+									</tr>
+									{/foreach}
+									</tbody>
+								</table>
+								<div class="pages">{$pages['show'] nofilter}</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="all_mask_loginbox" id="step1" style="display: none;">
+	<div class="login_title pl20">{#lang('客服回复')}</div>
+	<div class="zin90 ml15" style="width: 475px;height: 150px;margin-right: 15px;margin-bottom: -20px;overflow-y: scroll;">
+		<span id="plipala" style="min-width: 400px;min-height: 80px;font-size: 15px; text-align:center"></span>
+	</div>
+	<div class="mask_wrap_close " onclick="showB()"><i class="fa fa-times fz_20 move" aria-hidden="true"></i></div>
+</div>
+<div id="step2" class="all_mask" style="height: 0px;display: none;"></div>
+
+<div class="all_mask_loginbox" id="step3" style="display: none;">
+	<div class="login_title pl20">{#lang('问题描述')}</div>
+	<div class="zin90 ml15" style="width: 475px;height: 150px;margin-right: 15px;margin-bottom: -20px;overflow-y: scroll;">
+		<span id="plipala1" style="min-width: 400px;min-height: 80px;font-size: 15px; text-align:center"></span>
+	</div>
+	<div class="mask_wrap_close " onclick="showD()"><i class="fa fa-times fz_20 move" aria-hidden="true"></i></div>
+</div>
+<div id="step4" class="all_mask" style="height: 0px;display: none;"></div>
+<script>
+	$("#status-select").val("{$status}");
+	$("#status-select").change(function () {
+		var status = $("#status-select option:selected").val();
+		var url    = '/user/sort';
+		if (status) {
+			url += '/status/' + status;
+		}
+		window.location = url;
+	});
+
+
+	function showA() {
+		var back = arguments[0];
+		$("#plipala").html(back);
+		$("#step1").show();
+		$("#step2").show();
+	}
+	function showB() {
+		$("#step1").hide();
+		$("#step2").hide();
+	}
+
+	function showC() {
+		var back = arguments[0];
+		$("#plipala1").html(back);
+		$("#step3").show();
+		$("#step4").show();
+	}
+
+	function showD() {
+		$("#step3").hide();
+		$("#step4").hide();
+	}
+
+	function del(o) {
+		var id = $(o).attr('id');
+		layer.config({
+			extend: 'extend/layer.ext.js'
+		});
+		layer.ready(function () {
+			//默认prompt
+			layer.prompt({
+				title: '{#lang("输入交易密码，并确认")}',
+				formType: 1
+			}, function (val) {
+				if (val) {
+					//需要执行的方法
+					$.post("{#url('user/log_del')}", {id: id, paypassword: val}, function (data) {
+						if (data.status == 1) {
+							layer.msg(data.info, {icon: 1});
+							setTimeout('location.reload()',1000);
+						} else {
+							layer.msg(data.info, {icon: 2});
+							if (data.url) {
+								window.location = data.url;
+							}
+						}
+					}, "json");
+				}
+				;
+			});
+		});
+	}
+</script>
+<script>
+	$('.gongd').addClass('current');
+</script>
+{include file="public:footer"}

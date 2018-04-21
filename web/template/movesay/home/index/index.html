@@ -1,0 +1,1122 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="renderer" content="webkit">
+    <meta name="format-detection" content="telephone=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>{$seos['title']}</title>
+    <meta name="Keywords" content="{$seos['keywords']}">
+    <meta name="Description" content="{$seos['description']}">
+    <meta name="author" content="movesay.com">
+    <meta name="coprright" content="movesay.com">
+    <link rel="shortcut icon" href=" /favicon.ico"/>
+    <link rel="stylesheet" href="__HOME__/css/movesay.css"/>
+    <link rel="stylesheet" href="__HOME__/css/style.css"/>
+    <link rel="stylesheet" href="__HOME__/css/font-awesome.min.css"/>
+    <script type="text/javascript" src="__HOME__/js/jquery.min.js"></script>
+    <script type="text/javascript" src="__HOME__/js/jquery.flot.js"></script>
+    <script type="text/javascript" src="__HOME__/js/jquery.cookies.2.2.0.js"></script>
+    <script type="text/javascript" src="__HOME__/layer/layer.js"></script>
+    <script type="text/javascript" src="__EXT__/doT/doT.min.js"></script>
+</head>
+<body>
+<div class="header bg_w" id="trade_aa_header">
+    <div class="hearder_top">
+        <div class="autobox po_re zin100" id="header">
+            <div class="welcome">{$config['top_name']}</div>
+            <div class="right orange" id="login">
+                {if $user}
+                <dl class="mywallet">
+                    <dt id="user-finance">
+                    <div class="mywallet_name clear">
+                        <a href="/finan/">{$user['username']}</a><i></i>
+                    </div>
+                    <div class="mywallet_list" style="display: none;">
+                        <div class="clear">
+                            <ul class="balance_list">
+                                <h4>可用余额</h4>
+                                <li>
+                                    <a href="javascript:void(0)"><em style="margin-top: 5px;" class="deal_list_pic_cny"></em><strong>人民币：</strong><span>{#num($user_coin['cny'])}</span></a>
+                                </li>
+                            </ul>
+                            <ul class="freeze_list">
+                                <h4>委托冻结</h4>
+                                <li>
+                                    <a href="javascript:void(0)"><em style="margin-top: 5px;" class="deal_list_pic_cny"></em><strong>人民币：</strong><span>{#num($user_coin['cnyd'])}</span></a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="mywallet_btn_box">
+                            <a href="{#url('finan/pay')}" class="texts">{#lang('人民币充值')}</a>
+                            <a href="{#url('finan/out')}" class="texts">{#lang('人民币提现')}</a>
+                            <a href="{#url('finan/coinin')}" class="texts">{#lang('虚拟币转入')}</a>
+                            <a href="{#url('finan/coinout')}" class="texts">{#lang('虚拟币转出')}</a>
+                            <a href="{#url('finan/trades')}" class="texts">{#lang('委托管理')}</a>
+                            <a href="{#url('finan/order')}" class="texts">{#lang('成交查询')}</a>
+                            <a href="{#url('finan/index')}" class="texts">{#lang('财务中心')}</a>
+                            <a href="{#url('user/index')}" class="texts">{#lang('安全中心')}</a>
+                        </div>
+                    </div>
+                    </dt>
+                    <dd>
+                        ID：<span>{$user['id']}</span>
+                    </dd>
+                    <dd>
+                        <a href="{#url('login/loginout')}">退出</a>
+                    </dd>
+                </dl>
+                {else}<!-- 登录前 -->
+                <div class="orange">
+                    
+                    <span class="zhuce"><a class="orange" href="/reg">注册</a></span> |
+                    <a href="javascript:loginpop();" class="orange" onclick="loginpop();">登录</a>
+                </div>
+                {/if}
+            </div>
+            <style>
+                #trade-nav-tabs {
+                    height: 40px;
+                    line-height: 40px;
+                    background-color: #FFF;
+                    border-right: 1px solid #E0E0E0;
+                    cursor: pointer;
+                }
+
+                #trade-nav-tabs li {
+                    height: 40px;
+                    line-height: 40px;
+                    background-color: #F6F6F6;
+                    border-right: 1px solid #E0E0E0;
+                    cursor: pointer;
+                    padding: 0 10px;
+                }
+
+                #trade-nav-tabs .current {
+                    color: #FFF;
+                    background-color: #e55600;
+                }
+
+                .trade-status li {
+                    height: 13px;
+                    line-height: 13px;
+                    float: left;
+                    border-right: 1px solid #E0E0E0;
+                    position: relative;
+                    z-index: 2;
+                    padding: 0 10px;
+                }
+            </style>
+            <div class="nav  nav_po_1" id="menu_nav">
+                <ul>
+                    <li style=" text-align: right; margin-right: 20px;">
+                        <a href="/" id="index_box">首页</a>
+                    </li>
+                    <li>
+                        <a href="#" id="trade_top" class="darker">{#lang('交易中心')} <i class="fa fa-angle-down"></i> </a>
+                        <!--模板-->
+                        <script id="trade_list_tpl" type="text/x-dot-template">
+                            <ul id="trade-nav-tabs">
+                                {{ for(var k in it) { }}
+                                <li class="trade-tab {{? k == 0}}current{{?}}">
+                                    {{=it[k]['title']}}
+                                </li>
+                                {{ } }}
+                            </ul>
+                            <div id="trade-nav-body">
+                                {{ for(var k in it) { }} {{? k == 0}}
+                                <dl style="display: block">
+                                    {{??}}
+                                    <dl style="display: none">
+                                        {{?}} {{ for(var kk in it[k]['data']) { }}
+                                        <dd>
+                                            <a href="/trade/index/market/{{=kk}}"><img src="__UP__/{{=it[k]['data'][kk]['img']}}" style="width: 18px;vertical-align: -4px;margin-right: 5px;">{{=it[k]['data'][kk]['title']}}</a>
+                                        </dd>
+                                        {{ } }}
+                                    </dl>
+                                    {{ } }}
+                                </dl>
+                            </div>
+                            <i class="fa fa-caret-up move" style="position: absolute;top: -21px;left: 18px;font-size: 28px;    color: #e55600;"></i>
+                            <div class="nocontent"></div>
+                        </script>
+                        <div id="trade_list" class="deal_list " style=" ">
+                        </div>
+                    </li>
+                    {foreach $daohang as $k => $v} {if $v['name']!= 'trade'}
+                    <li id="{$v['name']}_box">
+                        <a href="{$v['url']}">{#lang($v['title'])}</a>
+                    </li>
+
+                    {/if} {/foreach}
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div style="clear: both;"></div>
+    <div class="autobox clear" id="trade_clear">
+        <div class="logo">
+            {if $config['web_logo']} <a href="/"><img src="__UP__/{$config['web_logo']}" alt="" style="height: 60px;"/></a> {else}
+            <a href="/" class="xiaozhu-logo"> <i class="move-self move-logo2 move"></i> </a> {/if}
+        </div>
+        <div class="phone right">
+            <span class="iphone" style=""></span><a href="http://wpa.qq.com/msgrd?V=3&amp;uin={$config['contact_qq'][0]}&amp;Site=QQ客服&amp;Menu=yes" target="_blank" class="qqkefu"></a>
+        </div>
+    </div>
+</div>
+<!--头部结束-->
+<div class="index_pic_wrap po_re">
+    <div id="myCarousel" class="my-carousel">
+        <!--<div class="my-carousel-indicators">-->
+        <ol class="my-carousel-indicators">
+            {foreach $sys_ad as $k => $v}
+            <li data-target="#myCarousel" data-slide-to="{$k}"
+                    {if $k== 0}
+                    class="active"
+                    {
+            /if}</li>{/foreach}
+        </ol>
+        <div class="my-carousel-inner">
+            {foreach $sys_ad as $k => $v}
+            <div class="item hand  {if $k == 0}active{/if}" onclick="window.open('{$v['url']}')" style="background-image: url(__UP__/{$v.img});"></div>
+            {/foreach}
+        </div>
+    </div>
+    <style>
+        .login_text input {
+            padding-right: 4px;
+        }
+    </style>
+    <div class="login_wrap">
+        <div class="login_box">
+            <div class="login_bg"></div>
+            <!-- 未登录状态 -->{if $user}
+            <div id="login-bar" class="login_box_2">
+                <h2>欢迎登录{$config['web_name']}交易平台</h2>
+                <dl>
+                    <dt>您正在使用的账号为:</dt>
+                    <dd>
+                        <a href="/finan/" class="user-email">{$user['username']}</a>
+                    </dd>
+                    <dd>
+                        ID： <span class="user-id">{$user['id']}</span>
+                    </dd>
+                    <dd>
+                        {#lang('预估总资产')}： <span class="user-finance" id="user_finance">{#num($user['zzc'])}</span>
+                    </dd>
+                </dl>
+                <div class="login_box_2_btn">
+                    <a href="/finan/pay.html">{#lang('CNY充值')}</a> <a href="/finan/out.html">{#lang('CNY提现')}</a>
+                    <a href="/finan/trades.html" class="w82">{#lang('委托管理')}</a>
+                </div>
+                <div class="gotocenter">
+                    <a href="/finan/" class="center">去财务中心</a>
+                </div>
+                <div class="service_qq"></div>
+            </div>
+            {else}
+            <form id="form-login-i">
+                <div class="login_box_1">
+                    <div class="login_title">登录</div>
+                    <div class="login_text zin90">
+                        <input type="text" id="index_mobles" class="texts" style="display: none;">
+                        <input type="text" id='index_moble' value="{#cookie('moble')}" placeholder="{#lang('请输入手机/邮箱/用户名')}" style="padding-left: 45px;width: 193px;"/>
+                        <link rel="stylesheet" href="__EXT__/intlTelInput/css/intlTelInput.css">
+                        <script src="__EXT__/intlTelInput/js/intlTelInput.js"></script>
+                        <script>
+                            $("#index_mobles").intlTelInput({
+                                autoHideDialCode: false,
+                                defaultCountry: "cn",
+                                nationalMode: false,
+                                preferredCountries: ['cn', 'us', 'hk', 'tw', 'mo'],
+                            });
+
+                            function saoma() {
+                                layer.open({
+                                    type: 2,
+                                    title: '{#lang("打开手机APP,扫码登录")}',
+                                    shadeClose: true,
+                                    shade: 0.8,
+                                    area: ['300px', "300px"],
+                                    content: '/app/login/saoma' //iframe的url
+                                });
+                            }
+                        </script>
+                        <div id="email-err-i" class="prompt" style="display: none"></div>
+                    </div>
+                    <div class="login_text zin80">
+                        <input type="password" id="index_password" value="" placeholder="请输入登录密码"/>
+                        <div id="pw-err-i" class="prompt" style="display: none"></div>
+                    </div>
+                    <div class="login_text zin70">
+                        <img id="reloadverifyindex" src="/verify/code" width="120" height="38" onclick="this.src=this.src+'?t='+Math.random()" style="margin-top: 1px; cursor: pointer;" title="换一张">
+                        <input type="text" class="code" id="index_verify" name="code" placeholder="请输入验证码" style="width: 106px; float: left;">
+                    </div>
+                    <div class="login_button">
+                        <input type="button" value="登录" onclick="upLoginIndex();"/>
+                    </div>
+                    <div class="login-footer">
+                        <span>
+                            <a href="/reg">免费注册</a> ｜
+                            <a href="/findpwd">忘记密码</a>
+                        </span>
+                    </div>
+                </div>
+            </form>
+            {/if}
+        </div>
+    </div>
+</div>
+<div class="zhanwei"></div>
+{if $trade_qu}
+<style>
+    .tradeBox ul li:first-child {
+        border-left: none;
+    }
+
+    .tradeBox ul li.current, .tradeBox ul li.current a {
+        background: #e55600;
+        color: #fff;
+    }
+</style>
+<div class="tradeBox hg40" style=" width: 1200px;margin: 0 auto;   background: #FFF;">
+    <div class="slideHd hg40" style="width: 1200px;margin: 0 auto;background: #FFF; border-bottom: 0px;">
+        <!-- 下面是前/后按钮代码，如果不需要删除即可 -->
+        <ul class="active hg40  trade_qu_list" style="height: 40px;line-height: 40px;">
+            {foreach $trade_qu as $k => $v}
+            <li id="trade_qu_{$v['id']}" class="trade_moshi trade_qu_pai   {if $k == 0}current {/if}" data="{$v['id']}" onclick="trade_qu(this)">
+                <a> {$v['title']} </a></li>
+            {/foreach}
+        </ul>
+    </div>
+</div>
+{/if}
+<div class="price_today">
+    <div class="autobox">
+        <ul class="price_today_ull">
+            <li data-sort="0" style="cursor: default;">{#lang('交易市场')}</li>
+            <li class="click-sort" data-sort="1" data-flaglist="0" data-toggle="0">{#lang('最新成交价')} <i
+                    class="cagret cagret-down"></i> <i class="cagret cagret-up"></i>
+            </li>
+            <li class="click-sort" data-sort="2" data-flaglist="0" data-toggle="0">{#lang('买一价')} <i
+                    class="cagret cagret-down"></i> <i class="cagret cagret-up"></i>
+            </li>
+            <li class="click-sort" data-sort="3" data-flaglist="0" data-toggle="0">{#lang('卖一价')} <i
+                    class="cagret cagret-down"></i> <i class="cagret cagret-up"></i>
+            </li>
+            <li class="click-sort" data-sort="6" data-flaglist="0" data-toggle="0">{#lang('24H成交量')} <i
+                    class="cagret cagret-down"></i> <i class="cagret cagret-up"></i>
+            </li>
+            <li class="click-sort" data-sort="4" data-flaglist="0" data-toggle="0">{#lang('24H成交额')}
+                <i class="cagret cagret-down"></i> <i class="cagret cagret-up"></i>
+            </li>
+            <li class="click-sort" data-sort="7" data-flaglist="0" data-toggle="0">{#lang('24H涨跌')} <i
+                    class="cagret cagret-down"></i> <i class="cagret cagret-up"></i>
+            </li>
+            <li data-sort="0">{#lang('价格趋势')}(3{#lang('日')})</li>
+            <li data-sort="0" style="width: 150px; text-align: center; text-indent: 0.5em;">{#lang('操作')}</li>
+        </ul>
+    </div>
+</div>
+<ul class="price_today_ul" id="price_today_ul"></ul>
+<script src="__EXT__/jquery/jquery.flot.js"></script>
+<script>
+    $('.price_today_ull > .click-sort').each(function () {
+        $(this).click(function () {
+            click_sortList(this);
+        })
+    })
+
+    function allcoin_callback(priceTmp) {
+        for (var i in priceTmp) {
+            var c = priceTmp[i][8];
+
+            if (typeof (trends[c]['data']) && typeof (trends[c]['data']) != 'null') {
+                if (typeof (trends[c]) != 'undefined' && typeof (trends[c]['data']) != 'undefined') {
+                    $.plot($("#" + c + "_plot"), [{shadowSize: 0, data: trends[c]['data']}], {
+                        grid: {borderWidth: 0},
+                        xaxis: {mode: "time", ticks: false},
+                        yaxis: {tickDecimals: 0, ticks: false},
+                        colors: ['#f99f83']
+                    });
+                }
+            }
+
+
+        }
+    }
+
+    function click_sortList(sortdata) {
+        var a = $(sortdata).attr('data-toggle');
+        var b = $(sortdata).attr('data-sort');
+        $(".price_today_ull > li").find('.cagret-up').css('border-bottom-color', '#848484');
+        $(".price_today_ull > li").find('.cagret-down').css('border-top-color', '#848484');
+        $(".price_today_ull > li").attr('data-flaglist', 0).attr('data-toggle', 0);
+        $(".price_today_ull > li").css('color', '');
+        $(sortdata).css('color', '#1a81d6');
+
+        if (a == 0) {
+            priceTmp = priceTmp.sort(sortcoinList('dec', b));
+            $(sortdata).find('.cagret-down').css('border-top-color', '#1a81d6');
+            $(sortdata).find('.cagret-up').css('border-bottom-color', '#848484');
+            $(sortdata).attr('data-flaglist', 1).attr('data-toggle', 1)
+        }
+        else if (a == 1) {
+            $(sortdata).attr('data-toggle', 0).attr('data-flaglist', 2);
+            ;
+            $(sortdata).find('.cagret-up').css('border-bottom-color', '#1a81d6');
+            $(sortdata).find('.cagret-down').css('border-top-color', '#848484');
+            priceTmp = priceTmp.sort(sortcoinList('asc', b));
+        }
+        renderPage(priceTmp);
+        change_line_bg('price_today_ul', 'li');
+        allcoin_callback(priceTmp);
+    }
+
+
+    function trends() {
+        $.getJSON('/ajax/index_b_trends?t=' + rd(), function (d) {
+            trends = d;
+            allcoin();
+
+        });
+    }
+
+    function allcoin(cb) {
+        var trade_qu_id = $('.trade_qu_list .current').attr('data');
+
+
+        $.get('/ajax/allcoin_a/id/' + trade_qu_id + '?t=' + rd(), cb ? cb : function (data) {
+            var d;
+            if (data.status == 1) {
+                d = data.url;
+            }
+
+
+            ALLCOIN = d;
+            var t = 0;
+            var img = '';
+            priceTmp = [];
+            //把json转换为二维数组 进行渲染
+            for (var x in d) {
+                if (typeof(trends[x]) != 'undefined' && parseFloat(trends[x]['yprice']) > 0) {
+                    rise1 = (((parseFloat(d[x][4]) + parseFloat(d[x][5])) / 2 - parseFloat(trends[x]['yprice'])) * 100) / parseFloat(trends[x]['yprice']);
+                    rise1 = rise1.toFixed(2);
+                } else {
+                    rise1 = 0;
+                }
+                img = d[x].pop();
+                d[x].push(rise1);
+                d[x].push(x);
+                d[x].push(img);
+                priceTmp.push(d[x]);
+            }
+            //二次排序
+            $('.price_today_ull > .click-sort').each(function () {
+                var listId = $(this).attr('data-sort');
+                if ($(this).attr('data-flaglist') == 1 && $(this).attr('data-sort') !== 0) {
+                    priceTmp = priceTmp.sort(sortcoinList('dec', listId))
+                } else if ($(this).attr('data-flaglist') == 2 && $(this).attr('data-sort') !== 0) {
+                    priceTmp = priceTmp.sort(sortcoinList('asc', listId))
+                }
+            });
+            renderPage(priceTmp);
+            allcoin_callback(priceTmp);
+            change_line_bg('price_today_ul', 'li');
+            t = setTimeout('allcoin()', 5000);
+
+        }, 'json');
+    }
+
+    function rd() {
+        return Math.random()
+    }
+    //渲染函数
+    function renderPage(ary) {
+        var html = '';
+        for (var i in ary) {
+            var coinfinance = 0;
+            if (typeof FINANCE == 'object') coinfinance = parseFloat(FINANCE.data[ary[i][8] + '_balance']);
+            html += '<li><dl class="autobox clear"><dt><a href="/trade/index/market/' + ary[i][8] + '/">' +
+                    '<img src="/upload/' + ary[i][9] + '" style="vertical-align: middle;margin-right: 5px;width: 19px;margin-left: 12px;">' + ary[i][0] + '</a></dt><dd class="orange" style="text-indent: 1.6em;">' + ary[i][1] + '</dd><dd style="text-indent: 1.6rem;">' + ary[i][2] + '</dd><dd style="text-indent: 1.6rem;">' + ary[i][3] + '</dd><dd class="w142" style="    text-indent: 1.6rem;">' + formatCount(ary[i][6]) + '</dd><dd class="w142" style="    text-indent: 2.5rem;">' + formatCount(ary[i][4]) + '</dd><dd class="w142 ' + (ary[i][7] >= 0 ? 'buy' : 'sell') + '" style="    text-indent: 2.0rem;">' + (parseFloat(ary[i][7]) < 0 ? '' : '+') + ((parseFloat(ary[i][7]) < 0.01 && parseFloat(ary[i][7]) > -0.01) ? "0.00" : (parseFloat(ary[i][7])).toFixed(2)) + '%</dd><dd id="' + ary[i][8] + '_plot"  style="width:150px;height:35px;"></dd><dd class="w102" style="width:150px;text-align: center;text-indent: 0.5em;"><input type="button" value={#lang("去交易")} class="btns2" onclick="top.location=\'/trade/index/market/' + ary[i][8] + '/\'" /></dd></dl></li>'
+        }
+        $('#price_today_ul').html(html);
+    }
+    //保留2位
+    function formatCount(count) {
+        var countokuu = (count / 100000000).toFixed(3)
+        var countwan = (count / 10000).toFixed(3)
+        if (count > 100000000)
+            return countokuu.substring(0, countokuu.lastIndexOf('.') + 3) + '亿'
+        if (count > 10000)
+            return countwan.substring(0, countwan.lastIndexOf('.') + 3) + '万'
+        else
+            return count
+    }
+    //移入行变色
+    function change_line_bg(id, tag, nobg) {
+        var oCoin_list = $('#' + id);
+        var oC_li = oCoin_list.find(tag);
+        var oInp = oCoin_list.find('input');
+        var oldCol = null;
+        var newCol = null;
+        if (!nobg) {
+            for (var i = 0; i < oC_li.length; i++) {
+                oC_li.eq(i).css('background-color', i % 2 ? '#fff' : '#f8f8f8');
+                oInp.mouseover(function () {
+                    this.style.color = '#fff';
+                    this.style.backgroundColor = '#e55600';
+                });
+                oInp.mouseout(function () {
+                    this.style.color = '#e55600';
+                    this.style.background = 'none';
+                });
+            }
+        }
+        oCoin_list.find(tag).hover(function () {
+            oldCol = $(this).css('backgroundColor');
+            $(this).css('background-color', '#f9f2dd');
+        }, function () {
+            $(this).css('background-color', oldCol);
+        })
+    }
+    //排序函数
+    function sortcoinList(order, sortBy) {
+        var ordAlpah = (order == 'asc') ? '>' : '<';
+        var sortFun = new Function('a', 'b', 'return parseFloat(a[' + sortBy + '])' + ordAlpah + 'parseFloat(b[' + sortBy + '])? 1:-1');
+        return sortFun;
+    }
+
+    function trade_qu(o) {
+        $('.trade_qu_pai').removeClass('current');
+        $(o).addClass('current');
+        allcoin();
+    }
+    trends();
+</script>
+{if $config["web_waring"]}
+<div class="footer_con">
+    <div class="autobox clear">
+        {$config["web_waring"] nofilter}
+    </div>
+</div>
+{/if}
+<div class="news_box">
+    <div class="autobox">
+        <div class="news_t clear" style="margin: 60px auto;"></div>
+        <div class="news_s">
+            <div class="news_sc">
+                <div class="news_ct">
+                    <div class="news_cti"></div>
+                    <div class="news_cts">
+                        <a target="_blank" href="/Article/index/type/{$news_type_list[0]['name']}">{$news_type_list[0]['title']}</a>
+                    </div>
+                </div>
+                <div class="news_cl">
+                    <ul class="news_clu">
+                        {foreach $news_type_list[0]['list'] as $k=>$v}
+                        <li>
+                            <a class="news_clua" target="_blank" href="/article/detail/id/{$v.id}">{$v['title']} </a>
+                            <a class="news_clda" target="_blank" href="/article/detail/id/{$v.id}"> [ {#addtime($v.addtime,"y-m-d")} ] </a>
+                        </li>
+                        {/foreach}
+                        <li>
+                            <a class="news_clda" target="_blank" href="/article/index/typeid/{$article_arr[0]['id']}"> 更多&gt;&gt; </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="news_sc">
+                <div class="news_ct">
+                    <div class="news_cti news_ctin"></div>
+                    <div class="news_cts">
+                        <a target="_blank" href="/Article/index/type/{$news_type_list[1]['name']}">{$news_type_list[1]['title']}</a>
+                    </div>
+                </div>
+                <div class="news_cl">
+                    <ul class="news_clu">
+                        {foreach $news_type_list[1]['list'] as $k=>$v}
+                        <li>
+                            <a class="news_clua" target="_blank" href="/article/detail/id/{$v.id}">{$v['title']} </a>
+                            <a class="news_clda" target="_blank" href="/article/detail/id/{$v.id}"> [ {#addtime($v.addtime,"y-m-d")} ] </a>
+                        </li>
+                        {/foreach}
+                        <li>
+                            <a class="news_clda" target="_blank" href="/article/index/typeid/{$article_arr[1]['id']}"> 更多&gt;&gt; </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="news_sc">
+                <div class="news_ct">
+                    <div class="news_cti news_ctic"></div>
+                    <div class="news_cts">
+                        <a target="_blank" href="/Article/index/type/{$news_type_list[2]['name']}">{$news_type_list[2]['title']}</a>
+                    </div>
+                </div>
+                <div class="news_cl">
+                    <ul class="news_clu">
+                        {foreach $news_type_list[2]['list'] as $k=>$v}
+                        <li>
+                            <a class="news_clua" target="_blank" href="/article/detail/id/{$v.id}">{$v['title']} </a>
+                            <a class="news_clda" target="_blank" href="/article/detail/id/{$v.id}"> [ {#addtime($v.addtime,"y-m-d")} ] </a>
+                        </li>
+                        {/foreach}
+                        <li>
+                            <a class="news_clda" target="_blank" href="/article/index/typeid/{$article_arr[2]['id']}"> 更多&gt;&gt; </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<input type="hidden" name="coin_type" value="cny_btc"/> <input type="hidden" name="amount" value="1000000"/>
+<eq name="C['index_lejimum']" value="1">
+    <div class="index_box_2 slogan">
+        <div class="slogan_title">选择{$config['web_title']},安全可信赖</div>
+        <div class="slogan_tis">累计交易额<span id="yi" style="display: none;margin-left: 5px;" class="yiyi1"></span>
+            <sapn style="display: none;" class="yiyi2"> 亿</sapn>
+            <span id="wan"></span> 万
+        </div>
+        <div id="cumulative"></div>
+    </div>
+    <script src="__HOME__/js/index_change.js"></script>
+</eq>
+<!--友情链接-->{if $sys_link}
+<div class="link" style="    padding-top: 0px;">
+    <div class="linkbox">
+        <h4>
+            <a target="_blank" href="/">友情链接</a>
+        </h4>
+        <ul>
+            {foreach $sys_link as $k=>$v}
+            <li style="margin-left: 0px;">
+                <a target="_blank" href="{$v['url']}">{$v['name']}</a>
+            </li>
+            {/foreach}
+        </ul>
+    </div>
+</div>
+{/if}
+<div id="footer">
+    <p style="margin-top: 5px;text-align: center;">
+        Copyright © 2016 <a href="/">{$config['web_name']}交易平台 </a> All Rights Reserved.
+        <a href="http://www.miibeian.gov.cn/">{$config['web_icp']}</a>{$config['web_cnzz'] nofilter}
+    </p>
+    <p class="clear1" id="ut646" style="margin-top: 10px;text-align: center;">
+        <a href="http://www.szfw.org/" target="_blank" class="margin10"> <img src="__HOME__/images/footer/footer_2.png">
+        </a> <a href="http://www.miibeian.gov.cn/" target="_blank" class="margin10">
+        <img src="__HOME__/images/footer/footer_3.png"> </a>
+        <a href="http://www.cyberpolice.cn/" target="_blank" class="margin10">
+            <img src="__HOME__/images/footer/footer_4.png"> </a>
+    </p>
+</div><!--代码部分begin-->
+<div id="floatTools" class="rides-cs" style="height: 200px;">
+    <div class="floatL">
+        <a id="aFloatTools_Show" class="btnOpen" title="查看在线客服" style="top: 20px; display: block" href="javascript:void(0);">展开</a>
+        <a id="aFloatTools_Hide" class="btnCtn" title="关闭在线客服" style="top: 20px; display: none" href="javascript:void(0);">收缩</a>
+    </div>
+    <div id="divFloatToolsView" class="floatR" style="display: none; width: 140px; background: #e55600;">
+        <div class="cn">
+            <h3 class="titZx">官方在线客服</h3>
+            <ul id="jisuan_qq">
+                {foreach $config['contact_qq'] as $k => $v}
+                <li>
+                    <span>客服{$k+1}</span>
+                    <a target="_blank" href="http://wpa.qq.com/msgrd?v=3&amp;uin={$v}&amp;site=qq&amp;menu=yes">
+                        <img border="0" src="__HOME__/images/online.png" alt="点击这里给我发消息" title="点击这里给我发消息"/> </a>
+                </li>
+                {/foreach} {foreach $config['contact_qqun'] as $k => $v}
+                <li>
+                    <span>QQ群{$k+1}</span> {$v}
+                </li>
+                {/foreach} {foreach $config['contact_moble'] as $k => $v}
+                <li style="border: none;">
+                    <span>电话：{$v}</span>
+                </li>
+                {/foreach}
+            </ul>
+        </div>
+    </div>
+</div>
+<div id="all_mask" class="all_mask" style="height: 0px; display: none;"></div>
+<div class="all_mask_loginbox" id="all_mask_loginbox" style="top: 313px; display: none;">
+    <div class="login_title pl20">登录</div>
+    <form id="form-login" class="mask_wrap login-fb">
+        <div class="login_text zin90">
+            <div class="mask_wrap_title" style="line-height: 64px;">账号：</div>
+            <input type="text" id="login_mobles" class="texts" style="display: none;">
+            <input type="text" id='login_moble' value="{#cookie('moble')}" placeholder="{#lang('请输入手机/邮箱/用户名')}" style="padding-left: 45px;    width: 193px;"/>
+            <link rel="stylesheet" href="__EXT__/intlTelInput/css/intlTelInput.css">
+            <script src="__EXT__/intlTelInput/js/intlTelInput.js"></script>
+            <script>
+                $("#login_mobles").intlTelInput({
+                    autoHideDialCode: false,
+                    defaultCountry: "cn",
+                    nationalMode: false,
+                    preferredCountries: ['cn', 'us', 'hk', 'tw', 'mo'],
+                });
+
+                function saoma() {
+                    layer.open({
+                        type: 2,
+                        title: '{#lang("打开手机APP,扫码登录")}',
+                        shadeClose: true,
+                        shade: 0.8,
+                        area: ['300px', "300px"],
+                        content: '/app/login/saoma' //iframe的url
+                    });
+                }
+            </script>
+        </div>
+        <div class="login_text zin80">
+            <div class="mask_wrap_title">密码：</div>
+            <input id="login_password" name="password" type="password" placeholder="请输入登录密码">
+        </div>
+        <div class="login_text zin70" id="ga-box-i">
+            <img id="reloadverifylogin" src="/ajax/verify" width="120" height="38" onclick="this.src=this.src+'?t='+Math.random()" style="margin-top: 1px; cursor: pointer;" title="换一张">
+            <input type="text" class="code" id="login_verify" name="code" placeholder="请输入验证码" style="width: 106px; float: left;">
+        </div>
+        <div class="login_button">
+            <input type="button" value="登录" onclick="upLogin();">
+        </div>
+        <div class="login-footer wwxwwx" style="border-bottom-left-radius: 3px; border-bottom-right-radius: 3px;">
+			<span style="color: #cccccc; float: right; margin-right: 25px;">
+			<a style="font-size: 12px;" href="/reg">免费注册</a>｜<a href="/login/findpwd" style="font-size: 12px;">忘记密码</a></span>
+        </div>
+    </form>
+    <div class="mask_wrap_close" onclick="wrapClose()"></div>
+</div>
+<div id="all_mask_goolebox" class="all_mask_loginbox" style="display: none;">
+    <div class="login_title pl20">{#lang('谷歌验证')}</div>
+    <form id="form-goole" class="mask_wrap login-fb">
+        <div class="login_text zin80">
+            <div class="mask_wrap_title">{#lang('谷歌密码')}：</div>
+            <input id="goole_password" class="texts hg40 w250" type="password" placeholder="{#lang('请输入谷歌密码')}">
+        </div>
+        <div class="login_button">
+            <input type="button" value="{#lang('验证')}" onclick="footer_goole();" class="btns2  hg40 w250">
+        </div>
+    </form>
+    <div class="mask_wrap_close" onclick="wrapClose()"></div>
+</div>
+<div id="all_mask_yidibox" class="all_mask_loginbox" style="display: none;">
+    <div class="login_title pl20">{#lang('异地登录验证')}</div>
+    <form id="form-yidi" class="mask_wrap login-fb">
+        <div class="login_text zin80">
+            <div class="mask_wrap_title">{#lang('获取验证码')}：</div>
+			<span id="yidi1">
+				<input type="button" value="{#lang('发送短信验证码')}" class="btns" onclick="moble_yidi('sms')" style="width: 100px;font-size: 12px;    line-height: 12px;
+    height: 32px;"/>
+                <input type="button" value="{#lang('发送语音验证码')}" class="btns" onclick="moble_yidi('tel')" style="width: 100px;font-size: 12px;    line-height: 12px;
+    height: 32px;"/>
+			</span>
+			<span id="yidi2" style="display:none;">
+				 <span id="yidi3" class="movesay" style="left: 210px;font-size:14px;padding-top: 5px;    height: 34px;line-height: 34px;"></span>
+			</span>
+        </div>
+        <div class="login_text zin80">
+            <div class="mask_wrap_title">{#lang('短信验证码')}：</div>
+            <input id="yidi_password" class="texts hg40 w250" type="password" placeholder="{#lang('请输入短信验证码')}">
+        </div>
+        <div class="login_button">
+            <input type="button" value="{#lang('验证')}" onclick="footer_yidi();" class="btns2  hg40 w250">
+        </div>
+    </form>
+    <div class="mask_wrap_close" onclick="wrapClose()"></div>
+</div>
+<script type="text/javascript" src="__HOME__/js/jquery.cookies.2.2.0.js"></script>
+<script>
+    $(function () {
+        $('#trade_top').hover(function () {
+            $('#trade_list').show();
+        }, function () {
+            $('#trade_list').hide();
+        });
+        $('#trade_list').hover(function () {
+            $('#trade_list').show();
+        }, function () {
+            $('#trade_list').hide();
+        });
+        $.post("/ajax/top_coin_menu?t=" + Math.random(), function (data) {
+            if (data) {
+                var interText = doT.template($("#trade_list_tpl").text());
+                $("#trade_list").html(interText(data));
+
+                var $li = $('#trade-nav-tabs > li');
+                var $ul = $('#trade-nav-body > dl');
+
+                $li.mouseover(function () {
+                    var $this = $(this);
+                    var $t = $this.index();
+                    $li.removeClass();
+                    $this.addClass('current');
+                    $ul.css('display', 'none');
+                    $ul.eq($t).css('display', 'block');
+                })
+            }
+        }, "json");
+    });
+
+
+    $('#trade_box').hover(function () {
+        $('.deal_list').show()
+    }, function () {
+        $('.deal_list').hide()
+    });
+    $('.deal_list').hover(function () {
+        $('.deal_list').show()
+    }, function () {
+        $('.deal_list').hide()
+    });
+
+
+    $('#user-finance').hover(function () {
+        $('.mywallet_list').show();
+    }, function () {
+        $('.mywallet_list').hide()
+    });
+
+    //轮播图
+    var $allItems = $('.my-carousel .my-carousel-inner .item');
+    var $allIndicators = $('.my-carousel .my-carousel-indicators li');
+    var currentIndex = 0;
+    var currentItem = null;
+    var nextItem = null;
+    var time;
+
+
+    $(".my-carousel").hover(function () {
+        time = window.clearInterval(time)
+    }, function () {
+        time = setInterval(function () {
+                    currentItem = $allItems.filter('.active');
+                    if (currentIndex + 1 === $allItems.length) {
+                        nextItem = $allItems.eq(0);
+                        currentIndex = 0;
+                    } else {
+                        nextItem = $allItems.eq(currentIndex + 1);
+                        currentIndex += 1;
+                    }
+                    nextItem.addClass('active').fadeIn(500);
+                    $allIndicators.removeClass('active').eq(currentIndex).addClass('active');
+                    currentItem.removeClass('active').fadeOut(1000);
+                },
+                5000);
+    }).trigger("mouseleave");
+
+    $(".my-carousel-indicators li").click(function () {
+        var nextIndex = parseInt($(this).attr('data-slide-to'));
+        if (nextIndex == currentIndex) return false;
+        currentIndex = nextIndex;
+        currentItem = $allItems.filter('.active');
+        currentItem.removeClass('active').fadeOut(1000);
+        $allItems.eq(currentIndex).addClass('active').fadeIn(500);
+        $allIndicators.removeClass('active').eq(currentIndex).addClass('active');
+    });
+
+
+    $('input').focus(function () {
+        var t = $(this);
+        if (t.attr('type') == 'text' || t.attr('type') == 'password')
+            t.css({
+                'box-shadow': '0px 0px 3px #1583fb',
+                'border': '1px solid #1583fb',
+                'color': '#333'
+            });
+        if (t.val() == t.attr('placeholder'))
+            t.val('');
+    });
+    $('input').blur(function () {
+        var t = $(this);
+        if (t.attr('type') == 'text' || t.attr('type') == 'password')
+            t.css({
+                'box-shadow': 'none',
+                'border': '1px solid #e1e1e1',
+                'color': '#333'
+            });
+        if (t.attr('type') != 'password' && !t.val())
+            t.val(t.attr('placeholder'));
+    });
+
+
+    $(function () {
+        $("#floatTools").hover(function () {
+            $('#divFloatToolsView').animate({
+                width: 'show',
+                opacity: 'show'
+            }, 100, function () {
+                $('#divFloatToolsView').show();
+            });
+            $('#aFloatTools_Show').hide();
+            $('#aFloatTools_Hide').show();
+        }, function () {
+            $('#divFloatToolsView').animate({
+                width: 'hide',
+                opacity: 'hide'
+            }, 100, function () {
+                $('#divFloatToolsView').hide();
+            });
+            $('#aFloatTools_Show').show();
+            $('#aFloatTools_Hide').hide();
+        });
+        $("#divFloatToolsView").height(36 + $("#jisuan_qq li").length * 40);
+    });
+
+
+    var is_login = "{$user['id']}";
+
+    if (window.location.hash == '#login') {
+        if (!is_login) {
+            loginpop();
+        }
+    }
+
+
+    if (window.location.hash == '#goole') {
+        goolepop();
+    }
+
+
+    if (window.location.hash == '#yidi') {
+
+        yidipop();
+    }
+
+
+    var move_moble = $.cookies.get('move_moble');
+    if (move_moble != '' && move_moble != null) {
+        $("#index_moble").val(move_moble);
+        $("#login_moble").val(move_moble);
+    }
+
+    function loginpop() {
+        $('.all_mask').css({'height': $(document).height()});
+        $('.all_mask').show();
+        $('#all_mask_loginbox').show();
+        $('#reloadverifylogin').click();
+    }
+    function goolepop() {
+        var height = $(document).height();
+        if (height < 1000) {
+            height = 1000;
+        }
+        $('.all_mask').css({'height': height});
+        $('.all_mask').show();
+        $('#all_mask_goolebox').show();
+    }
+    function yidipop() {
+        var height = $(document).height();
+        if (height < 1000) {
+            height = 1000;
+        }
+        $('.all_mask').css({'height': height});
+        $('.all_mask').show();
+        $('#all_mask_yidibox').show();
+    }
+    function upLogin() {
+
+        var moble = $("#login_moble").val();
+        var mobles = $("#login_mobles").val();
+        var password = $("#login_password").val();
+        var verify = $("#login_verify").val();
+
+        if (moble == "" || moble == null) {
+            layer.tips('{#lang("请输入账号")}', '#login_moble', {tips: 2});
+            return false;
+        }
+        if (password == "" || password == null) {
+            layer.tips('{#lang("请输入登录密码")}', '#login_password', {tips: 2});
+            return false;
+        }
+        if (verify == "" || verify == null) {
+            layer.tips('{#lang("请输入验证码")}', '#login_verify', {tips: 2});
+            return false;
+        }
+
+
+        $.post("/login/up_login", {
+            moble: moble,
+            mobles: mobles,
+            password: password,
+            verify: verify,
+            login_token: "{$login_token}",
+        }, function (data) {
+            if (data.status == 1) {
+                $.cookies.set('move_moble', moble);
+                layer.msg(data.info, {icon: 1});
+                if (data.url) {
+                    window.location = data.url;
+                } else {
+                    window.location.reload();
+                }
+            } else {
+                //刷新验证
+                layer.msg(data.info, {icon: 2});
+                if (data.url) {
+                    window.location = data.url;
+                }
+            }
+        }, "json");
+    }
+    function wrapClose() {
+        $('.all_mask').hide();
+        $('.all_mask_loginbox').hide();
+    }
+    function footer_goole() {
+        var password = $("#goole_password").val();
+
+        if (password == "" || password == null) {
+            layer.tips('{#lang("请输入谷歌密码")}', '#goole_password', {tips: 2});
+            return false;
+        }
+
+        $.post("{#url('login/goole')}", {
+            password: password,
+        }, function (data) {
+            if (data.status == 1) {
+                layer.msg(data.info, {icon: 1});
+                if (data.url) {
+                    window.location = data.url;
+                } else {
+                    window.location = '/';
+                }
+            } else {
+                layer.msg(data.info, {icon: 2});
+                if (data.url) {
+                    window.location = data.url;
+                }
+            }
+        }, "json");
+    }
+    function upLoginIndex() {
+
+        var moble = $("#index_moble").val();
+        var mobles = $("#index_mobles").val();
+        var password = $("#index_password").val();
+        var verify = $("#index_verify").val();
+
+        if (moble == "" || moble == null) {
+            layer.tips('{#lang("请输入账号")}', '#index_moble', {tips: 2});
+            return false;
+        }
+        if (password == "" || password == null) {
+            layer.tips('{#lang("请输入登录密码")}', '#index_password', {tips: 2});
+            return false;
+        }
+        if (verify == "" || verify == null) {
+            layer.tips('{#lang("请输入验证码")}', '#index_verify', {tips: 2});
+            return false;
+        }
+
+
+        $.post("/login/up_login", {
+            moble: moble,
+            mobles: mobles,
+            password: password,
+            verify: verify,
+            login_token: "{$login_token}",
+        }, function (data) {
+            if (data.status == 1) {
+                $.cookies.set('move_moble', moble);
+                layer.msg(data.info, {icon: 1});
+                if (data.url) {
+                    window.location = data.url;
+                } else {
+                    window.location.reload();
+                }
+            } else {
+                //刷新验证
+                layer.msg(data.info, {icon: 2});
+                if (data.url) {
+                    window.location = data.url;
+                }
+            }
+        }, "json");
+    }
+    function expect() {
+        layer.msg('暂未上线，敬请期待!', {icon: 6});
+    }
+    function check_zzc() {
+        $.getJSON("/ajax/check_zzc/t=" + Math.random(), function () {
+
+            setTimeout('check_zzc()', 5000);
+        });
+    }
+    function login_verify_ups() {
+        $('#login_verify_up').attr('src', "{#url('verify/code')}?t=" + Math.random());
+    }
+    function moble_yidi(type) {
+        $.post("{#url('verify/yidi')}", {
+            type: type,
+        }, function (data) {
+            if (data.status == 1) {
+
+                layer.msg(data.info, {icon: 1});
+                $('#yidi1').hide();
+                $('#yidi2').show();
+
+
+                var obj = $('#yidi3');
+                var wait = 30;
+                var interval = setInterval(function () {
+                    obj.html("<a class='movesay'>" + wait + "{#lang('秒可再次发送')}" + "</a>");
+                    wait--;
+                    if (wait < 0) {
+                        clearInterval(interval);
+                        $("#verify").val('');
+                        $('#yidi2').hide();
+                        $('#yidi1').show();
+
+                        //obj.html('<a class="move" onclick="new_send()">{#lang("点击重新发送")}</a>');
+                    }
+                    ;
+                }, 1000);
+            } else {
+                layer.msg(data.info, {icon: 2});
+                if (data.url) {
+                    window.location = data.url;
+                }
+            }
+        }, "json");
+    }
+    function footer_yidi() {
+        var password = $("#yidi_password").val();
+
+
+        if (password == "" || password == null) {
+            layer.tips('{#lang("请输入短信验证码")}', '#yidi_password', {tips: 2});
+            return false;
+        }
+
+        $.post("{#url('login/yidi')}", {
+            password: password,
+        }, function (data) {
+            if (data.status == 1) {
+                layer.msg(data.info, {icon: 1});
+                if (data.url) {
+                    window.location = data.url;
+                } else {
+                    window.location = '/';
+                }
+            } else {
+                layer.msg(data.info, {icon: 2});
+                if (data.url) {
+                    window.location = data.url;
+                }
+            }
+        }, "json");
+    }
+
+
+    $(function () {
+        $('#reloadverifyindex').click();
+    });
+</script>
+<script>
+    //菜单高亮
+    $('#index_box').addClass('active');
+</script>
+</body>
+</html>

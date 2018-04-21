@@ -1,0 +1,146 @@
+{include file="public:header"}
+
+<link rel="stylesheet" href="__CSS__/newtrade/finan.css">
+<div class="back pat-20">
+	<div class="container f14">
+	<div class="clearfix">
+{include file="finan:left"}
+		<div class="fr gray-border content color-white col-pho-12">
+<div class="assets_content ">
+	<style>
+		.miss_set p{
+			font-size: 14px;
+		   	padding: 0 25px;
+		    height: 30px;
+		    line-height: 30px;
+		    cursor: pointer;
+		    border-radius: 4px;
+		    background-color: #FFF;
+		    border: 1px solid #4f94e7;
+		    color: #4f94e7;
+		}
+		.miss_set{margin-top: 10px;}
+		.miss_set p:first-child{margin-right: 30px;}
+	</style>
+	<div id="widget" style="top: 0px;" class="">
+		<h2> <span id="vip_zs" style="float: left;">{#lang('财务中心')}</span>  </h2>
+		{if $all_gjb}
+	<div class="coin_style_box">
+
+		<!--<div class="coin_fin_all"><span>{#lang('您的总资产')}：<b id="cny_total"> {#round($user['zzc'],2)}</b><em>（{#lang('折合人民币')}）</em></span></div>-->
+
+		{foreach $all_gjb as $k => $v}
+		<ul style="float: left;">
+			<li><img src="__UP__/{$v['img']}" width="40" alt="">&nbsp;&nbsp;{$v['title']}</li>
+			<li>{#lang('可用')}：<span class="green" id="cny_balance"> {#num($user_coin[$v['name']]*1,2)}</span></li>
+			<li>{#lang('冻结')}：<span class="orange" id="cny_lock"> {#num($user_coin[$v['name'].'d']*1,2)}</span></li>
+			<div class="clear"></div>
+			
+		</ul>
+		<div style="display: inline-block;float:right;padding-right: 30px;" class="miss_set"><p style="display: inline-block;" onclick="window.location.href='/article/detail/id/41'">{#lang('代理兑换')}</p> </div>
+		{/foreach}
+	</div>
+		{/if}
+		<div class="clear"></div>
+		
+	<div class="coin_list_top" >
+		<ul style="float: left;">
+			<li class="pl25 w120">{#lang('币种')}</li>
+			<li class="w125 ml130">{#lang('可用')}</li>
+			<li class="w125 ml120">{#lang('冻结')}</li>
+			<li class="w110 ml130" style="width: 110px">{#lang('总计')}</li>
+			<li class="w155 ml120">{#lang('折合')}</li>
+			<li class="w120" style="margin-left: 52px">{#lang('操作')}</li>
+
+		</ul>
+
+	</div>
+	</div>
+
+		<ul class="coin_list" id="grid-finan">
+			{foreach $all_xnb as $k => $v}
+			{if  $v['name']!="cny" }
+			<li>
+				<dl>
+					<dd class="" style="margin-left: 0;width:175px">
+						<div class="coin_pic mr20">
+							<img src="__UP__/{$v['img']}" alt="" width="40"/>
+						</div>
+						<div class="coin_name" style="width: 100px;padding: initial;line-height: 60px;">
+
+							{if cookie("lang") == "en"}
+							<div style="overflow: hidden;height: 60px;">{#strtoupper($v['name'])}</div>
+							{else}
+							<div style="overflow: hidden;height: 60px;">{$v['title']} ({#strtoupper($v['name'])})</div>
+							{/if}
+							{if $all_gjb}
+							<!--<p class="orange">¥{$v['price']}</p>-->
+							{/if}
+						</div>
+					</dd>
+					<dd class=""d>{$user_coin[$v['name']]}</dd>
+					<dd class="">{$v['dongjie']}</dd>
+					<dd class="">{$v['zongji']}</dd>
+					<dd class="">{#num($v['zhehe'])}</dd>
+					<dd class="">
+						<input type="button" value="{#lang('转入')}" class="btns" style="margin-left:-14px;width: 64px"
+						       onclick="top.location='/finan/coinin/coin/{$v['name']}'">
+						<input type="button" value="{#lang('转出')}" class="btns" style="margin-left: 10px;width: 64px"
+						       onclick="top.location='/finan/coinout/coin/{$v['name']}'"/>
+					</dd>
+				</dl>
+			</li>
+			{/if}
+			{/foreach}
+		</ul>
+
+	</div>
+	</div>
+	</div>
+</div>
+	</div>
+<script>
+	$('.finan').addClass('current');
+</script>
+{include file="public:footer"}
+<style>
+				.container {
+    padding: 0;
+    /*width: 1500px;*/
+    margin: 0 auto;
+    box-sizing: content-box;
+}
+.content12_common {
+    position: relative;
+   /* width: 1500px;*/
+    height: 100%;
+    margin: 0 auto;
+}
+.side-bar li a {
+    display: block;
+    text-align: center;
+    font-size: 14px;
+    color: #2E4052;
+}
+.coin_list {
+    width: 930px;
+     height:initial; 
+    margin-left: 20px;
+     OVERFLOW-Y: initial; 
+     OVERFLOW-X: initial; 
+    margin-top: 0px;
+}
+.SetFOV{
+	position: inherit;
+}
+.coin_list_top, .coin_list_top ul, .coin_list{
+	margin-left: 0 !important;
+	width: 100%;
+}
+.coin_list_top ul li, .coin_list li dd{
+	text-align: center !important;
+	width: 16.666% !important;
+	padding: 0 !important;
+	margin: 0 !important;
+}
+			</style>

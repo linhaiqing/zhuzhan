@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta name="renderer" content="webkit">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<title>{$seos['title']}</title>
+		<meta name="Keywords" content="{$seos['keywords']}">
+		<meta name="Description" content="{$seos['description']}">
+		<meta name="author" content="movesay.com">
+		<meta name="coprright" content="movesay.com">
+		<meta name="format-detection" content="telephone=no">
+		<meta name="author" content="movesay.com">
+		<meta name="coprright" content="movesay.com">
+		<!--	<meta name="viewport" content="target-densitydpi=device-dpi, initial-scale=0.5, minimum-scale=0.5, maximum-scale=2.0, user-scalable=no">-->
+		<link rel="shortcut icon" href="/favicon.ico" />
+		<link rel="stylesheet" href="__EXT__/Font-Awesome-4.4.0/css/font-awesome.min.css">
+		<link rel="stylesheet" href="/static/default/home/css/style.css?v={$version}" id="theme" />
+		<link rel="stylesheet" href="/static/default/home/css/common.css?v={$version}" />
+		<link rel="stylesheet" href="/static/default/home/css/index.css" />
+		<script type="text/javascript" src="__EXT__/jquery/jquery.min.js"></script>
+		<!--<link rel='stylesheet' href='https://www.jz17.cc/static/default/home/css/style.css'/>-->
+		<script type="text/javascript" src="__EXT__/jquery/jquery.cookies.2.2.0.js"></script>
+		<script type="text/javascript" src="__EXT__/layer/layer.js"></script>
+		<script type="text/javascript" src="__EXT__/posfixed/posfixed.js"></script>
+		<script type="text/javascript" src="__EXT__/doT/doT.min.js"></script>
+		<!--轮播图 start-->{#config("slider_first",intval(config("slider_first")) +1)} {if config("slider_first")== 1}
+		<link rel="stylesheet" href="__EXT__/slider/css/slider.css">
+		<script type="text/javascript" src="__EXT__/slider/js/slider.js"></script>
+		{/if}
+		<link rel="stylesheet" href="__EXT__/bootstrap/css/bootstrap.css">
+		<link rel="stylesheet" href="__CSS__/header.css">
+		<link rel="stylesheet" href="__CSS__/bichuang.css">
+	</head>
+
+	<body lang="zh-CN" class="gray-bg" style='min-width: 1200px;'>
+		<!--[if lt IE 10]>
+<div id="kie-bar" class="kie-bar ">
+	您现在使用的浏览器版本过低，可能会导致浏览效果和信息的缺失。 建议立即升级到
+	<a href="http://rj.baidu.com/soft/detail/14917.html" target="_blank" title="免费升级至IE8浏览器">IE 10+</a> 或
+	<a href="http://rj.baidu.com/soft/detail/14744.html" target="_blank" title="免费升级至360安全浏览器">谷歌浏览器</a> 或
+	<a href="http://rj.baidu.com/soft/detail/17451.html" target="_blank" title="免费升级至360安全浏览器">360安全浏览器</a> ，安全更放心！
+</div><![endif]-->
+		<div id="allheader" class="container-full allheader-index" style='min-width:1200px;'>
+			<div class="header-mark" style='min-width:1200px;'></div>
+			<div class="header-mark-bot" style='min-width:1200px;'></div>
+			<div class="container-full header clearfix " style="border-bottom:0;background:none;min-width:1200px;">
+				<div class="container-full top header-nav">
+					<div class="container padding-right-clear">
+						<div class="col-xs-12 padding-right-clear">
+							<div class="navbar">
+								<div class="navbar-header navbar-default">
+									{if $config['web_logo']}
+									<a href="/"><img src="__UP__/{$config['web_logo']}" alt="" style="height:60px;" class='mFrev' /></a>
+
+									{else}
+									<a href="/" class="xiaozhu-logo">
+										<i class="move-self move-logo2 move" style="top:3px"></i>
+									</a>
+									{/if}
+								</div>
+								<div class="collapse navbar-collapse navbar-right">
+									<ul class="nav navbar-nav ">
+										<li class="active">
+											<a href="/">
+												{#lang('首页')}
+												<div class="relative">
+													<span class="line"></span>
+												</div>
+											</a>
+										</li>
+										{foreach $daohang as $k => $v}
+										<li class="">
+											<a href="{$v['url']}">{#lang($v['title'])}
+												<div class="relative">
+													<span class="line"></span>
+												</div>
+											</a>
+										</li>
+										{/foreach}
+									</ul>
+
+									<div class="login-register ">
+										<div class="lr-mark"></div>
+										{if $userid}
+										<ul class="user-status">
+											<li>
+												<i class="fa fa-user fa-lg left move mr5"></i>
+												<a href="{#url('user/index')}" id="user_top" class="move">{$user['username']}</a>
+
+												<!--
+										<div id="mywallet_list" class="mywallet_list" >
+											<div class="clear">
+												<ul class="freeze_list">
+													<h4>{#lang('可用人民币')}</h4>
+													<li style=" padding: 0;">
+														<a href="javascript:void(0)">
+															<img src="/static/default/home/img/public/cny.png" width="18" class="left mt5 mr5">
+															<span class="fz_14">{#num($user_coin['cny'])}</span></a>
+													</li>
+												</ul>
+												<ul class="freeze_list">
+													<h4>{#lang('冻结人民币')}</h4>
+													<li style=" padding: 0;">
+														<a href="javascript:void(0)">
+															<img src="/static/default/home/img/public/cny.png" width="18" class="left mt5 mr5">
+															<span class="fz_14">{#num($user_coin['cnyd'])}</span></a>
+													</li>
+												</ul>
+												<ul class="balance_list">
+													<h4>{#lang('预估总资产')}:</h4>
+													<li style=" padding: 0;">
+														<a href="javascript:void(0)">
+															<img src="/static/default/home/img/public/cny.png" width="18" class="left mt5 mr5 ">
+															<span class="fz_14">{#num($user['zzc'])}</span></a>
+													</li>
+												</ul>
+											</div>
+											<div class="mywallet_btn_box">
+												<a href="{#url('finan/pay')}" class="texts">{#lang('人民币充值')}</a>
+												<a href="{#url('finan/out')}" class="texts">{#lang('人民币提现')}</a>
+												<a href="{#url('finan/index')}" class="texts">{#lang('财务中心')}</a>
+												<a href="{#url('user/index')}" class="texts">{#lang('安全中心')}</a>
+											</div>
+											<i class="fa fa-caret-up move" style="position: absolute;top: -21px;right: 34px;font-size: 28px;"></i>
+											<div class="nocontent"></div>
+										</div>
+
+										-->
+											</li>
+											<li style="padding: 0px 0px 0px 10px;">
+												<a href="#" id="lang_top" class="" style="padding-left:3px;">
+
+													<span id="lang-show">
+						<img src="/upload//public/59e0980171e06637fc1921f3af1f7509.png" style="width: 18px; height:18px;vertical-align: -4px;margin-right: 5px;">简体中文</span>
+													<i class="icon-angle-down"></i> </a>
+												<div id="lang_list" class="deal_list  lang_list" style="display: none;    left: 13px;width: 110px;">
+													<div id="lang-nav-body">
+														<ul class="lang-chose">
+															<dd value='1' style="height: 32px;line-height: 33px;  width: 100px;">
+																<li onclick="chose_lang('vn')" style="    padding-left: 0px;    width: 100px;">
+																	<img src="/upload//public/7873d5d5fee80f29968a3b516e8f0c0c.jpg" style="width: 18px; height:18px;vertical-align: -4px;margin-right: 5px;">Việt Nam </li>
+															</dd>
+															<dd value='2' style="height: 32px;line-height: 33px;  width: 100px;">
+																<li onclick="chose_lang('th')" style="    padding-left: 0px;    width: 100px;">
+																	<img src="/upload//public/53315d53119d03861abd02778c130d1e.png" style="width: 18px; height:18px;vertical-align: -4px;margin-right: 5px;">ภาษาไทย </li>
+															</dd>
+															<dd value='3' style="height: 32px;line-height: 33px;  width: 100px;">
+																<li onclick="chose_lang('hk')" style="    padding-left: 0px;    width: 100px;">
+																	<img src="/upload//public/9d2d98b250a0149052b238ba67859b27.png" style="width: 18px; height:18px;vertical-align: -4px;margin-right: 5px;">繁体中文 </li>
+															</dd>
+															<dd value='4' style="height: 32px;line-height: 33px;  width: 100px;">
+																<li onclick="chose_lang('en')" style="    padding-left: 0px;    width: 100px;">
+																	<img src="/upload//public/aba77e21dbdae5f1af33091deb4d9308.png" style="width: 18px; height:18px;vertical-align: -4px;margin-right: 5px;">English </li>
+															</dd>
+															<dd value='5' style="height: 32px;line-height: 33px;  width: 100px;">
+																<li onclick="chose_lang('cn')" style="    padding-left: 0px;    width: 100px;">
+																	<img src="/upload//public/59e0980171e06637fc1921f3af1f7509.png" style="width: 18px; height:18px;vertical-align: -4px;margin-right: 5px;">简体中文 </li>
+															</dd>
+														</ul>
+													</div>
+
+													<i class="fa fa-caret-up move" style="position: absolute;top: -21px;right: 34px;font-size: 28px;"></i>
+													<div class="nocontent"></div>
+												</div>
+											</li>
+											<!--<li>
+										<select class="lselect" onchange="chose_lang(this.value)" style="font-size: 16px;margin-top: 2px;">
+											<option value="">{#lang('语言选择')}</option>
+											<option value="中文">中文</option>
+											<option value="English">English</option>
+											<option value="ภาษาไทย">ภาษาไทย</option>
+											<option value="Việt Nam">Việt Nam</option>
+										</select>
+									</li>-->
+											<li style="margin-left: 10px;">
+												<a href="{#url('login/loginout')}" class="">{#lang('退出')}</a>
+											</li>
+										</ul>
+										{else}
+										<div class="lr-con">
+											<a href="javascript:loginpop();" class="lr-item">{#lang('登陆')}</a>
+											<span class="lr-item padding-left-clear padding-right-clear">|</span>
+											<a href="/reg" class="lr-item">{#lang('注册')}</a>
+											<span class="lr-item padding-left-clear padding-right-clear">|</span>
+											<select class="lselect" onchange="chose_lang(this.value)">
+												<option value="">{#lang('语言选择')}</option>
+												<option value="cn">中文</option>
+												<option value="en">English</option>
+												<option value="th">ภาษาไทย</option>
+												<option value="vn">Việt Nam</option>
+											</select>
+											<script>
+												function chose_lang(lang) {
+													$.cookies.set("lang", lang);
+													window.location.reload();
+												}
+												window.onload = function() {
+													if($.cookies.get("lang") == 'cn') {
+														$('#lang-show').html('选择语言')
+													} else if($.cookies.get("lang") == 'en') {
+														$('#lang-show').html('Choose a language')
+														$('.mFrev').attr('src', '/upload/public/fc9e531858cb440d42dd8ddf751b3752.png')
+														$('.item').eq(2).css('background', 'url(/upload/public/41f88e74195c3a02d03fe337b485a96b.png)')
+														$('.item').eq(1).css('background', 'url(/upload/public/5667ffd464aea432f9375cf14d8efff4.png)')
+														$('.item').eq(0).css('background', 'url(/upload/public/4323264e4b3f5a3512da0fb49fe34820.png)')
+													} else if($.cookies.get("lang") == 'th') {
+														$('#lang-show').html('เลือกภาษา')
+														$('.mFrev').attr('src', '/upload/public/logo2.png')
+														$('.item').eq(1).css('background', 'url(/upload/public/5667ffd464aea432f9375cf14d8efff4.png)')
+														$('.item').eq(2).css('background', 'url(/upload/public/41f88e74195c3a02d03fe337b485a96b.png)')
+														$('.item').eq(0).css('background', 'url(/upload/public/4323264e4b3f5a3512da0fb49fe34820.png)')
+													} else if($.cookies.get("lang") == 'vn') {
+														$('#lang-show').html('Chọn ngôn ngữ')
+														$('.mFrev').attr('src', '/upload/public/logo3.png')
+														$('.item').eq(1).css('background', 'url(/upload/public/5667ffd464aea432f9375cf14d8efff4.png)')
+														$('.item').eq(2).css('background', 'url(/upload/public/41f88e74195c3a02d03fe337b485a96b.png)')
+														$('.item').eq(0).css('background', 'url(/upload/public/4323264e4b3f5a3512da0fb49fe34820.png)')
+													};
+													//console.log('lang')
+												}
+											</script>
+										</div>
+										{/if}
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script>
+			$('#user_top').hover(function() {
+
+				$('#mywallet_list').show();
+			}, function() {
+				$('#mywallet_list').hide();
+			});
+			$('#mywallet_list').hover(function() {
+				$('#mywallet_list').show();
+			}, function() {
+				$('#mywallet_list').hide();
+			});
+		</script>
+		<style>
+			.lselect {
+				background: none;
+				color: #e55600;
+				border: none;
+			}
+			
+			.user-status li {
+				float: left;
+				position: relative;
+				margin-top: 2px !important;
+				z-index: 2;
+				padding: 0 5px;
+			}
+			
+			.header .header-nav {
+				border-top: none;
+				padding-top: 7px;
+			}
+			
+			.item {
+				background-repeat: no-repeat !important;
+				background-size: 100% 100% !important;
+				height: 546px !important;
+			}
+			
+			.login {
+				width: 24.5em;
+				position: absolute;
+				top: 8.5em;
+				right: 0;
+				color: #fff;
+			}
+			
+			@media (min-width: 768px) .container {
+				width: 1200px !important;
+			}
+		</style>
+
+		<!--适应移动端样式-->
+
+		<script>
+			$('#trade_top').hover(function() {
+				$('#trade_list').show();
+			}, function() {
+				$('#trade_list').hide();
+			});
+			$('#trade_list').hover(function() {
+				$('#trade_list').show();
+			}, function() {
+				$('#trade_list').hide();
+			});
+
+			$.post("/ajax/top_coin_menu?t=" + Math.random(), function(data) {
+				if(data) {
+					var interText = doT.template($("#trade_list_tpl").text());
+					$("#trade_list").html(interText(data));
+
+					var $li = $('#trade-nav-tabs > li');
+					var $ul = $('#trade-nav-body > dl');
+
+					$li.mouseover(function() {
+						var $this = $(this);
+						var $t = $this.index();
+						$li.removeClass();
+						$this.addClass('current');
+						$ul.css('display', 'none');
+						$ul.eq($t).css('display', 'block');
+					})
+				}
+			}, "json");
+
+			$('#game_top').hover(function() {
+				$('#game_list').show();
+			}, function() {
+				$('#game_list').hide();
+			});
+			$('#game_list').hover(function() {
+				$('#game_list').show();
+			}, function() {
+				$('#game_list').hide();
+			});
+
+			$('#user_top').hover(function() {
+				$('#mywallet_list').show();
+			}, function() {
+				$('#mywallet_list').hide();
+			});
+			$('#mywallet_list').hover(function() {
+				$('#mywallet_list').show();
+			}, function() {
+				$('#mywallet_list').hide();
+			});
+
+			$('#theme_top').hover(function() {
+				$('#theme_list').show();
+			}, function() {
+				$('#theme_list').hide();
+			});
+			$('#theme_list').hover(function() {
+				$('#theme_list').show();
+			}, function() {
+				$('#theme_list').hide();
+			});
+			$(document).ready(function() {
+				var theme = $.cookies.get("theme");
+				//console.log(theme)
+				if(theme) {
+					$('#theme').attr("href", "/static/default/home/css/" + theme + ".css");
+				} else {
+
+				}
+			});
+
+			function chose_theme(theme) {
+				$.cookies.set("theme", theme);
+				window.location.reload();
+			}
+
+			$('#lang_top').hover(function() {
+				$('#lang_list').show();
+			}, function() {
+				$('#lang_list').hide();
+			});
+			$('#lang_list').hover(function() {
+				$('#lang_list').show();
+			}, function() {
+				$('#lang_list').hide();
+			});
+
+			function chose_lang(lang) {
+				$.cookies.set("lang", lang);
+				window.location.reload();
+				//va html = $(this).text()
+
+				//localStorage.setItem('text',lang.text())
+			}
+			window.onload = function() {
+				//console.log($.cookies.get("lang",'en').html())
+				if($.cookies.get("lang") == 'cn') {
+					$('#lang-show').html('选择语言')
+				} else if($.cookies.get("lang") == 'en') {
+					$('#lang-show').html('Choose a language')
+					$('.mFrev').attr('src', '/upload/public/fc9e531858cb440d42dd8ddf751b3752.png')
+					$('.item').eq(2).css('background', 'url(/upload/public/41f88e74195c3a02d03fe337b485a96b.png)')
+					$('.item').eq(1).css('background', 'url(/upload/public/5667ffd464aea432f9375cf14d8efff4.png)')
+					$('.item').eq(0).css('background', 'url(/upload/public/4323264e4b3f5a3512da0fb49fe34820.png)')
+				} else if($.cookies.get("lang") == 'th') {
+					$('#lang-show').html('เลือกภาษา')
+					$('.mFrev').attr('src', '/upload/public/logo2.png')
+					$('.item').eq(1).css('background', 'url(/upload/public/5667ffd464aea432f9375cf14d8efff4.png)')
+					$('.item').eq(2).css('background', 'url(/upload/public/41f88e74195c3a02d03fe337b485a96b.png)')
+					$('.item').eq(0).css('background', 'url(/upload/public/4323264e4b3f5a3512da0fb49fe34820.png)')
+				} else if($.cookies.get("lang") == 'vn') {
+					$('#lang-show').html('Chọn ngôn ngữ')
+					$('.mFrev').attr('src', '/upload/public/logo3.png')
+					$('.item').eq(1).css('background', 'url(/upload/public/5667ffd464aea432f9375cf14d8efff4.png)')
+					$('.item').eq(2).css('background', 'url(/upload/public/41f88e74195c3a02d03fe337b485a96b.png)')
+					$('.item').eq(0).css('background', 'url(/upload/public/4323264e4b3f5a3512da0fb49fe34820.png)')
+				};
+				//console.log(localStorage.getItem('text'))
+			}
+
+			function expect() {
+				layer.msg('暂未上线，敬请期待!', {
+					icon: 6
+				});
+			}
+
+			$('#moban_top').hover(function() {
+				$('#moban_list').show();
+			}, function() {
+				$('#moban_list').hide();
+			});
+			$('#moban_list').hover(function() {
+				$('#moban_list').show();
+			}, function() {
+				$('#moban_list').hide();
+			});
+		</script>
+		<script type="text/javascript">
+			$(function() {
+				(function() {
+					var tab = $('.nav-tab-list dd');
+					var hover = $('.nav-tab-hover');
+					var pos = 0;
+					tab.each(function(index) {
+						var $this = $(this);
+						if($this.hasClass('active')) {
+							pos = index;
+						}
+						$this.hover(function() {
+							_moveTo(index);
+						}, function() {
+							_moveTo(pos);
+						});
+					});
+					_moveTo(pos);
+					$('.nav-tab-hover').show();
+
+					function _moveTo(index) {
+						hover.css("top", 60 + 50 * index);
+						tab.removeClass('active');
+						tab.eq(index).addClass('active');
+					}
+				})();
+			});
+
+			$(window).on('scroll resize', function() {
+				if(document.body.scrollTop < 100) {
+					$('#left-nav-bar').css("top", 0);
+				} else if(document.body.scrollTop > ($('.tag-list-content').height() - $('#left-nav-bar').height() + 100)) {
+					$('#left-nav-bar').css("top", ($('.tag-list-content').height() - $('#left-nav-bar').height()));
+				} else {
+					$('#left-nav-bar').css("top", document.body.scrollTop - 100);
+				}
+			});
+		</script>

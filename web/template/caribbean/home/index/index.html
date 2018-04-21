@@ -1,0 +1,2021 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+<!-- 引用星巢css -->
+<link rel="stylesheet" type="text/css" href="__CSS__/xc_style.css">
+<link rel="stylesheet" type="text/css" href="__CSS__/xc_xincor.css">
+<!-- 字体引用css -->
+<link rel="stylesheet" type="text/css" href="/static/windcloud/home/font/iconfont.css">
+<!-- 引用动画JQ -->
+<script type="text/javascript" src="__JS__/jquery-1.8.3.min.js"></script>
+<script type="text/javascript" src="__JS__/jquery.SuperSlide.2.1.1.source.js"></script>
+<title>{$seos['title']}</title>
+
+<!--banner图不能自如缩放与下面这两份JS有冲突 -->
+<script type="text/javascript" src="__EXT__/jquery/jquery.cookies.2.2.0.js"></script>
+<script type="text/javascript" src="https://cdn.bootcss.com/layer/3.0.1/layer.js"></script>
+
+</head>
+
+<body>
+<div class="menu bg03">
+    <ul>
+        <li  class="d2"><a href="/">首页</a></li>
+        {foreach $daohang as$k=>$v}
+        <li class="d2"><a target="" href="{$v['url']}">{$v.title}</a></li>
+         {/foreach}
+         
+         {if $userid}
+                <li class="d2"><a  href="/user.html" >Hi {$user["username"]}</a></li>
+                {else}
+                <li class="d2"><a  href="javascript:;"  onclick="loginpop();" >登录</a></li>
+                <li class="d2"><a  href="reg.html">注册</a></li>
+                {/if}
+        <li class="d2"><a href="">中文简体</a></li>
+    </ul>
+</div>
+<div class="boxbg"></div>
+<div class="box clearfix">
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var flbox = $('.menuiocn');
+            nav = $('.menu');
+            box = $('.boxbg');
+            flbox.click(function () {
+                box.animate({ right: '0%' }, '500');
+                nav.animate({ right: '0px' }, '500');
+                $('.menu').css("display", "block");
+                $('.boxbg').css("display", "block");
+                return;
+            });
+            $('.boxbg').click(function () {
+                box.animate({ right: '0' }, '500');
+                nav.animate({ right: '-50%' }, '500');
+                $(this).hide();
+                return;
+            }
+            )
+        });
+    </script> 
+</div>
+<header class="logo w bg01">
+	<h1><a href=""><img src="__UP__/{$config['web_logo']}" alt="" style="height:35px;" /></a></h1> 
+	<a class="menuiocn" style="position: inherit;">
+		<i class="iconfont">&#xe603;</i>
+	</a>
+<div class="clear"></div>
+</header>
+	<!--
+		头部
+	-->
+	<header class="xc_head">
+		<!-- logo图片 -->
+		<div class="xc_nav_box3"> 
+			<div class="xc_logo l">
+				<a href=""><img src="__UP__/{$config['web_logo']}" alt="" style="height:60px;" /></a>
+			</div>
+			<!-- 导航 -->
+			<ul class="nav clearfix r">
+				<li class="m on">
+					<h3><a target="" href="/">首页</a></h3>
+				</li>
+				{foreach $daohang as$k=>$v}
+				<li class="m">
+					<h3><a target="" href="{$v['url']}">{$v.title}</a></h3>
+				</li>
+				 {/foreach}
+				{if $userid}
+				<li class="m">
+					<h3><a  href="/user.html" >Hi {$user["username"]}</a></h3>
+				</li>
+				<!-- <li class="m">
+					<h3><a  href="{#url('/login/loginout')}" >退出</a></h3>
+				</li> -->
+				{else}
+				<li class="m">
+					<h3><a  href="javascript:;"  onclick="loginpop();" >登录</a></h3>
+				</li>
+				<li class="m">
+					<h3><a  href="reg.html">注册</a></h3>
+				</li>
+				{/if}
+				<li class="m">
+					<h3><a  href="">中文简体<i class="iconfont">&#xe6db;</i></a></h3>
+					<ul class="sub">
+						{foreach $lang_type_list as $k => $v}
+						<li><a href="">{$v['title']}</a></li>
+						{/foreach}
+					</ul>				
+				</li>
+			</ul>
+			<script type="text/javascript">
+				jQuery(".nav").slide({ type:"menu",  titCell:".m", targetCell:".sub",effect:"slideDown", delayTime:300, triggerTime:0,returnDefault:true  });
+			</script>
+		</div>
+	</header>
+	<!--
+		banner
+	-->
+	<div id="bannerbox" class="bannerbox">
+		<div class="hd">
+			<ul>
+				{foreach $banner as $v}
+				<li class="">2</li>
+			{/foreach}
+				
+			</ul>
+		</div>
+		<div class="bd1">
+			<ul>
+			{foreach $banner as $v}
+				<li>
+					<a href="" >
+						<img src="/upload/{$v['img']}">
+					</a>
+				</li>
+			{/foreach}
+			</ul>
+		</div>
+	</div>
+	<script id="jsID" type="text/javascript">
+		jQuery(".bannerbox").slide({mainCell:".bd1 ul",autoPlay:true});
+	</script>
+	 <!-- 列表1 -->
+	 <ul class="xc_list01">
+	 	{foreach $market1 as $v}
+	 	<li style="border: 0;">
+	 		<span class="xc_span1"><img src="/upload/{$v['img']}" alt=""></span>
+	 		<span>{$v['title']}</span>
+	 		<span class="xc_span2">{$v['buy_price']}</span>
+	 		<span>{$v['sell_price']}</span>
+	 		<span class="xc_span3">{$v['invit_buy_coin']}</span>
+	 	</li>
+	 	{/foreach}
+	 	
+	 <div class="clear"></div>
+	 </ul>
+	<!--标题 交易详情-->
+	<div class="xc_title">
+		<span>交易详情</span>
+	</div>
+	<div class="clear"></div>
+	<!-- 内容列表 -->
+	<div id="outer">
+	    <ul id="tab">
+
+	    	{foreach $trade_qu as $k => $v}
+
+	        <span data-v-66913358="" class="{if $k==0}current{/if}" id="trade_qu_{$v['id']}" data="{$v['id']}" onclick="trade_qu(this)">{#lang($v['title'])}</span>
+
+	       {/foreach}
+	        
+	    </ul>
+	    <div class="clear"></div>
+	    <div id="content">
+			
+	    </div>
+	</div>
+	<script>
+		$(function(){
+			window.onload = function()
+			{
+			// var 声明的意思
+				var $span = $('#tab span');
+				var $ul = $('#content ol');
+				// 事件产生，当鼠标经过会有什么效果出现
+				// $li.mouseover(function(){
+				$span.click(function(){
+					var $this = $(this);
+					var $t = $this.index();
+					$span.removeClass();
+					$this.addClass('current');
+					$ul.css('display','none');
+					$ul.eq($t).css('display','block');
+				})
+
+			}
+		});
+	</script>
+	<div class="clear"></div>
+	<!-- 底部 -->
+	<div class="bg2">
+		<div class="xc_foot_box01">
+			<div class="xc_foot_logo l wi25 bor">
+				<a href=""><img src="__UP__/{$config['web_footer_logo']}"> </a>
+			</div>
+			<div class="xc_list3 wi50 l">
+				<dl class="wi33 l">
+					<dt>平台相关</dt>
+					<dd><a href="">平台简介</a></dd>
+					<dd><a href="">联系我们</a></dd>
+					<dd><a href="">平台费率</a></dd>
+				</dl>
+				<dl class="wi33 l">
+					<dt>法律条款</dt>
+					<dd><a href="">用户协议</a></dd>
+					<dd><a href="">隐私政策</a></dd>
+					<dd><a href="">防洗钱</a></dd>
+				</dl>
+				<dl class="wi33 r">
+					<dt>服务支持</dt>
+					<dd><a href="">商务合作</a></dd>
+					<dd><a href="">API支持</a></dd>
+				</dl>
+			</div>
+			<div class="xc_list4 wi25 r bol">
+				<h3>联系我们</h3>
+				<p>工作时间：9:00-17:00（GMT+8）</p>
+				<p>联系邮箱：123456@qq.com </p>
+				<p>客服QQ：123456789 </p>
+			</div>
+		<div class="clear"></div>
+		<div class="xc_aa1">
+			<a href="">www.windcloud.vip</a>
+		</div>
+		</div>
+	<div class="clear"></div>
+	</div>
+	<div class="form-horizontal" id="login-formbox" style="display: none;">
+
+		<span class="heading">用户登录</span>
+
+		<div class="form-group">
+
+			<input type="text" id="login_mobles" class="texts" style="display: none;">
+
+			<input type="email" class="form-control" id="login_moble" value="{#cookie('moble')}" placeholder="{#lang('请输入邮箱/手机')}" style="padding: 0 0px 0 90px;">
+
+			<i class="fa fa-user"></i>
+
+			<link rel="stylesheet" href="__EXT__/intlTelInput/css/intlTelInput.css">
+
+			<script src="__EXT__/intlTelInput/js/intlTelInput.js"></script>
+
+			<script>
+
+				$("#login_mobles").intlTelInput({
+
+					autoHideDialCode: false,
+
+					defaultCountry: "cn",
+
+					nationalMode: false,
+
+					preferredCountries: ['cn', 'us', 'hk', 'tw', 'mo'],
+
+				});
+
+			</script>
+
+			<style>
+
+			.form-horizontal{
+
+			width:480px;
+
+			height:347px;
+
+			}
+
+			.layui-layer, .layui-layer-page,  .layer-anim{
+
+				max-width: 480px !important;
+
+			}
+
+			</style>
+
+		</div>
+
+		<div class="form-group help">
+
+			<input type="password" class="form-control" id="login_password" placeholder="{#lang('请输入密码')}">
+
+			<i class="fa fa-lock"></i>
+
+		</div>
+
+		<div class="form-group help">
+
+			<input type="password" class="form-control" id="login_verify" placeholder="{#lang('请输入验证码')}" onkeydown="on_return()">
+
+			<i class="fa fa-lock"></i>
+
+			<img id="login_verify_up" class="codeImg reloadverify" src="{#url('ajax/verify')}"
+
+			     title="{#lang('换一张')}" onclick="login_verify_ups();" width="100" height="34" style="position: absolute;top: 3px;right: 40px;border-radius: 30px;">
+
+		</div>
+
+		<div class="form-group">
+
+			<span class="text"><a style="font-size: 14px;" href="/reg">{#lang('免费注册')}</a>｜<a href="/findpwd" style="font-size: 14px;">{#lang('忘记密码')}</a></span>
+
+			<input type="button" class="btn btn-default" value="{#lang('登录')}" onclick="footer_login();" />
+
+		</div>
+
+	</div>
+</body>
+<script>
+		
+		function footer_goole() {
+        var password = $("#goole_password").val();
+
+
+        if (password == "" || password == null) {
+            layer.tips('{#lang("请输入谷歌密码")}', '#goole_password', {tips: 2});
+            return false;
+        }
+
+        $.post("{#url('login/goole')}", {
+            password: password,
+        }, function (data) {
+            if (data.status == 1) {
+                layer.msg(data.info, {icon: 1});
+                if (data.url) {
+                    window.location = data.url;
+                } else {
+                    window.location = '/';
+                }
+            } else {
+                layer.msg(data.info, {icon: 2});
+                if (data.url) {
+                    window.location = data.url;
+                }
+            }
+        }, "json");
+    }
+
+
+    function footer_yidi() {
+        var password = $("#yidi_password").val();
+
+
+        if (password == "" || password == null) {
+            layer.tips('{#lang("请输入短信验证码")}', '#yidi_password', {tips: 2});
+            return false;
+        }
+
+        $.post("{#url('login/yidi')}", {
+            password: password,
+        }, function (data) {
+            if (data.status == 1) {
+                layer.msg(data.info, {icon: 1});
+                if (data.url) {
+                    window.location = data.url;
+                } else {
+                    window.location = '/';
+                }
+            } else {
+                layer.msg(data.info, {icon: 2});
+                if (data.url) {
+                    window.location = data.url;
+                }
+            }
+        }, "json");
+    }
+		$(function () {
+
+		var userid = "{$userid}";
+
+		if (window.location.hash == '#login') {
+
+			if (!userid) {
+
+				loginpop();
+
+			}
+
+		}
+
+
+
+
+
+		if (window.location.hash == '#goole') {
+
+			goolepop();
+
+		}
+
+
+
+		if (window.location.hash == '#yidi') {
+
+			yidipop();
+
+		}
+
+
+
+
+
+		var move_moble = $.cookies.get('move_moble');
+
+		if (move_moble != '' && move_moble != null) {
+
+			$("#login_moble").val(move_moble);
+
+		}
+
+	});
+
+
+
+
+
+	
+
+			function click_sortList(sortdata) {
+
+				var a = $(sortdata).attr('data-toggle');
+
+				var b = $(sortdata).attr('data-sort');
+
+				$(".price_today_ull > li").find('.cagret-up').css('border-bottom-color', '#848484');
+
+				$(".price_today_ull > li").find('.cagret-down').css('border-top-color', '#848484');
+
+				$(".price_today_ull > li").attr('data-flaglist', 0).attr('data-toggle', 0);
+
+				$(".price_today_ull > li").css('color', '');
+
+				$(sortdata).css('color', '#1a81d6');
+
+
+
+				if (a == 0) {
+
+					priceTmp = priceTmp.sort(sortcoinList('dec', b));
+
+					$(sortdata).find('.cagret-down').css('border-top-color', '#1a81d6');
+
+					$(sortdata).find('.cagret-up').css('border-bottom-color', '#848484');
+
+					$(sortdata).attr('data-flaglist', 1).attr('data-toggle', 1)
+
+				}
+
+				else if (a == 1) {
+
+					$(sortdata).attr('data-toggle', 0).attr('data-flaglist', 2);
+
+					$(sortdata).find('.cagret-up').css('border-bottom-color', '#1a81d6');
+
+					$(sortdata).find('.cagret-down').css('border-top-color', '#848484');
+
+					priceTmp = priceTmp.sort(sortcoinList('asc', b));
+
+				}
+
+				renderPage(priceTmp);
+
+				change_line_bg('price_today_ul', 'li');
+
+
+
+			}
+
+
+
+
+
+			function trends() {
+
+				$.getJSON('/ajax/index_b_trends?t=' + rd(), function (d) {
+
+					trends = d;
+
+					allcoin();
+
+
+
+				});
+
+			}
+
+
+
+			function allcoin(cb) {
+
+				var trade_qu_id = $('#tab .current').attr('data');
+
+
+
+				$.get('/ajax/allcoin_a/id/' + trade_qu_id + '?t=' + rd(), cb ? cb : function (data) {
+
+					var d;
+
+					if (data.status == 1) {
+
+						d = data.url;
+
+					}
+
+					ALLCOIN = d;
+
+					var t = 0;
+
+					var img = '';
+
+					priceTmp = [];
+
+					//把json转换为二维数组 进行渲染
+
+					for (var x in d) {
+
+						if (typeof(trends[x]) != 'undefined' && parseFloat(trends[x]['yprice']) > 0) {
+
+							rise1 = (((parseFloat(d[x][4]) + parseFloat(d[x][5])) / 2 - parseFloat(trends[x]['yprice'])) * 100) / parseFloat(trends[x]['yprice']);
+
+							rise1 = rise1.toFixed(2);
+
+						} else {
+
+							rise1 = 0;
+
+						}
+
+						img = d[x].pop();
+
+						d[x].push(rise1);
+
+						d[x].push(x);
+
+						d[x].push(img);
+
+						priceTmp.push(d[x]);
+
+					}
+
+					//二次排序
+
+					renderPage(priceTmp);
+
+					t = setTimeout('allcoin()', 5000);
+
+
+
+				}, 'json');
+
+			}
+
+
+
+			function rd() {
+
+				return Math.random()
+
+			}
+
+			//渲染函数
+
+			function renderPage(ary) {
+
+				var html = '';
+				html +='<ol style="display:block;"><table class="xc_table1"><thead><tr><th>币名</th>	<th>最新价格</th>	<th>买一价</th>	<th>卖一价</th>	<th>24H成交量</th>	<th>24H成交额</th>	<th>日涨跌</th>	</tr>	</thead>	<tbody>';
+
+				for (var i in ary) {
+
+					var coinfinance = 0;
+					if (typeof FINANCE == 'object') coinfinance = parseFloat(FINANCE.data[ary[i][8] + '_balance']);
+					html +='<tr>	<td><a href="/trade/index/market/' + ary[i][8] + '"><img class="coin-logo" style="width:26px;height:26px;display:inline-block;margin-right:15px" src ="/upload/' + ary[i][9] + '" />'+ary[i][0]+'</a></td>	<td class="col1">'+ary[i][1]+'</td>	<td>'+ary[i][2]+'</td>	<td>' + ary[i][3]+'</td>	<td>'+formatCount(ary[i][6])+'</td>	<td>'+formatCount(ary[i][4])+'</td>	<td class="col1" id="BTC_rose">' + (parseFloat(ary[i][7]) < 0 ? '' : '+') + ((parseFloat(ary[i][7]) < 0.01 && parseFloat(ary[i][7]) > -0.01) ? "0.00" : ary[i][7]) + '%</td>	</tr>	';
+	        		
+
+					
+
+
+				}
+				html +='</tbody>	</table> </ol>';
+
+				$('#content').html(html);
+
+			}
+
+			//保留2位
+
+			function formatCount(count) {
+
+				var countokuu = (count / 100000000).toFixed(3)
+
+				var countwan = (count / 10000).toFixed(3)
+
+				if (count > 100000000)
+
+					return countokuu.substring(0, countokuu.lastIndexOf('.') + 3) + '{#lang("亿")}'
+
+				if (count > 10000)
+
+					return countwan.substring(0, countwan.lastIndexOf('.') + 3) + '{#lang("万")}'
+
+				else
+
+					return count
+
+			}
+
+
+
+			//排序函数
+
+			function sortcoinList(order, sortBy) {
+
+				var ordAlpah = (order == 'asc') ? '>' : '<';
+
+				var sortFun = new Function('a', 'b', 'return parseFloat(a[' + sortBy + '])' + ordAlpah + 'parseFloat(b[' + sortBy + '])? 1:-1');
+
+				return sortFun;
+
+			}
+
+
+
+			function trade_qu(o) {
+
+				$('.btn_ul span').removeClass('active');
+
+				$(o).addClass('active');
+
+				allcoin();
+
+			}
+
+			trends();
+
+		</script>
+
+		<script>
+
+	if(!$.cookies.get('lang')){
+
+		$.cookies.set('lang', 'cn');
+
+	}
+
+
+
+	// 弹窗警告
+
+	$(function () {
+
+		var waring = $.cookies.get('move_waring');
+
+		if (!waring) {
+
+			var web_tc_close = "{$config['web_tc_close']}";
+
+			if (web_tc_close == 1) {
+
+				layer.open({
+
+					type: 2,
+
+					btn: ['我已了解以上风险'],
+
+					skin: 'layui-layer-rim', // 边框
+
+					area: ['60%', '80%'], // 宽高
+
+					title: '{#lang("风险警告")}', // 标题
+
+					content: "{#url('index/waring')}",
+
+					yes: function (index, layero) {
+
+						$.cookies.set('move_waring', 1);
+
+						layer.close(index);
+
+					},
+
+					cancel: function (index, layero) {
+
+						$.cookies.set('move_waring', 1);
+
+						layer.close(index);
+
+					}
+
+				});
+
+			}
+
+		}
+
+	});
+
+
+
+	function on_return(){
+
+		var theEvent = window.event || arguments.callee.caller.arguments[0];//回车登录
+
+		var code = theEvent.keyCode;
+
+		if(code == 13){
+
+			footer_login();
+
+		}
+
+	}
+
+</script>
+
+<script>
+
+	box();
+
+	function box(){
+
+		var boxs=$('.all_mask_loginbox');
+
+		for(var i=0;i<boxs.length;i++){// 弹窗位置居中设置
+
+			var width=$(boxs[i]).outerWidth();
+
+			var height=$(boxs[i]).outerHeight();
+
+			$(boxs[i]).css({
+
+				'top':'50%',
+
+				'left':'50%',
+
+				'margin-left':'-'+(width/2)+'px',
+
+				'margin-top':'-'+(height/2)+'px'
+
+			})
+
+		}
+
+	}
+
+	highLight();
+
+	function highLight() {
+
+		var path = window.location.pathname.split(/\/|\./);
+
+		var light= path[1];
+
+		if(!light){
+
+			$('.left_nav_ul').find('a[href="/"]').parent().addClass('active');
+
+			return ;
+
+		}
+
+		if(light !='otc'){
+
+			if($('.left_nav_ul').find('a[href="/' + light + '.html"]').length){
+
+				$('.left_nav_ul').find('a[href="/' + light + '.html"]').parent().addClass('active');
+
+			}else{
+
+				$('.left_nav_ul').find('a[href="/' + light + '/index.html"]').parent().addClass('active');
+
+			}
+
+		}
+
+
+
+	}
+
+
+
+	$('#lang_top').hover(function () {
+
+		if($('#lang_list').is(':hidden')){
+
+			$('#lang_list').slideDown();
+
+		}
+
+	}, function () {
+
+		$('#lang_list').slideUp();
+
+	});
+
+	$('#game').hover(function () {
+
+		if($('#game-nav-body').is(':hidden')){
+
+			$('#game-nav-body').slideDown();
+
+		}
+
+	}, function () {
+
+		$('#game-nav-body').slideUp();
+
+	});
+
+	function chose_lang(lang) {
+
+		$.cookies.set("lang", lang);
+
+		window.location.reload();
+
+	}
+
+
+
+	$(function () {
+
+		var userid = "{$userid}";
+
+		if (window.location.hash == '#login') {
+
+			if (!userid) {
+
+				loginpop();
+
+			}
+
+		}
+
+
+
+
+
+		if (window.location.hash == '#goole') {
+
+			goolepop();
+
+		}
+
+
+
+		if (window.location.hash == '#yidi') {
+
+			yidipop();
+
+		}
+
+
+
+
+
+		var move_moble = $.cookies.get('move_moble');
+
+		if (move_moble != '' && move_moble != null) {
+
+			$("#login_moble").val(move_moble);
+
+		}
+
+	});
+
+
+
+
+
+	function login_verify_ups() {
+
+		$('#login_verify_up').attr('src', "{#url('verify/code')}?t=" + Math.random());
+
+	}
+
+
+
+	function loginpop() {
+
+		login_verify_ups()
+
+		layer.open({
+
+			type:1,
+
+			title:0,
+
+			area:['87%','372px'],
+
+			content:$('#login-formbox')
+
+		})
+
+	}
+
+	function goolepop() {
+
+		var height = $(document).height();
+
+		var width  = $(document).width();
+
+
+
+		if (height < 1000) {
+
+			height = 1000;
+
+		}
+
+		$('.all_mask').css({'height': height,'width':width});
+
+		$('.all_mask').show();
+
+		$('#all_mask_goolebox').show();
+
+	}
+
+
+
+	function yidipop() {
+
+		var height = $(document).height();
+
+		var width  = $(document).width();
+
+		if (height < 1000) {
+
+			height = 1000;
+
+		}
+
+		$('.all_mask').css({'height': height,'width':width});
+
+		$('.all_mask').show();
+
+		$('#all_mask_yidibox').show();
+
+	}
+
+
+
+
+
+	function moble_yidi(type) {
+
+		var url = type ? '/verify/yidi' : '/email/yidi';
+
+		$.post(url, {
+
+			type: type,
+
+		}, function (data) {
+
+			if (data.status == 1) {
+
+				layer.msg(data.info, {icon: 1});
+
+				$('#yidi1').hide();
+
+				$('#yidi2').show();
+
+
+
+				var obj = $('#yidi3');
+
+				var wait = 30;
+
+				var interval = setInterval(function () {
+
+					obj.html("<a class='movesay'>" + wait + "{#lang('秒可再次发送')}" + "</a>");
+
+					wait--;
+
+					if (wait < 0) {
+
+						clearInterval(interval);
+
+						$("#verify").val('');
+
+						$('#yidi2').hide();
+
+						$('#yidi1').show();
+
+
+
+						//obj.html('<a class="move" onclick="new_send()">{#lang("点击重新发送")}</a>');
+
+					};
+
+				}, 1000);
+
+			} else {
+
+				layer.msg(data.info, {icon: 2});
+
+				if (data.url) {
+
+					window.location = data.url;
+
+				}
+
+			}
+
+		}, "json");
+
+	}
+
+
+
+
+
+	function wrapClose() {
+
+		$('.all_mask').hide();
+
+		$('.all_mask_loginbox').hide();
+
+	}
+
+
+
+	function footer_login() {
+
+		var moble = $("#login_moble").val();
+
+		var mobles = $("#login_mobles").val();
+
+		var password = $("#login_password").val();
+
+		var verify = $("#login_verify").val();
+
+
+
+		if (moble == "" || moble == null) {
+
+			layer.tips('{#lang("请输入手机号")}', '#login_moble', {tips: 2});
+
+			return false;
+
+		}
+
+		if (password == "" || password == null) {
+
+			layer.tips('{#lang("请输入登录密码")}', '#login_password', {tips: 2});
+
+			return false;
+
+		}
+
+		if (verify == "" || verify == null) {
+
+			layer.tips('{#lang("请输入验证码")}', '#login_verify', {tips: 2});
+
+			return false;
+
+		}
+
+
+
+		$.post("{#url('login/up_login')}", {
+
+			moble: moble,
+
+			mobles: mobles,
+
+			password: password,
+
+			verify: verify,
+
+			login_token: "{$login_token}",
+
+		}, function (data) {
+
+			if (data.status == 1) {
+
+				$.cookies.set('move_moble', moble);
+
+				layer.msg(data.info, {icon: 1});
+
+				if (data.url) {
+
+					window.location = data.url;
+
+				} else {
+
+					window.location.reload();
+
+				}
+
+			} else {
+
+				$("#login_verify_up").click();
+
+				layer.msg(data.info, {icon: 2});
+
+				if (data.url) {
+
+					window.location = data.url;
+
+				}
+
+			}
+
+		}, "json");
+
+	}
+
+
+
+
+
+	function footer_goole() {
+
+		var password = $("#goole_password").val();
+
+
+
+
+
+		if (password == "" || password == null) {
+
+			layer.tips('{#lang("请输入谷歌密码")}', '#goole_password', {tips: 2});
+
+			return false;
+
+		}
+
+
+
+		$.post("{#url('login/goole')}", {
+
+			password: password,
+
+		}, function (data) {
+
+			if (data.status == 1) {
+
+				layer.msg(data.info, {icon: 1});
+
+				if (data.url) {
+
+					window.location = data.url;
+
+				} else {
+
+					window.location = '/';
+
+				}
+
+			} else {
+
+				layer.msg(data.info, {icon: 2});
+
+				if (data.url) {
+
+					window.location = data.url;
+
+				}
+
+			}
+
+		}, "json");
+
+	}
+
+
+
+
+
+	function footer_yidi() {
+
+		var password = $("#yidi_password").val();
+
+
+
+		if (password == "" || password == null) {
+
+			layer.tips('{#lang("请输入短信验证码")}', '#yidi_password', {tips: 2});
+
+			return false;
+
+		}
+
+
+
+		$.post("{#url('login/yidi')}", {
+
+			password: password,
+
+		}, function (data) {
+
+			if (data.status == 1) {
+
+				layer.msg(data.info, {icon: 1});
+
+				if (data.url) {
+
+					window.location = data.url;
+
+				} else {
+
+					window.location = '/';
+
+				}
+
+			} else {
+
+				layer.msg(data.info, {icon: 2});
+
+				if (data.url) {
+
+					window.location = data.url;
+
+				}
+
+			}
+
+		}, "json");
+
+	}
+
+</script>
+
+<script>
+
+	//执行class="mv-hide" 内代码
+
+	$(document).ready(function () {
+
+		$.each($(".mv-hide"), function () {
+
+			eval($(this).html());
+
+		});
+
+	});
+
+</script>
+
+<!--图片异步加载插件js-->
+
+<script src="__EXT__/lazyload/jquery.lazyload.js" type="text/javascript"></script>
+
+<script>
+
+	$("img.lazy").lazyload({
+
+		effect: "fadeIn",
+
+		threshold: 200
+
+	});
+
+</script>
+
+<style>
+
+		.intl-tel-input .country-list{
+
+			text-align: left;
+
+		}
+
+		.layer-anim {
+
+    -webkit-animation-name: bounceIn;
+
+    animation-name: bounceIn;
+
+}
+
+.layui-layer {
+
+    border-radius: 2px;
+
+    -webkit-animation-fill-mode: both;
+
+    animation-fill-mode: both;
+
+    -webkit-animation-duration: .3s;
+
+    animation-duration: .3s;
+
+}
+
+.layui-layer {
+
+    -webkit-overflow-scrolling: touch;
+
+    top: 150px;
+
+    left: 0;
+
+    margin: 0;
+
+    padding: 0;
+
+    background-color: #fff;
+
+    -webkit-background-clip: content;
+
+    box-shadow: 1px 1px 50px rgba(0,0,0,.3);
+
+}
+
+.layui-layer, .layui-layer-shade {
+
+    position: fixed;
+
+    _position: absolute;
+
+    pointer-events: auto;
+
+}
+
+#layui-layer-shade2{
+	z-index: inherit !important;
+}
+.layui-layer-page {
+
+    border-radius: 10px!important;
+
+}
+
+.layui-layer-page .layui-layer-content {
+
+    position: relative;
+
+    overflow: auto;
+
+}
+
+.layui-layer-page .layui-layer-content {
+
+    overflow: inherit!important;
+
+}
+
+.layui-layer-content {
+
+    position: relative;
+
+}
+
+p, a, div, b, strong, h1, h2, h3, h4, h5, h6, dt, button, dd, th, td, span, input, li {
+
+    
+
+
+
+}
+
+#login-formbox {
+
+    width: 480px;
+
+    background: #fff;
+
+    border-radius: 15px;
+
+    text-align: center;
+
+}
+
+.form-horizontal {
+
+    width: 480px;
+
+    height: 347px;
+
+}
+
+#login-formbox .heading {
+
+    display: block;
+
+    font-size: 30px;
+
+    font-weight: 700;
+
+    padding: 20px 0;
+
+    border-bottom: 1px solid #f0f0f0;
+
+    margin-bottom: 30px;
+
+    color: #999;
+
+}
+
+.heading {
+
+    display: block;
+
+    font-size: 11px;
+
+    letter-spacing: 1px;
+
+    margin-bottom: 5px;
+
+    text-transform: uppercase;
+
+}
+
+#login-formbox .form-group {
+
+    padding: 0 40px;
+
+    margin: 0 0 25px 0;
+
+    position: relative;
+
+}
+
+#login-formbox .form-group {
+
+    padding: 0 40px;
+
+    margin: 0 0 25px 0;
+
+    position: relative;
+
+}
+
+.help {
+
+    display: block;
+
+    font-size: .875rem;
+
+    margin-top: .25rem;
+
+}
+
+#login-formbox .intl-tel-input {
+
+    display: block;
+
+    left: 38px;
+
+    top: 25px;
+
+}
+
+.intl-tel-input {
+
+    position: relative;
+
+    display: inline-block;
+
+}
+
+.intl-tel-input .flag-dropdown {
+
+    position: absolute;
+
+    top: 0;
+
+    bottom: 0;
+
+    padding: 1px;
+
+}
+
+.intl-tel-input * {
+
+    box-sizing: border-box;
+
+    -moz-box-sizing: border-box;
+
+}
+
+.intl-tel-input input, .intl-tel-input input[type=text], .intl-tel-input input[type=tel] {
+
+    position: relative;
+
+    z-index: 0;
+
+    margin-top: 0 !important;
+
+    margin-bottom: 0 !important;
+
+    padding-left: 48px;
+
+    margin-left: 0;
+
+    transition: background-color 100ms ease-out;
+
+}
+
+input[type=text] {
+
+    line-height: 35px;
+
+}
+
+.intl-tel-input * {
+
+    box-sizing: border-box;
+
+    -moz-box-sizing: border-box;
+
+}
+
+.mask_wrap_title, .texts {
+
+    width: initial;
+
+    float: initial;
+
+    display: inline-block;
+
+}
+
+.texts {
+
+    border: 1px solid #C5C5BC;
+
+    vertical-align: middle;
+
+    font-size: 14px;
+
+    width: 200px;
+
+    height: 34px;
+
+    line-height: 34px;
+
+    cursor: pointer;
+
+    border-radius: 4px;
+
+    background-color: #FFF;
+
+    padding: 5px;
+
+}
+
+.intl-tel-input .selected-flag {
+
+    z-index: 1;
+
+    position: relative;
+
+    width: 38px;
+
+    padding: 0px 0 0 4px;
+
+    margin: 5px;
+
+    height: 30px;
+
+    top: -25px;
+
+}
+
+.intl-tel-input .selected-flag {
+
+    top: -25px;
+
+}
+
+.intl-tel-input * {
+
+    box-sizing: border-box;
+
+    -moz-box-sizing: border-box;
+
+}
+
+.selected-flag {
+
+    z-index: 1;
+
+    position: relative;
+
+    width: 42px;
+
+    height: 100%;
+
+    padding: 0 0 0 8px;
+
+}
+
+.intl-tel-input .selected-flag .iti-flag {
+
+    position: absolute;
+
+    top: 0;
+
+    bottom: 0;
+
+    margin: auto;
+
+}
+
+.iti-flag.cn {
+
+    height: 14px;
+
+    background-position: -1049px 0px;
+
+}
+
+.iti-flag {
+
+    width: 20px;
+
+    height: 15px;
+
+    box-shadow: 0px 0px 1px 0px #888;
+
+    background-image: url(static/extend/intlTelInput/img/flags.png);
+
+    background-repeat: no-repeat;
+
+    background-color: #DBDBDB;
+
+    background-position: 20px 0;
+
+}
+
+.intl-tel-input .selected-flag .arrow {
+
+    position: absolute;
+
+    top: 50%;
+
+    margin-top: -2px;
+
+    right: 4px;
+
+    width: 0;
+
+    height: 0;
+
+    border-left: 3px solid transparent;
+
+    border-right: 3px solid transparent;
+
+    border-top: 4px solid #555;
+
+}
+
+.intl-tel-input * {
+
+    box-sizing: border-box;
+
+    -moz-box-sizing: border-box;
+
+}
+
+#login-formbox .form-control {
+
+    display: block;
+
+    width: 83%;
+
+    background: #f0f0f0;
+
+    border: none;
+
+    border-radius: 30px;
+
+    box-shadow: none;
+
+    padding: 0 20px 0 45px;
+
+    height: 40px;
+
+    transition: all 0.3s ease 0s;
+
+    font-size: 15px;
+
+}
+
+input[placeholder], [placeholder], [placeholder] {
+
+    color: #999;
+
+}
+
+#login-formbox .form-group i {
+
+    position: absolute;
+
+    top: 12px;
+
+    left: 60px;
+
+    font-size: 17px;
+
+    color: #c8c8c8;
+
+    transition: all 0.5s ease 0s;
+
+}
+
+.fa {
+
+    display: inline-block;
+
+    font: normal normal normal 14px/1 FontAwesome;
+
+    font-size: inherit;
+
+    text-rendering: auto;
+
+    -webkit-font-smoothing: antialiased;
+
+    -moz-osx-font-smoothing: grayscale;
+
+}
+
+.fa-lock:before {
+
+    content: "\F023";
+
+}
+
+img {
+
+    max-width: 100%;
+
+}
+
+#login-formbox .text {
+
+    float: left;
+
+    margin-left: 7px;
+
+    line-height: 35px;
+
+    padding-top: 5px;
+
+    text-transform: capitalize;
+
+}
+
+.text {
+
+    color: #7A7A7A;
+
+    font-size: 12px;
+
+}
+
+#login-formbox .text a {
+
+    color: #333;
+
+}
+
+a, a:visited {
+
+    text-decoration: none;
+
+    -webkit-touch-callout: none;
+
+}
+
+#login-formbox .btn {
+
+    float: right;
+
+    font-size: 14px;
+
+    color: #fff;
+
+    background: #00b4ef;
+
+    border-radius: 30px;
+
+    padding: 10px 35px;
+
+    border: none;
+
+    text-transform: capitalize;
+
+    transition: all 0.5s ease 0s;
+
+}
+
+input[type=button], input[type=submit], .cursor, a, .hand {
+
+    cursor: pointer;
+
+}
+
+#login-formbox .form-group i {
+
+    position: absolute;
+
+    top: 12px;
+
+    left: 60px;
+
+    font-size: 17px;
+
+    color: #c8c8c8;
+
+    transition: all 0.5s ease 0s;
+
+}
+
+.intl-tel-input .selected-flag .iti-flag {
+
+    position: absolute;
+
+    top: 0;
+
+    bottom: 0;
+
+    margin: auto;
+
+}
+
+.iti-flag.cn {
+
+    height: 14px;
+
+    background-position: -1049px 0px;
+
+}
+
+.iti-flag {
+
+    width: 20px;
+
+    height: 15px;
+
+    box-shadow: 0px 0px 1px 0px #888;
+
+     background-image: url(static/extend/intlTelInput/img/flags.png);
+
+    background-repeat: no-repeat;
+
+    background-color: #DBDBDB;
+
+    background-position: 20px 0;
+
+}
+
+
+
+@media only screen and (max-width: 740px) and (min-width: 100px){
+	.layui-layer-wrap{
+		width: 100% !important;
+	}
+
+	
+	.qun img{margin-right: 10px !important;}
+	.form-group i {
+
+	    position: absolute;
+
+	    top: 12px;
+
+	    left: 45px !important;
+
+	    font-size: 17px;
+
+	    color: #c8c8c8;
+
+	    transition: all 0.5s ease 0s;
+
+	}
+
+	#login-formbox .intl-tel-input {
+
+    display: block !important;
+
+    left: 38px !important;
+
+    top: 25px !important;
+
+}
+
+.intl-tel-input {
+
+    position: relative !important;
+
+    display: inline-block !important;
+
+}
+
+.intl-tel-input .flag-dropdown {
+
+    position: absolute !important;
+
+    top: 0 !important;
+
+    bottom: 0 !important;
+
+    padding: 1px !important;
+
+    
+
+}
+
+.intl-tel-input .selected-flag {
+
+    z-index: 1;
+
+    position: relative;
+
+    width: 38px !important;
+
+    padding: 0px 0 0 4px !important;
+
+    margin: 5px !important;
+
+    height: 30px !important;
+
+    top: -25px !important;
+    
+     left:-10px !important;
+}
+
+#login-formbox .btn {
+
+    padding: 10px 20px !important;
+
+}
+
+#login-formbox .btn {
+
+    float: right !important;
+
+    font-size: 14px !important;
+
+    color: #fff !important;
+
+    background: #00b4ef !important;
+
+    border-radius: 30px !important;
+
+    padding: 10px 35px;
+
+    border: none !important;
+
+    text-transform: capitalize !important;
+
+    transition: all 0.5s ease 0s !important;
+
+}
+
+}
+
+.container-fluid img{
+
+	width: 110px;
+
+}
+
+	    		
+	    		#price_ul ul:hover{
+	    			background: #d5d8d6 !important;
+	    		}
+	    		#price_ul ul li, .xc_table1 ul li{
+	    			width: 16.66%;
+	    		}
+	    		.market-trading {
+				    background: #fdf4f4;
+				    border-radius: 5px;
+				    width: 127px !important;
+				    color: #da2e22;
+				    font-size: 14px;
+				    text-align: center;
+				    padding: 8px 40px;
+				    text-indent: initial;
+				    position: relative;
+				    transition: all 0.2s;
+				}
+				.market-trading .triangle-right {
+				    width: 0;
+				    height: 0;
+				    border-top: 5px solid transparent;
+				    border-left: 10px solid #da2e22;
+				    border-bottom: 5px solid transparent;
+				    position: absolute;
+				    top: 12px;
+				    right: 20px;
+				    transition: all 0.2s;
+				}
+				.market-trading:hover{
+					background: #da2e22;
+				    color: #fff;
+				}
+				.market-trading:hover .triangle-right{
+					
+				    border-left: 10px solid #fff;
+				}
+				
+				#layui-layer1{
+					top: 50% !important;
+					margin-top: -186px !important;
+				}
+	    	</style>
+<script>
+	$('#layui-layer1 a.layui-layer-close2').click(function(){
+		alert(1)
+	})
+</script>
+</html>

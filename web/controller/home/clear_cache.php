@@ -1,0 +1,1 @@
+<?phpnamespace home;class clear_cache extends home{	public function __construct()	{		parent::__construct();		defined('ADMIN_KEY') or define('ADMIN_KEY', '');		if (ADMIN_KEY) {			$move_key = iv('get.movesay');			if ($move_key != ADMIN_KEY) {				die;			}		}		\Move\cache::clear();		cache(null);		ajax('缓存清理完成');	}}

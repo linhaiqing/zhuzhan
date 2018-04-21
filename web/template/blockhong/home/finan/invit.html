@@ -1,0 +1,110 @@
+{include file="public:header"}
+<link rel="stylesheet" href="__CSS__/newtrade/finan.css">
+<div class="back pat-20">
+	<div class="container f14">
+
+
+		<div class="clearfix">
+			{include file="finan:left"}
+			<div class="fr gray-border content color-white col-pho-12">
+				<div class="pad-sm">
+					<div class="change_title" style="border-bottom: 2px solid #69B0E4;">
+						<ul id="tabChangeNav" class="clearfix mgt-10">
+							<li class="cur show">
+								<a href="/finan/out"><span class="blue" style="border:none;"><div class="with-line">
+									{#lang('邀请朋友')}</div></span></a>
+							</li>
+
+						</ul>
+					</div>
+					<div class="tab-content mgt-20 f12">
+						<div id="qrcode-wallet" style="display: inline-block;margin-top: 60px;float: right;margin-right: 30px;" width="100">
+							<saon id="codeaa"></saon>
+							<p id="qrcode-t" style="font-size: 22px;text-align: center;margin-top: 30px;" class="move">{#lang('您的推广专属二维码')}</p>
+						</div>
+						<div class="quicklink invite-content" style="margin-top: 15px;">
+							<h4>{#lang('专属邀请码')}</h4>
+							<p class="tip">{#lang('这是您的专用邀请码，您可点击【复制】按钮分享给朋友，让他们注册帐号时输入您的邀请码')}：</p>
+							<p>
+								<input type="text" class="area texts" id="invite-input" value="{$user['invit']}" style="width: 100px;vertical-align: bottom;"><input type="button" value={#lang('复制')} data-clipboard-target="invite-input" class="ml20  btn-quick inviteCopyButton  btns2" id="copy_button1" style="width:100px;">
+							</p>
+						</div>
+						<div class="quicklink invite-content">
+							<h4>{#lang('专属链接')}</h4>
+							<p class="tip">{#lang('这是您的专用链接，您可点击【复制】按钮，将本文粘贴并发送给您的好友')}：</p>
+							<p>
+								<input type="text" class="area texts" id="invite-inputa" value="http://{$_SERVER['HTTP_HOST']}/?invit={$user['invit']}" style="width: 250px;vertical-align: bottom;"><input type="button" value={#lang('复制')} data-clipboard-target="invite-inputa" class="ml20 btn-quick inviteCopyButton btns2" id="copy_button2" style="width:100px;">
+							</p>
+						</div>
+						<div class="quicklink invite-content">
+							<h4>{#lang('专属广告语')}</h4>
+							<p class="tip">{#lang('这是您的专属广告语，您可点击【复制】按钮，将本文粘贴并发送给您的好友')}：</p>
+							<p>
+								<textarea type="text" class="area texts" id="invite-textarea" style="width: 350px;height: 100px;line-height: 25px;" >http://{$_SERVER['HTTP_HOST']}/?invit={$user['invit']} {$web_invit_text}</textarea>
+								<input type="button" value={#lang('复制')} data-clipboard-target="invite-textarea" class="ml20 btn-quick inviteCopyButton zeroclipboard-is-hover btns2 " id="copy_button3" style="width:100px;">
+							</p>
+						</div>
+						<script src="__EXT__/jquery/jquery.copy.js"></script>
+						<script src="__EXT__/jquery/jquery.qrcode.min.js"></script>
+						<script type="text/javascript">
+							$('#codeaa').qrcode({
+								render: "table",
+								size: 200,
+								text: "http://{$_SERVER['HTTP_HOST']}/?invit={$user['invit']}" //任意内容
+							});
+						</script>
+						<div class="quicklink">
+							<h4>{#lang('快速分享到社区')}</h4>
+							<div class="reward-share">
+								<a href="javascript:;" title={#lang("分享到新浪微博")} class="wlb_tsina"> <span class="icon icon-sina"></span> <i>{#lang('新浪微博')}</i> </a> <a href="javascript:;" title={#lang("分享到豆瓣网")} class="wlb_douban"> <span class="icon icon-douban"></span> <i>{#lang('豆瓣网')}</i> </a> <a href="javascript:;" title={#lang("分享到QQ空间")} class="wlb_qzone"> <span class="icon icon-qzone"></span> <i>{#lang('QQ空间')}</i> </a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript" src="__JS__/ZeroClipboard.min.js"></script>
+<script>
+	var client = new ZeroClipboard(document.getElementById("copy-button"));
+	client.on("ready", function (readyEvent) {
+		client.on("aftercopy", function (event) {
+			event.target.style.display = "none";
+		});
+	});
+	ZeroClipboard.config({swfPath: '__JS__/ZeroClipboard.swf'});
+	var clip = new ZeroClipboard(document.getElementById("copy"));
+	var _share_title = encodeURI('{#lang("邀请好友")}');
+	var _share_content = encodeURI("{$web_invit_text}");
+	var _share_url = encodeURIComponent("http://{$_SERVER['HTTP_HOST']}/?invit={$user['id']}");
+	var _share_pic = '/';
+	$(document).ready(function () {
+		var clip1 = new ZeroClipboard(document.getElementById("copy_button1"));
+		var clip2 = new ZeroClipboard(document.getElementById("copy_button2"));
+		var clip3 = new ZeroClipboard(document.getElementById("copy_button3"));
+		clip1.on("copy", function (e) {
+			layer.msg('{#lang("复制成功")}！', {icon: 1});
+		});
+		clip2.on("copy", function (e) {
+			layer.msg('{#lang("复制成功")}！', {icon: 1});
+		});
+		clip3.on("copy", function (e) {
+			layer.msg('{#lang("复制成功")}！', {icon: 1});
+		});
+		$(".wlb_tsina").click(function () {
+			window.open("http://v.t.sina.com.cn/share/share.php?url=" + _share_url + "&title=" + _share_content);
+		});
+		$(".wlb_douban").click(function () {
+			window.open("http://www.douban.com/recommend/?url=" + _share_url + "&title=" + _share_content);
+		});
+		$(".wlb_qzone").click(function () {
+			window.open("http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=" + _share_url + "&title=" + _share_title + "&pics=" + _share_pic + "&desc=" + _share_content);
+		});
+	});
+</script>
+<script>
+	$('.pengyou').addClass('current');
+</script>
+
+{include file="public:footer"}

@@ -1,0 +1,115 @@
+{include file="otc:header"}
+<link rel="stylesheet" href="__CSS__/newtrade/finan.css">
+<div class="back pat-20">
+	<div class="container f14">
+		<div class="clearfix">
+			{include file="otcfinan:left"}
+			<div class="fr gray-border content color-white col-pho-12">
+				<div class="pad-sm">
+					<div class="change_title" style="border-bottom: 2px solid #69B0E4;">
+						<ul id="tabChangeNav" class="clearfix mgt-10">
+							<li class="cur show">
+								<a href="/finan/out"><span class="blue" style="border:none;"><div class="with-line">
+									{#lang('广告记录')}</div></span></a>
+							</li>
+						</ul>
+					</div>
+					<div class="tab-content f12">
+						<div class="mytable-body ">
+							<div class="f_body  step2">
+								<select id="area-select" style="border: 1px solid #ccc;">
+									<option value="">---{#lang('全部地区')}---</option>
+									{foreach $trade_area as $k => $v}
+									<option value="{$v['id']}">{#lang($v['title'])}</option>
+									{/foreach} </select>
+								<table class="f_table" id="investLog_content">
+									<thead>
+									<tr>
+										<th>
+											<select id="coin-select" >
+												<option value="">{#lang('全部币种')}</option>
+												{foreach $coin_list as $k => $v}
+												<option value="{$v['name']}">{#strtoupper($v['name'])}</option>
+												{/foreach} </select></th>
+										<th>{#lang('委托时间')}</th>
+										<th>{#lang('支付币种')}</th>
+										<th>
+											<select id="type-select">
+												<option value="">-{#lang('全部')}-</option>
+												<option value="1">{#lang('买入')}</option>
+												<option value="2">{#lang('卖出')}</option>
+											</select>
+										</th>
+										<th>{#lang('发布价格')}</th>
+										<th>{#lang('成交范围')}</th>
+										<th>{#lang('支付方式')}</th>
+										<th>{#lang('操作')}</th>
+									</tr>
+									</thead>
+									<tbody>
+									{foreach $pages['list'] as $k => $v}
+									<tr>
+										<td>{#strtoupper($v['coin'])}</td>
+										<td>{#addtime($v['addtime'])}</td>
+										<td>{#strtoupper($v['money'])}</td>
+										<td>
+											{if $v['type'] == 1}
+											{#lang('买入')}
+											{else}
+											{#lang('卖出')}
+											{/if}
+										</td>
+										<td>{$v['price']}</td>
+										<td>{$v['minnum']}-{$v['maxnum']}</td>
+										<td>{$v['payway']}</td>
+										<td>{if $v['status']==1}<span class="redbk cursor btnss" style="background-color:#ff3333" onclick="showAdd({$v["id"]},0)">{#lang('禁用')}</span>{else if  $v['status']==0}<span class="btnss cursor" onclick="showAdd({$v["id"]},1)">{#lang('启用')}</span>{else}{#lang('状态错误')}{/if}</td>
+									</tr>
+									{/foreach}
+									</tbody>
+								</table>
+								<div class="pages">{$pages['show'] nofilter}</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script>
+	function showAdd(id,type){ //禁用启用
+
+		$.post('/otcfinan/status',{
+			id:id,
+			type:type
+		},function(data){
+			if(data.status == 1){
+				layer.msg(data.info, {icon:6});
+				setTimeout('location.reload()',1000);
+			}else{
+				layer.msg(data.info, {icon:5});
+			}
+		})
+	}
+	$("#type-select,#coin-select,#area-select").change(function () {
+		var type   = $("#type-select option:selected").val();
+		var area = $("#area-select option:selected").val();
+		var coin   = $("#coin-select option:selected").val();
+		var url    = '/otcfinan/index';
+		if (type) {
+			url += '/type/' + type;
+		}
+		if (area) {
+			url += '/area/' + area;
+		}
+		if(coin){
+			url += '/coin/' + coin;
+		}
+
+		window.location = url;
+	});
+</script>
+<script>
+	$('.fa-order').addClass('current');
+</script>
+{include file="public:footer"}

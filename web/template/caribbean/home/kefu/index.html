@@ -1,0 +1,23 @@
+
+<div data-v-853e82c0="" class="fixed_area" style="margin-top: 170px;text-align:center">
+	<ul data-v-853e82c0="" class="fixed_area_ul">
+		<li data-v-853e82c0=""><a data-v-853e82c0="" href="http://wpa.qq.com/msgrd?v=3&amp;uin={$config['contact_qq'][0]}&amp;site=qq&amp;menu=yes" target="_blank"></a></li>
+		<li data-v-853e82c0="" class="hover_list call"><span data-v-853e82c0=""></span>
+			<div data-v-853e82c0="" class="code_box">
+				<div data-v-853e82c0="" class="call_imgbox"></div>
+				<div data-v-853e82c0="" class="call_num">客服电话<br data-v-853e82c0="">{$config['contact_moble'][0]}</div>
+			</div>
+		</li>
+		<li data-v-853e82c0="" class="hover_list wechart"><span data-v-853e82c0=""></span>
+			<div data-v-853e82c0="" class="code_box"><img data-v-853e82c0="" src="__UP__/{$config['contact_weixin']}" width="100%"></div>
+		</li>
+		<li data-v-853e82c0="" onclick="kefu_top()"><span data-v-853e82c0=""></span></li>
+	</ul>
+</div>
+<script>
+	function kefu_top(){
+			$('html,body').animate({
+				scrollTop:0
+			},500)
+	}
+</script>

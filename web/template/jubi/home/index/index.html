@@ -1,0 +1,611 @@
+{include file="public:header"}
+<link href="__css__/jubi.css" rel="stylesheet"/>
+<link href="__EXT__/Font-Awesome-4.4.0/css/font-awesome.min.css" rel="stylesheet"/>
+
+
+<style>
+	@media screen and (max-width: 1200px){
+			.bn,.slider,#example1{
+				min-width:1200px;
+			}
+		.autobox span{
+			float:none;
+			width:266px;
+		}
+	    .autobox{
+		    min-width:700px;
+	    }
+
+		.login_box{
+			right:112px;
+		}
+	    .footer_bottom{
+		    min-height:100px;
+	    }
+
+	}
+	.links_img{
+
+		transition-duration:1.5s;
+		-moz-transition-duration:1.5s; /* Firefox 4 */
+		-webkit-transition-duration:1.5s; /* Safari 和 Chrome */
+		-o-transition-duration:1.5s;
+	}
+
+	.hover{
+
+		transform:scale(1);
+		-ms-transform:scale(1); /* IE 9 */
+		-webkit-transform:scale(1); /* Safari 和 Chrome */
+		-o-transform:scale(1); /* Opera */
+
+	}
+
+	.jubi_news h3 a{
+		font-weight:bold;
+		color:#333;
+	}
+
+	.pp_list li a{
+		color:#333;
+	}
+
+	/*.autobox{*/
+		/*margin-left:23%;*/
+	/*}*/
+
+	.price_today_ul dd{
+		text-indent:1.5em;
+	}
+
+	.safety_tips_ul li{
+		width:265px;
+	}
+
+	h4{
+		font-weight:bold;
+	}
+
+	.autobox dd{
+		width:148px;
+	}
+
+	/*.footer_bottom{*/
+		/*padding:10px 345px;*/
+	/*}*/
+
+	.contact_us_text0{
+		color:#FFF;
+	}
+
+	.contact_us_text2{
+		color:#FFF;
+	}
+
+	.contact_us_text3 span{
+		color:#FFF;
+	}
+	#login_verify_up {
+		vertical-align: initial;
+
+	}
+
+</style>
+<!--头部结束-->
+<div style="position:relative" class="bn">
+	{#slider("index")}
+	{if $user}
+	<div class="banner-tag login-banner-tag" style="left:1213px;top:25px">
+		<div class="user-base">
+                    <span class="user-base-sp">
+                        Hi,<a href="#" target="_blank">{$user["username"]}</a>
+                    </span>
+			<div class="user-info-block">
+				<table>
+					<tr>
+						<td>{#lang('可用')} CNY</td>
+						<td>{#lang('冻结')}</td>
+						<td>{#lang('总资产')}</td>
+					</tr>
+					<tr>
+						<td>￥{#num($user_coin['cny'])}</td>
+						<td>￥{#num($user_coin['cnyd'])}</td>
+						<td>￥{#num($user['zzc'])}</td>
+					</tr>
+				</table>
+			</div>
+		</div>
+		<ul class="clearfix">
+			<div class="user-info-fina">
+				<a href="/finan/pay.html">CNY {#lang('充值')}</a> <a href="/finan/out.html">CNY {#lang('提现')}</a>
+				<a href="/finan/trades.html" class="w82">{#lang('委托管理')}</a>
+			</div>
+		</ul>
+		<a href="/finan.html" target="_blank" class="green-link-btn">{#lang('去财务中心')}</a>
+		<a href="/finan/invit.html" target="_blank" class="transparent-link-btn">
+			<i class="icon-hot-tag"></i> {#lang('推荐好友拿奖励')} </a>
+	</div>
+	{else}
+	<div class="login_box">
+		<div class="login_bg"></div>
+		<!-- 未登录状态 -->
+		<form id="form-login-i">
+			<div class="login_box_1">
+				<div class="login_title">登录</div>
+				<div class="login_text">
+					<input type="text" id="jubi_mobles" class="texts" style="display: none;"><input type="text" id="jubi_moble" class="texts hg40 w250" placeholder="请输入手机/邮箱/用户名" style="padding-left: 42px;" value="{#cookie('moble')}"/>
+					<link rel="stylesheet" href="__EXT__/intlTelInput/css/intlTelInput.css">
+					<script src="__EXT__/intlTelInput/js/intlTelInput.js"></script>
+					<script>
+						$("#jubi_mobles").intlTelInput({
+							autoHideDialCode: false,
+							defaultCountry: "cn",
+							nationalMode: false,
+							preferredCountries: ['cn', 'us', 'hk', 'tw', 'mo'],
+						});
+						</script>
+						</div>
+				<div class="login_text">
+					<input type="password" id="jubi_password" name='pw' value="" placeholder="请输入登录密码" class="texts" style="width:250px"/>
+					<div id="pw-err-is" class="prompt" style="display:none"></div>
+				</div>
+				<div class="login_text ">
+					<input type="text" id="jubi_verify" name='pw' value="" placeholder="请输入验证码" style="width:130px" class="texts"/>
+								<span style="vertical-align: -17px;line-height: 20px;display:block; float:right;">
+				<img id="login_verify_upII" class="codeImg reloadverify " src="{#url('ajax/verify')}" title="{#lang('换一张')}" onclick="login_verify_upsII();" width="100" height="32px">
+			</span>
+					<div id="pw-err-i" class="prompt" style="display:none"></div>
+				</div>
+				<div class="login_button">
+					<input type="button" class="btns2" value="登录" onclick="jubi_login()" style="background-color:#1AA4D6"/>
+				</div>
+				<p class="login-footer" style="margin-bottom:0px">
+					<span><a style="color:#1A81D6" href="{#url('reg')}">免费注册</a>｜<a style="color:#1A81D6" href="{#url('findpwd')}">忘记密码</a></span>
+				</p>
+			</div>
+		</form>
+	</div>
+	{/if}
+</div>
+
+
+{if $trade_qu}
+<div class="tradeBox hg40" style=" width: 1200px;margin: 0 auto;   background: #FFF;">
+	<div class="slideHd hg40" style="width: 1200px;margin: 0 auto;background: #FFF;">
+		<!-- 下面是前/后按钮代码，如果不需要删除即可 -->
+		<ul class="active hg40  trade_qu_list" style="height: 40px;line-height: 40px;">
+			{foreach $trade_qu as $k => $v}
+			<li id="trade_qu_{$v['id']}" class="trade_moshi trade_qu_pai   {if $k == 0}current {/if}" data="{$v['id']}" onclick="trade_qu(this)">
+				<a> {$v['title']} </a></li>
+			{/foreach}
+		</ul>
+	</div>
+</div>
+{/if}
+
+
+<div class="price_today">
+	<div class="autobox">
+		<ul class="price_today_ull">
+			<li data-sort="0" style="cursor: default;">{#lang('交易市场')}</li>
+			<li class="click-sort" data-sort="1" data-flaglist="0" data-toggle="0">{#lang('最新成交价')} <i
+					class="cagret cagret-down"></i> <i class="cagret cagret-up"></i>
+			</li>
+			<li class="click-sort" data-sort="2" data-flaglist="0" data-toggle="0">{#lang('买一价')} <i
+					class="cagret cagret-down"></i> <i class="cagret cagret-up"></i>
+			</li>
+			<li class="click-sort" data-sort="3" data-flaglist="0" data-toggle="0">{#lang('卖一价')} <i
+					class="cagret cagret-down"></i> <i class="cagret cagret-up"></i>
+			</li>
+			<li class="click-sort" data-sort="6" data-flaglist="0" data-toggle="0">{#lang('24H成交量')} <i
+					class="cagret cagret-down"></i> <i class="cagret cagret-up"></i>
+			</li>
+			<li class="click-sort" data-sort="4" data-flaglist="0" data-toggle="0">{#lang('24H成交额')}
+				<i class="cagret cagret-down"></i> <i class="cagret cagret-up"></i>
+			</li>
+			<li class="click-sort" data-sort="7" data-flaglist="0" data-toggle="0">{#lang('24H涨跌')} <i
+					class="cagret cagret-down"></i> <i class="cagret cagret-up"></i>
+			</li>
+			<li data-sort="0">{#lang('价格趋势')}(3{#lang('日')})</li>
+			<li data-sort="0" style="width: 150px; text-align: center; text-indent: 0.5em;">{#lang('操作')}</li>
+		</ul>
+	</div>
+</div>
+<ul class="price_today_ul" id="price_today_ul" style="width:1200px;">
+</ul>
+
+
+
+<script src="__EXT__/jquery/jquery.flot.js"></script>
+<script>
+
+
+	$('.price_today_ull > .click-sort').each(function () {
+		$(this).click(function () {
+			click_sortList(this);
+		})
+	})
+
+	function allcoin_callback(priceTmp) {
+		for (var i in priceTmp) {
+			var c = priceTmp[i][8];
+
+			if (typeof (trends[c]['data']) && typeof (trends[c]['data']) != 'null') {
+				if (typeof (trends[c]) != 'undefined' && typeof (trends[c]['data']) != 'undefined') {
+					$.plot($("#" + c + "_plot"), [{shadowSize: 0, data: trends[c]['data']}], {
+						grid: {borderWidth: 0},
+						xaxis: {mode: "time", ticks: false},
+						yaxis: {tickDecimals: 0, ticks: false},
+						colors: ['#f99f83']
+					});
+				}
+			}
+
+
+		}
+	}
+
+	function click_sortList(sortdata) {
+		var a = $(sortdata).attr('data-toggle');
+		var b = $(sortdata).attr('data-sort');
+		$(".price_today_ull > li").find('.cagret-up').css('border-bottom-color', '#848484');
+		$(".price_today_ull > li").find('.cagret-down').css('border-top-color', '#848484');
+		$(".price_today_ull > li").attr('data-flaglist', 0).attr('data-toggle', 0);
+		$(".price_today_ull > li").css('color', '');
+		$(sortdata).css('color', '#1a81d6');
+
+		if (a == 0) {
+			priceTmp = priceTmp.sort(sortcoinList('dec', b));
+			$(sortdata).find('.cagret-down').css('border-top-color', '#1a81d6');
+			$(sortdata).find('.cagret-up').css('border-bottom-color', '#848484');
+			$(sortdata).attr('data-flaglist', 1).attr('data-toggle', 1)
+		}
+		else if (a == 1) {
+			$(sortdata).attr('data-toggle', 0).attr('data-flaglist', 2);
+			;
+			$(sortdata).find('.cagret-up').css('border-bottom-color', '#1a81d6');
+			$(sortdata).find('.cagret-down').css('border-top-color', '#848484');
+			priceTmp = priceTmp.sort(sortcoinList('asc', b));
+		}
+		renderPage(priceTmp);
+		change_line_bg('price_today_ul', 'li');
+		allcoin_callback(priceTmp);
+	}
+
+
+
+
+	function trends() {
+		$.getJSON('/ajax/index_b_trends?t=' + rd(), function (d) {
+			trends = d;
+			allcoin();
+
+		});
+	}
+
+	function allcoin(cb) {
+		var trade_qu_id = $('.trade_qu_list .current').attr('data');
+
+
+
+		$.get('/ajax/allcoin_a/id/' + trade_qu_id + '?t=' + rd(), cb ? cb : function (data) {
+			var d;
+			if (data.status == 1) {
+				d = data.url;
+			}
+
+
+
+			ALLCOIN  = d;
+			var t    = 0;
+			var img  = '';
+			priceTmp = [];
+			//把json转换为二维数组 进行渲染
+
+			for (var x in d) {
+				if (typeof(trends[x]) != 'undefined' && parseFloat(trends[x]['yprice']) > 0) {
+
+					rise1 = (((parseFloat(d[x][4]) + parseFloat(d[x][5])) / 2 - parseFloat(trends[x]['yprice'])) * 100) / parseFloat(trends[x]['yprice']);
+					rise1 = rise1.toFixed(2);
+
+				} else {
+					rise1 = 0;
+				}
+
+				img = d[x].pop();//删除最后一个
+				d[x].push(rise1);//向数组末尾添加
+				d[x].push(x);
+				d[x].push(img);
+				priceTmp.push(d[x]);
+			}
+			//二次排序
+			$('.price_today_ull > .click-sort').each(function () {
+				var listId = $(this).attr('data-sort');
+				if ($(this).attr('data-flaglist') == 1 && $(this).attr('data-sort') !== 0) {
+					priceTmp = priceTmp.sort(sortcoinList('dec', listId))
+				} else if ($(this).attr('data-flaglist') == 2 && $(this).attr('data-sort') !== 0) {
+					priceTmp = priceTmp.sort(sortcoinList('asc', listId))
+				}
+			});
+			renderPage(priceTmp);
+			allcoin_callback(priceTmp);
+			change_line_bg('price_today_ul', 'li');
+			t = setTimeout('allcoin()', 5000);
+
+		}, 'json');
+	}
+
+	function rd() {
+		return Math.random()
+	}
+	//渲染函数
+	function renderPage(ary) {
+		var html = '';
+		for (var i in ary) {
+			var coinfinance = 0;
+			if (typeof FINANCE == 'object') coinfinance = parseFloat(FINANCE.data[ary[i][8] + '_balance']);
+			html += '<li><dl class="autobox clear"><dt><a href="/trade/index/market/' + ary[i][8] + '/">' +
+					'<img src="/upload/' + ary[i][9] + '" style="vertical-align: middle;margin-right: 5px;width: 19px;margin-left: 12px;">' + ary[i][0] + '</a></dt><dd class="orange" style="text-indent: 1.6em;">￥' + ary[i][1] + '</dd><dd style="text-indent: 1.6rem;">￥' + ary[i][2] + '</dd><dd style="text-indent: 1.6rem;">￥' + ary[i][3] + '</dd><dd class="w142" style="    text-indent: 1.6rem;">' + formatCount(ary[i][6]) + '</dd><dd class="w142" style="    text-indent: 2.5rem;">' + formatCount(ary[i][4]) + '</dd><dd class="w142 ' + (ary[i][7] >= 0 ? 'buy' : 'sell') + '" style="    text-indent: 2.0rem;">' + (parseFloat(ary[i][7]) < 0 ? '' : '+') + ((parseFloat(ary[i][7]) < 0.01 && parseFloat(ary[i][7]) > -0.01) ? "0.00" : (parseFloat(ary[i][7])).toFixed(2)) + '%</dd><dd id="' + ary[i][8] + '_plot"  style="width:150px;height:35px;"></dd><dd class="w102" style="width:150px;text-align: center;text-indent: 0.5em;"><input type="button" value={#lang("去交易")} class="btns2" onclick="top.location=\'/trade/index/market/' + ary[i][8] + '/\'" /></dd></dl></li>'
+		}
+		$('#price_today_ul').html(html);
+	}
+	//保留2位
+	function formatCount(count) {
+		var countokuu = (count / 100000000).toFixed(3)
+		var countwan  = (count / 10000).toFixed(3)
+		if (count > 100000000)
+			return countokuu.substring(0, countokuu.lastIndexOf('.') + 3) + '亿'
+		if (count > 10000)
+			return countwan.substring(0, countwan.lastIndexOf('.') + 3) + '万'
+		else
+			return count
+	}
+	//移入行变色
+	function change_line_bg(id, tag, nobg) {
+		var oCoin_list = $('#' + id);
+		var oC_li      = oCoin_list.find(tag);
+		var oInp       = oCoin_list.find('input');
+		var oldCol     = null;
+		var newCol     = null;
+		if (!nobg) {
+			for (var i = 0; i < oC_li.length; i++) {
+				oC_li.eq(i).css('background-color', i % 2 ? '#f8f8f8' : '#fff');
+			}
+		}
+		oCoin_list.find(tag).hover(function () {
+			oldCol = $(this).css('backgroundColor');
+			$(this).css('background-color', '#eaedf4');
+		}, function () {
+			$(this).css('background-color', oldCol);
+		})
+	}
+	//排序函数
+	function sortcoinList(order, sortBy) {
+		var ordAlpah = (order == 'asc') ? '>' : '<';
+		var sortFun  = new Function('a', 'b', 'return parseFloat(a[' + sortBy + '])' + ordAlpah + 'parseFloat(b[' + sortBy + '])? 1:-1');
+		return sortFun;
+	}
+
+	function trade_qu(o){
+		$('.trade_qu_pai').removeClass('current');
+		$(o).addClass('current');
+		allcoin();
+	}
+	trends();
+</script>
+
+
+
+
+<!--公告资讯-->
+{if $index_article}
+<div class="news_w">
+	<div class="news_box">
+		{foreach $index_article as $k=>$v}
+                  <span class="jubi_news">
+              <h3>
+	              {if $k == 0} <i class="fa fa-volume-up" style="color:#1A81D6"></i> {/if} {if $k == 1}
+	              <i class="fa fa-tasks" style="color:#1A81D6"></i> {elseif $k==2}
+	              <i class="fa fa-bookmark" style="color:#1A81D6"></i> {/if}
+	              <a target="_blank" href="#">{$v.title}</a><a href="/article/index/id/{$v['id']}" style="display:block;float:right;font-size:14px;">更多+</a>
+              </h3>
+              <ul class="pp_list">
+	              {foreach $v.list as $kk=>$vv}
+	              <li style="float:left;width:200px;height:30px;overflow:hidden;">
+		              <i class="fa fa-angle-double-right" style="color:#1A81D6;margin-right:8px"></i><a style="width:200px;overflow:hidden;font-size:14px;line-height:26px;" href="/article/detail/id/{$vv.id}">{$vv.title}</a>
+	              </li>
+	              <li style="float:right;width:65px;">
+		              <a target="_blank" href="/article/detail/id/{$vv.id}">{#addtime($vv['addtime'],'y-m-d')}</a></li>
+
+	              {/foreach}
+              </ul>
+          </span> {/foreach}
+
+	</div>
+</div>
+{/if}
+
+
+
+<!--保障提示-->
+<div class="safety_tips">
+	<div style="border-top:#D8D8D8 dotted 1px;width: 1000px; margin: 0 auto; margin-bottom: 20px;"></div>
+	<h3 style="font-weight:bold">专业的安全保障</h3>
+	<div class="autobox">
+		<ul class="safety_tips_ul clear">
+			<li>
+				<img src="__IMG__/safe_1.jpg" alt="" width="70" height="70"/>
+				<h4>系统可靠</h4>
+				<p>银行级用户数据加密、动态身份验证，多级风险识别控制，保障交易安全</p>
+			</li>
+			<li>
+				<img src="__IMG__/safe_2.jpg" alt="" width="70" height="70"/>
+				<h4>资金安全</h4>
+				<p>钱包多层加密，离线存储于银行保险柜，资金第三方托管，确保安全</p>
+			</li>
+			<li>
+				<img src="__IMG__/safe_3.jpg" alt="" width="70" height="70"/>
+				<h4>快捷方便</h4>
+				<p>充值即时、提现迅速，每秒万单的高性能交易引擎，保证一切快捷方便</p>
+			</li>
+			<li>
+				<img src="__IMG__/safe_4.jpg" alt="" width="70" height="70"/>
+				<h4>服务专业</h4>
+				<p>专业的客服团队，400电话和24小时在线QQ，VIP一对一专业服务</p>
+			</li>
+		</ul>
+	</div>
+</div>
+{if $links}
+<!--合作伙伴-->
+<div class="index_news  index_news1" style="">
+	<ul class="index_media_ul index_media_ul4 ml35" style="padding-top:10px;width: 1130px;">
+		<li class="" style="font-size:20px;;">
+			<sapn style="">{#lang('友情链接')}</sapn>
+		</li>
+	</ul>
+	<ul class="index_pernter_logo ml25 mt20">
+		{foreach $links as $vo} {if $vo["img"]}
+		<li style="">
+			<a href="{$vo['value']}" class="partner1" alt="{$vo['title']}" target="_blank" rel="nofollow">
+				<img src="__UP__{$vo['img']}" title="{$vo['title']}" class="links_img"> </a>
+		</li>
+
+		{else}
+		<li>
+			<a href="{$vo['value']}" class="partner1" alt="{$vo['title']}" target="_blank" rel="nofollow"> {$vo['title']} </a>
+		</li>
+		{/if} {/foreach}
+	</ul>
+</div>
+{/if}
+<script>
+	function jubi_login() {//用户登录
+		var moble    = $("#jubi_moble").val();
+		var mobles   = $("#jubi_mobles").val();
+		var password = $("#jubi_password").val();
+		var verify   = $("#jubi_verify").val();
+
+		if (moble == "" || moble == null) {
+			layer.tips('请输入手机号', '#jubi_moble', {tips: 2});
+			return false;
+		}
+		if (password == "" || password == null) {
+			layer.tips('请输入登录密码', '#jubi_password', {tips: 2});
+			return false;
+		}
+		if (verify == "" || verify == null) {
+			layer.tips('请输入验证码', '#jubi_verify', {tips: 2});
+			return false;
+		}
+
+		$.post("{#url('login/up_login')}", {
+			moble: moble,
+			mobles: mobles,
+			password: password,
+			verify: verify,
+			login_token: "{$login_token}",
+		}, function (data) {
+			var left=$('.login_box').css('left');
+				left=left.split("p");
+				left=Number(left[0])+50;
+			if (data.status == 1) {
+				layer.msg(data.info, {icon: 1,offset:['280px',left+'px']});
+				if (data.url) {
+					window.location = data.url;
+				} else {
+					window.location.reload();
+				}
+			} else {
+				$("#login_verify_upII").click();
+				layer.msg(data.info, {icon: 2,offset:['280px',left+'px']});
+
+
+				if (data.url) {
+					window.location = data.url;
+				}
+			}
+		}, "json");
+	}
+
+	function login_verify_upsII() {
+		$('#login_verify_upII').attr('src', "{#url('verify/code')}?t=" + Math.random());
+	}
+
+	$(".login_box:parent").parent().css({'position':'relative'});
+
+
+/*
+
+	$.post("ajax/allcoin", function (data) {//首页交易信息
+		$('ol li:first').css({'background':'#1a81d6'});
+		$('ol li:first a').css({'color':'#fff'});
+
+		var objj = data;
+		var tot = '';
+		$.each(objj, function (i, item) {
+			//console.log(i);
+			//console.log(item)
+			tot += '<li style="width:100%!important;"><a href="#">' +
+					'<dl class="autobox clear">' +
+					'<dt><i></i><img src='+"../../../upload/"+item[9]+' style="width:20px;height:20px"></img>' +
+					'<p style="float:right;margin-right:30px;">'+item[0]+'</p></dt>' +
+					'<dd class="orange">￥'+item[1]+'</dd><dd style="text-indent: 0.5em">￥'+item[2]+'</dd><dd style="text-indent: 1em!important;">￥'+item[3]+'</dd>' +
+					'<dd class="w142">'+item[4]+'</dd><dd>'+item[6]+'</dd>' +
+					'<dd class="w142 " style="text-indent:2em;color:'+(item[7]>=0?'red':'green')+'">'+item[7]+'%</dd><dd id="_plot"></dd>' +
+					'<dd class="blue" id="blue" style="text-indent:0em;margin-left:110px;padding:0px 45px;"><input type="button" value="去交易" style="background-color:#1a81d6;color:#fff"/></dd></dl>' +
+					'</a></li>';
+
+		});
+		$('#price_today_ul').html(tot);
+
+	}, 'json');
+
+	$("ol li").click(function(){//交易信息切换区
+		var idx=$(this).attr('data');
+
+		$(this).css({'background':'#1a81d6'}).children().css({'color':'#fff'});
+		$(this).siblings().css({'background':'#F4F4F4'}).children().css({'color':'#000000'})
+
+		$.get("ajax/allcoin_a/ajax/1/id/"+idx,{},
+				function(data){
+					var data1=data.url;
+					var li ="";
+					$.each(data1,function(index,item){
+
+						li += '<li><a href="#">' +
+								'<dl class="autobox clear">' +
+								'<dt><i></i><img src='+"../../../upload/"+item[9]+' style="width:20px;height:20px"></img>' +
+								'<p style="float:right;margin-right:20px">'+item[0]+'</p></dt>' +
+								'<dd class="orange">￥'+item[1]+'</dd><dd>￥'+item[2]+'</dd><dd>￥'+item[3]+'</dd>' +
+								'<dd class="w142">'+item[4]+'</dd><dd>'+item[6]+'</dd>' +
+								'<dd class="w142 " style="text-indent:2em;color:'+(item[7]>=0?'red':'green')+'">'+item[7]+'%</dd><dd id="_plot"></dd>' +
+								'<dd class="blue" id="blue" style="text-indent:0em;margin-left:120px;padding:0px 45px;"><input type="button" value="去交易" /></dd></dl>' +
+								'</a></li>';
+
+					})
+					$('#price_today_ul').html(li);
+
+				},
+
+				"json");
+
+	})
+*/
+
+	//鼠标悬停放大图片
+	$(".links_img").mouseover(function () {
+		$(this).addClass('hover');
+	});
+	$(".links_img").mouseout(function () {
+		$(this).removeClass('hover');
+	})
+
+</script>
+<script>
+	$('#index_box').addClass('active');
+</script>
+
+{include file="public:footer"}
+
+

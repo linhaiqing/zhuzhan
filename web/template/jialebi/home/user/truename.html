@@ -1,0 +1,276 @@
+{include file="public:header"}
+<div class="back pat-20">
+	<div class="container  f14">
+		<div class="clearfix">
+			{include file="user:left"}
+			<link rel="stylesheet" href="__CSS__/truename.css">
+			<div class="content gray-border color-white">
+				<div id="editCertificate" class="panel mgb-20 padding-10">
+					<div class="change_title line-blue">
+						<ul id="tabChangeNav" class="clearfix mgt-10">
+							<li class="cur show">
+								<span class="blue" style="border-right:none"><div class="with-line">身份验证</div></span>
+							</li>
+						</ul>
+					</div>
+					<!--实名认证-->
+					<div class="person-identity-toggle identity-form">
+						<h1>{if $user['idcard_rz'] == 1} {#lang('恭喜您通过实名认证')} {elseif $user['idcard_rz'] == 2} {#lang('您已上传资料，人工审核中')} {else} {#lang('您还未进行实名认证，请尽快完善个人信息')} {/if}
+						</h1>
+						<form action="#" id="person_identity_form">
+							<div class="china-person">
+								<div class="form-group">
+									<label for="username">{#lang('姓名：')}</label>
+									<input type="text" name="china_identity_name" id="username" value="{$user['truename']}" {if $user['idcard_rz']}disabled{/if}>
+								</div>
+								<div class="form-group">
+									<label for="username">{#lang('证件类型：')}</label>
+									<select type="text" name="idcard_type" id="idcard_type" {if $user['idcard_rz']}disabled{/if}>
+									<option value="">{#lang('请选择证件类型')}</option>
+									<option value="1">{#lang('身份证')}</option>
+									<option value="2">{#lang('军官证')}</option>
+									<option value="3">{#lang('护照')}</option>
+									<option value="4">{#lang('台湾居民通行证')}</option>
+									<option value="5">{#lang('港澳居民通行证')}</option>
+									<option value="9">{#lang('其他')}</option>
+									</select>
+								</div>
+								<script>
+									var IDtype = "{$user['idcardtype']}";
+									var cardtyp = $('#idcard_type option');
+
+									for (var i = 0; i < cardtyp.length; i++) {
+										if ($(cardtyp[i]).html() == IDtype) {
+											$(cardtyp[i]).attr('selected', true);
+											break;
+										}
+									}
+								</script>
+								<div class="form-group">
+									<label for="idcard">{#lang('身份证号码：')}</label>
+									<input type="text" name="china_identity_code" id="idcard" value="{$user['idcard']}" {if $user['idcard_rz']}disabled{/if}>
+								</div>
+								{if $config['idrard_img_rz']} {if !$user['idcard_rz']}
+								<div class="form-group m30">
+									<label for="username" class="id-card">{#lang('手持身份证正面：')}</label>
+									<div class="upload-identity">
+										<a href="javascript:" class="upload-file-button upload-id-front">
+											<img src="" alt="" id="hand_img" width="100%" height="100%" {if !$user_img['img1']}style="display:none"{/if}/> {if !$user['idcard_rz']}
+											<input type="file" name="picture" data-id="1" class="file-upload">
+											<i class="fa fa-plus-square-o"></i> {/if} </a>
+										<p>{#lang('手持身份证正面')}</p>
+									</div>
+									<div class="upload-example">
+										<div class="picture-example">
+											<img src="__IMG__/user/id-handheld.jpg" alt="id card picture">
+										</div>
+										<div class="example-intro">
+											<h4>{#lang('示例')}</h4>
+											<p>{#lang('保证文字清晰可识别')}</p>
+											<p>{#lang('图片大小不要超过700kb')}</p>
+											<p>{#lang('建议使用QQ截图')}</p>
+										</div>
+									</div>
+								</div>
+								<div class="form-group m30">
+									<label for="username" class="id-card">{#lang('身份证正面：')}</label>
+									<div class="upload-identity">
+										<a href="javascript:" class="upload-file-button upload-id-front">
+											<img src="" alt="" id="face_img" width="100%" height="100%" {if !$user_img['img2']}style="display:none"{/if}/> {if !$user['idcard_rz']}
+											<input type="file" name="picture" data-id="2" class="file-upload">
+											<i class="fa fa-plus-square-o"></i> {/if} </a>
+										<p>{#lang('身份证正面')}</p>
+									</div>
+									<div class="upload-example">
+										<div class="picture-example">
+											<img src="__IMG__/user/id-front.jpg" alt="id card picture" width="100%">
+										</div>
+										<div class="example-intro">
+											<h4>{#lang('示例')}</h4>
+											<p>{#lang('保证文字清晰可识别')}</p>
+											<p>{#lang('图片大小不要超过700kb')}</p>
+											<p>{#lang('建议使用QQ截图')}</p>
+										</div>
+									</div>
+								</div>
+								<div class="form-group m30">
+									<label for="username" class="id-card">{#lang('身份证背面：')}</label>
+									<div class="upload-identity">
+										<a href="javascript:" class="upload-file-button upload-id-back">
+											<input type="hidden" name="identity_back_pic" class="hide-pic">
+											<img src="" alt="" id="back_img" width="100%" height="100%" {if !$user_img['img3']}style="display:none"{/if}/> {if !$user['idcard_rz']}
+											<input type="file" name="picture" data-id="3" class="file-upload">
+											<i class="fa fa-plus-square-o"></i> {/if} </a>
+										<p>{#lang('身份证背面')}</p>
+									</div>
+									<div class="upload-example">
+										<div class="picture-example">
+											<img src="__IMG__/user/id-back.jpg" alt="id card picture">
+										</div>
+										<div class="example-intro">
+											<h4>{#lang('示例')}</h4>
+											<p>{#lang('保证文字清晰可识别')}</p>
+											<p>{#lang('图片大小不要超过700kb')}</p>
+											<p>{#lang('建议使用QQ截图')}</p>
+										</div>
+									</div>
+								</div>
+								{/if} {/if}
+							</div>
+							{if !$user['idcard_rz']}
+							<div class="form-group promise">
+								<label for=""></label> <input id="promise" type="checkbox" checked>
+								<span>{#lang('我承诺所提供的资料为我本人所有，不存在盗用别人资料的情况。')}</span>
+							</div>
+							{/if}
+						</form>
+						<div class="btn-group">
+							{if $user['idcard_rz']}
+							<button class="updatebtn" onclick="update()" style="margin-left:250px">{#lang('申请修改')}</button>
+							{else}
+							<button class="submit-person-btn">{#lang('提交')}</button>
+							{/if}
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="update_item" style="display:none">
+	<div class="sv_title">{#lang('更改实名认证信息流程')}：</div>
+	<div>
+		<p>
+			<span>1.</span>{#lang('发送与上方认证信息一致的 证件正反面照片或扫描件 以及 手持证件头部照给客服')}
+		</p>
+		<p>
+			<span>2.</span>{#lang('审核更改申请；审核完成后，客服通知您申请是否通过')}
+		</p>
+		<p>
+			<span>3.</span>{#lang('申请通过，请您登录重新进行实名认证')}
+		</p>
+		<p>
+			<span>4.</span>{#lang('申请失败，则请您根据提示信息重新提交申请')}
+		</p>
+	</div>
+</div>
+<script>
+	function update() {
+		layer.open({
+			title: 0,
+			type: 1,
+			area: ['400px', '230px'],
+			content: $('.update_item')
+
+		})
+	}
+
+	$(function () {
+		$(".file-upload").change(function () {
+			//创建FormData对象
+			var data = new FormData();
+			//为FormData对象添加数据
+			var _this = $(this);
+			var id    = _this.attr('data-id');
+
+			$.each($(this)[0].files, function (i, file) {
+				data.append('img', file);
+				data.append('data_id', id);
+			});
+
+			//发送数据
+			$.ajax({
+				url: '/user/imgUser',
+				type: 'POST',
+				data: data,
+				dataType: "json",
+				contentType: false,		//不可缺参数
+				processData: false,		//不可缺参数
+				success: function (data) {
+					if (data.status == 1) {
+
+						var reader = new FileReader();
+
+						reader.onload = function () {
+
+							_this.siblings('img').attr('src', this.result);
+						}
+
+						reader.readAsDataURL(_this[0].files[0]);
+
+						_this.siblings('img').show();
+
+					} else {
+						layer.msg(data.info, {icon: 2});
+					}
+				},
+				error: function () {
+					alert('上传出错222');
+
+				}
+			});
+
+		});
+
+		$('.submit-person-btn').click(function () {
+			var truename    = $('#username').val();
+			var idcard_type = $('#idcard_type option:selected').html();
+			var idcard      = $('#idcard').val();
+			var hand_img    = $('#hand_img').attr('src');
+			var face_img    = $('#face_img').attr('src');
+			var back_img    = $('#back_img').attr('src');
+			var type        = "{$config['idrard_img_rz']}";
+
+			if (truename == '' || truename == null) {
+				layer.msg('请输入姓名', {icon: 2});
+				return false;
+			}
+			if (idcard_type == '' || idcard_type == null) {
+				layer.msg('请选择证件类型', {icon: 2});
+				return false;
+			}
+			if (idcard == '' || idcard == null) {
+				layer.msg('请输入身份证号码', {icon: 2});
+				return false;
+			}
+			if (type) {
+				if (hand_img == '' || hand_img == null) {
+					layer.msg('请上传手持身份证照', {icon: 2});
+					return false;
+				}
+				if (face_img == '' || face_img == null) {
+					layer.msg('请上传身份证正面照', {icon: 2});
+					return false;
+				}
+				if (back_img == '' || back_img == null) {
+					layer.msg('请上传身份证背面照', {icon: 2});
+					return false;
+				}
+			}
+			if (!$('#promise').prop('checked')) {
+				layer.msg('请勾选最下方条例', {icon: 2});
+				return false;
+			}
+
+			$.post('/user/truename_upII', {
+				truename: truename,
+				idcardtype: idcard_type,
+				idcard: idcard,
+
+			}, function (data) {
+				if (data.status == 1) {
+					layer.msg(data.info, {icon: 1});
+					setTimeout('location.reload()', 1000);
+				} else {
+					layer.msg(data.info, {icon: 2});
+				}
+			}, 'json')
+		})
+
+
+	});
+</script>
+<script>
+	$('.certificate').addClass('current');
+</script>
+{include file="public:footer"}

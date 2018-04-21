@@ -1,0 +1,1 @@
+<?phpnamespace home;use Move\db;class game extends \move\mvc\Controller{	public function __construct()	{		parent::__construct();	}	public function index()	{		redirect('/issue');	}}

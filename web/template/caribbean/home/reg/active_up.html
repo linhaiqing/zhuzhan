@@ -1,0 +1,202 @@
+{include file="public:header"}
+<link rel="stylesheet" type="text/css" href="__CSS__/laycss.css">
+<link href="//libs.baidu.com/fontawesome/4.0.3/css/font-awesome.min.css" rel="stylesheet">
+<style type="text/css">
+	.reg .custormer_wrap{
+		width:1200px;
+		margin:0 auto;
+		background-color:#FFF
+	}
+
+	.reg a{
+		color:#0093F1
+	}
+
+	.reg .auth_padding{
+		margin:30px auto;
+		width:832px;
+		background-color:#FFF;
+		padding:70px 0 50px
+	}
+
+	.reg .table_1_5{
+		position:relative;
+		left:50%;
+		transform:translate(-50%);
+		-webkit-transform:translate(-50%);
+		-moz-transform:translate(-50%);
+		-ms-transform:translate(-50%);
+		-o-transform:translate(-50%);
+		margin:45px 0 75px -38px
+	}
+
+	.reg .table_1_5 tr td{
+		margin:20px;
+		text-align:left
+	}
+
+	.reg .table_1_5 tr td .text{
+		height:45px;
+		width:412px;
+		padding:0 40px;
+		border-radius:2px;
+		border:1px solid #CBCBCB;
+		font-size:14px
+	}
+
+	.reg .table_1_5 tr td .send{
+		width:88px;
+		background:#0093F1;
+		height:45px;
+		top:1px;
+		position:relative;
+		border-radius:2px;
+		font-size:14px;
+		margin-left:10px;
+		cursor:pointer
+	}
+
+	.reg .table_1_5 tr td .send_h{
+		background:silver;
+		cursor:auto
+	}
+
+	.reg .table_1_5 tr td:first-child{
+		text-align:right;
+		padding-right:35px
+	}
+
+	.reg .table_1_5 tr button{
+		width:412px;
+		height:50px;
+		border:none;
+		background:#0093F1;
+		color:#FFF;
+		font-size:16px
+	}
+
+	.reg .table_1_5 tr .button_s{
+		background:#0093F1
+	}
+
+	.reg .table_1_5 .tr1 td:first-child{
+		color:#0093F1;
+		padding-right:0
+	}
+	.reg_su{
+		margin: 63px 0 0 260px;
+	}
+	.reg .table_1_5 .tr2{
+		height:70px;
+		line-height:70px
+	}</style>
+<style type="text/css">
+	.register-step{
+		text-align:center
+	}
+
+	.register-step .title{
+		font-size:14px
+	}
+
+	.register-step .title span{
+		line-height:30px
+	}
+
+	.register-step .title span i{
+		position:relative;
+		left:-25px;
+		font-size:16px;
+		color:#FFF;
+		font-style:inherit;
+		top:-15px
+	}
+
+	.register-step .title span label{
+		position:relative;
+		top:-15px
+	}
+
+	.register-step .title span .img1{
+		height:40px
+	}
+
+	.register-step .title span .img2{
+		height:13px;
+		margin-left:15px;
+		margin-right:5px;
+		margin-top:-2px;
+		position:relative;
+		top:-15px
+	}
+
+	.register-step .title span .img3{
+		height:13px;
+		position:relative;
+	}
+	.reg_su_title{
+		font-size: 20px;
+		margin: 20px auto;
+	}
+	.reg_info ul li{
+		margin-bottom:10px;
+	}
+</style>
+<div id="reg" class="reg">
+	<div class="content_common">
+		<div class="custormer_wrap">
+			<div class="auth_padding">
+				<div id="phone" >
+					<div class="register-phone">
+						<div class="register-step">
+						</div>
+						<div >
+							<div class="reg_su">
+								<div class="reg_su_title"><i class=" mr5 fz_40"></i>{$info}</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="characteristic_common">
+				<div class="main">
+					<div class="characteristic_cont">
+						<div class="char_group">
+							<ul class="char_group_list">
+								<li class="img_box img_box1"></li>
+								<li class="char_tit">{#lang('安全')}</li>
+								<li class="char_txt">{#lang('领先的分布式集群技术')}；{#lang('多层安全架构设计')}；{#lang('动态冷热钱包机制')}；{#lang('充分保障账户及信息安全')}</li>
+							</ul>
+						</div>
+						<div class="char_group">
+							<ul class="char_group_list">
+								<li class="img_box img_box2"></li>
+								<li class="char_tit">{#lang('专业')}</li>
+								<li class="char_txt">{#lang('自主研发的海量并发撮合引擎')}；{#lang('多服务器支持高并发交易')}；{#lang('强稳定性运行')}</li>
+							</ul>
+						</div>
+						<div class="char_group">
+							<ul class="char_group_list">
+								<li class="img_box img_box3"></li>
+								<li class="char_tit">{#lang('贴心')}</li>
+								<li class="char_txt">{#lang('优化的委托页面')}；{#lang('及时的行情提示')}；{#lang('定期的专业投研报告')}；7*17{#lang('小时客服服务')}；{#lang('多终端操作支持')}</li>
+							</ul>
+						</div>
+						<div class="char_group">
+							<ul class="char_group_list">
+								<li class="img_box img_box4"></li>
+								<li class="char_tit">{#lang('便捷')}</li>
+								<li class="char_txt">{#lang('快速下单')}，{#lang('及时把握行情')}；{#lang('智能交易设计')}，{#lang('可视化账户资金查询界面')}，{#lang('交易明细一目了然')}</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script>
+	$('.left_nav_ul .nav_list:first').addClass('active');
+</script>
+{include file="public:footer"}

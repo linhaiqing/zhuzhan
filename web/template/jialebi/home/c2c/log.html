@@ -1,0 +1,135 @@
+{include file="public:header"}
+<link rel="stylesheet" href="__CSS__/newtrade/finan.css">
+<link rel="stylesheet" href="__EXT__/layui-v2.2.2/css/layui.css">
+<link rel="stylesheet" href="__CSS__/c2c/module.base.css">
+<link rel="stylesheet" href="__CSS__/c2c/module.common.css">
+<style>
+	.layui-table, .layui-table-view{margin:0}
+	.layui-table td, .layui-table th{font-size:12px}
+</style>
+<div class="back pat-20">
+	<div class="container f14" >
+		<div class="clearfix">
+			{include file="finan:left"}
+			<div class="fr gray-border content color-white col-pho-12">
+				<div class="pad-sm">
+					<div class="change_title">
+						<ul id="tabChangeNav" class="clearfix mgt-10">
+							<li class="cur">
+								<a href="/c2c/log"><span class="blue"><div class="with-line">
+									{#lang('交易记录')}</div></span></a>
+							</li>
+							<li>
+								<a href="/c2c/guadan"><span class="blue"><div class="with-line">
+									{#lang('我的挂单')}</div></span></a>
+							</li>
+						</ul>
+					</div>
+					<div class="tab-content f12">
+						<div class="bk-onekey financen ">
+							<div>
+								<div class="bk-tabList-bd bk-onekey-form bk-c2c-contlist" style="padding:0">
+									<div class="bk-pageTit" id="exchangeRecord">
+										<div class="clearfix"></div>
+										<div class="table-responsive ">
+											<table class="layui-table" lay-skin="line">
+												<thead>
+												<tr id="logtr">
+													<th>{#lang('时间')}</th>
+													<th>{#lang('币种')}</th>
+													<th>{#lang('类别')}</th>
+													<th>{#lang('交易类型')}</th>
+													<th>{#lang('付款方式')}</th>
+													<th>{#lang('对方信息')}</th>
+													<th>{#lang('数量')}</th>
+													<th>{#lang('单价')}(￥)</th>
+													<th>{#lang('总价')}(￥)</th>
+													<th>{#lang('操作')}</th>
+												</tr>
+												</thead>
+												<tbody>
+
+												{foreach $pages['lists'] as $v}
+												<tr>
+													<td>{#addtime($v['addtime'])}</td>
+													<td>{#strtoupper($v['coin'])}</td>
+													<td>{if $v['lei'] == 1} {#lang('买单')} {elseif $v['lei'] == 2} {#lang('挂单')} {/if}
+													</td>
+													<td>{if $v['type'] == 1}
+													    {if $v['userid'] == $userid}
+														<em class="green">{#lang('卖出')}</em>
+													    {else}
+														<em class="c-red">{#lang('收购')}</em>
+													    {/if}
+
+													    {else}
+													    {if $v['peerid'] == $userid}
+														<em class="green">{#lang('卖出')}</em>
+													    {else}
+														<em class="c-red">{#lang('收购')}</em>
+													    {/if}
+													    {/if}
+													</td>
+													<td onclick="checkInfo(this)" data-info="{#lang('用户名')}：{$v['username']}{if $v['payinfo']['alipay']}<br>{#lang('支付宝')}：{$v['payinfo']['alipay']}{/if} {if $v['payinfo']['weChat']}<br>{#lang('微信')}：{$v['payinfo']['weChat']}{/if} {if $v['payinfo']['bank']}<br>{#lang('开户城市')}：{$v['payinfo']['bank']['bankprov']} {$v['payinfo']['bank']['bankcity']}<br>{#lang('开户支行')}：{$v['payinfo']['bank']['bankaddr']}<br> {#lang('银行卡')}：{$v['payinfo']['bank']['bank']} {$v['payinfo']['bank']['bankcard']}{/if}{if $v['payinfo']['tel']}<br>{#lang('电话')}：{$v['payinfo']['tel']}{/if}">
+														<em class="layui-btn layui-btn-normal xs">{#lang('查看')}</em></td>
+													<td onclick="checkInfo(this)" data-info="{#lang('对方姓名')}：{$v['partner']}<br>{#lang('联系方式')}：{#substr($v['tel'],strpos($v['tel'],'|')+1)}"><em class="layui-btn layui-btn-normal xs">{#lang('查看')}</em></td>
+													<td>{#round($v['num'],4)}</td>
+													<td>{#round($v['price'],4)}</td>
+													<td>{#round($v['mum'],4)}</td>
+													<td>
+														{if $v['lei'] == 1} {if $v['status'] == 2} {if $v['type']==1}
+														<em class="layui-btn layui-btn-normal xs" onclick="statusTo({$v['id']},{$v['status']})">{#lang('已汇款')}</em>
+														{else}
+														<em class="layui-btn layui-btn-tuo blue">{#lang('已托管')}</em>{/if}
+														<em class="layui-btn layui-btn-chex" onclick="cancel({$v['id']})">{#lang('撤销')}</em>
+														{elseif $v['status'] == 3} {if $v['type']==1}
+														<em class="layui-btn layui-btn-tuo blue">{#lang('等待确认')}</em>
+														{else}
+														<em class="layui-btn layui-btn-normal xs" onclick="statusTo({$v['id']},{$v['status']})">{#lang('确认到账')}</em>
+														{/if} {elseif $v['status'] == 4}
+														<em class="green">{#lang('交易成功')}</em>
+														{elseif $v['status'] == 5}
+														<em class="green">{#lang('已撤销')}</em>
+														{/if} {elseif $v['lei'] == 2 } {if $v['status'] == 2} {if $v['type']==1}
+														<em class="layui-btn layui-btn-tuo blue">{#lang('已托管')}</em>
+														{else}
+														<em class="layui-btn layui-btn-normal xs" onclick="statusTo({$v['id']},{$v['status']})">{#lang('已汇款')}</em>
+														{/if}
+														<em class="layui-btn layui-btn-chex" onclick="cancel({$v['id']})">{#lang('撤销')}</em>
+														{elseif $v['status'] == 3} {if $v['type']==1}
+														<em class="layui-btn layui-btn-normal xs" onclick="statusTo({$v['id']},{$v['status']})">{#lang('确认到账')}</em>
+														{else}
+														<em class="layui-btn layui-btn-tuo blue">{#lang('等待确认')}</em>
+														{/if} {elseif $v['status'] == 4}
+														<em class="green">{#lang('交易成功')}</em>
+														{elseif $v['status'] == 5}
+														<em class="green">{#lang('已撤销')}</em>
+														{/if} {/if}
+													</td>
+												</tr>
+												{/foreach}
+												</tbody>
+											</table>
+											{if $pages['show']}
+											<div class="pages">{$pages['show'] nofilter}</div>
+											{/if}
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script src="__JS__/c2c/c2c.js"></script>
+<script>
+	$('.hide-bar .c2c_log').addClass('current');
+</script>
+
+
+
+{include file="public:footer"}

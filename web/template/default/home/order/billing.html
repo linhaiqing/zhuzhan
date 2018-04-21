@@ -1,0 +1,205 @@
+{include file="public:header"}
+<div class="back pat-20">
+	<div class="container f14">
+		<div class="clearfix">
+	{include file="order:left"}
+			<div class="content fr color-white gray-border">
+				<div class="pad-sm">
+					<div class="box-deafult">
+						<form id="searchForm" class="hide-sm" action="/billing" method="get">
+							<input id="pageNo" name="pageNo" type="hidden" value="1"/>
+							<input id="pageSize" name="pageSize" type="hidden" value="15"/>
+							<input id="startTime" name="startTime" type="hidden"/>
+							<input id="endTime" name="endTime" type="hidden"/>
+							<table width="100%" border="0" cellpadding="0" cellspacing="0" class="wallet-log"
+							       style="margin:15px 0;">
+								<tr>
+									<th align="left" width="6%">类型:</th>
+									<td>
+										<select id="queryBillType" name="queryBillType" class="chosen-select">
+
+											<option value="All" selected="selected">全部</option>
+
+											<option value="Trade">交易</option>
+
+											<option value="Recharge">比特币充值</option>
+
+											<option value="Withdraw">比特币提现</option>
+
+											<option value="Fee">手续费</option>
+
+											<option value="MarginMoney">买入对冲</option>
+
+											<option value="MarginBtc">卖出对冲</option>
+
+											<option value="Close">平仓</option>
+
+											<option value="Interests">利息</option>
+
+										</select>
+									</td>
+									<th>开始时间:</th>
+									<td>
+										<input type="text" id='start' readonly="readonly"
+
+										       style="width: 160px" class="input-medium Wdate i18n-time-zone-date-input"
+										       size="15"
+										       onClick="WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'#F{$dp.$D(\'end\')||$dp.$D(\'end\')||\'%y-%M-{%d}\'}'})"/>
+									</td>
+									<th>结束时间:</th>
+									<td>
+										<input type="text" id='end' readonly="readonly"
+
+										       style="width: 160px" class="input-medium Wdate i18n-time-zone-date-input"
+										       size="15"
+										       onClick="WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'%y-%M-{%d}',minDate:'#F{$dp.$D(\'start\')||$dp.$D(\'start\')}'})"/>
+									</td>
+									<td align="left">
+										<a id="btnSubmit" class="btn btn-primary btn-s">
+											<span>查询</span>
+										</a>
+										&nbsp;&nbsp;
+										<a id="btnExport" type="submit">下载 </a>
+									</td>
+								</tr>
+							</table>
+						</form>
+						<table width="100%" border="0" cellspacing="0" cellpadding="0" class="table-zebra f12"
+						       style="table-layout:auto;">
+							<colgroup>
+								<col width="10%">
+								<col width="12%">
+								<col width="12%">
+								<col width="12%">
+								<col width="14%">
+								<col width="14%">
+								<col width="13%">
+								<col width="7%">
+							</colgroup>
+							<thead>
+							<tr>
+								<th align="left">日期</th>
+								<th align="left">类型</th>
+								<th align="left">BTC 变动</th>
+								<th align="left">BTC 余额</th>
+								<th align="left">
+
+
+									USD 变动
+
+								</th>
+								<th align="left">
+
+
+									USD 余额
+
+								</th>
+								<th align="left">净资产</th>
+								<th align="center"></th>
+							</tr>
+							</thead>
+							<tbody>
+
+							<tr class="table_crumbs">
+								<td colspan="8" class="center">
+									<i class="fa fa-info-circle blue-theme f18" aria-hidden="true"></i>
+									暂无账单信息</td>
+							</tr>
+
+
+
+							</tbody>
+						</table>
+						<!-- start分页页面 -->
+						<div class="pages fr"></div>
+						<!-- end分页页面 -->
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+	$(document).ready(function () {
+
+		$(".chosen-select").chosen({
+			disable_search_threshold: 25,
+			search_contains: true,
+		});
+
+		$('.bill_details').click(function () {   // 获取所谓的父行
+			$(this).toggleClass("cur");
+			var node = $(this).parent().parent().next();
+			node.toggle();
+		});
+
+		var format = "Y-MM-DD";
+		foreachI18nList($(".i18n-time-zone-date"), 2);
+		foreachI18nInputList($(".i18n-time-zone-date-input"), 2, format);
+
+		var currency_btc_change_amount_list = $(".currency-btc-change-amount");
+		currency_btc_change_amount_list.each(function () {
+			if ($(this).text().trim() > 0) {
+				$(this).css("color", "green").prepend("฿+");
+			} else if ($(this).text().trim() < 0) {
+				$(this).css("color", "red").prepend("฿");
+			} else {
+				$(this).text("--")
+			}
+		});
+
+		var currency_cny_list = $(".currency-cny");
+		currency_cny_list.each(function () {
+			if ($(this).text().trim() > 0) {
+				$(this).css("color", "green").prepend("￥+");
+			} else if ($(this).text().trim() < 0) {
+				$(this).css("color", "red").prepend("￥");
+			}
+		});
+
+		var currency_usd_list = $(".currency-usd");
+		currency_usd_list.each(function () {
+			if ($(this).text().trim() > 0) {
+				$(this).css("color", "green").prepend("$+");
+			} else if ($(this).text().trim() < 0) {
+				$(this).css("color", "red").prepend("$");
+			}
+		});
+		$("#btnExport").click(function () {
+			swal({
+				title: '系统提示',
+				text: "确认要导出账单流水吗？",
+				confirmButtonText: '确定',
+				cancelButtonText: '取消',
+				type: "info",
+			}, function () {
+				var oneDayMsec = 1 * 24 * 60 * 60 * 1000 - 1000;
+				if ($("#start").val() !== '') {
+					$("#startTime").val(new Date(moment($("#start").val(), "YYYY-MM-DD")).getTime());
+				}
+				if ($("#end").val() !== '') {
+					$("#endTime").val(new Date(moment($("#end").val(), "YYYY-MM-DD")).getTime() + oneDayMsec);
+				}
+				$("#searchForm").attr("action", "/billing/exportUserBillingListFile");
+				$("#searchForm").attr("method", "post");
+				$("#searchForm").submit();
+				$("#searchForm").attr("action", "/billing");
+			});
+		});
+
+		$('#btnSubmit').click(function () {
+			submitSearchTimeTickForm();
+		});
+	});
+
+	function page(n, s) {
+		$("#pageNo").val(n);
+		$("#pageSize").val(s);
+		$("#searchForm").attr("action", "/billing");
+		$("#searchForm").submit();
+		return false;
+	}
+</script>
+
+
+{include file="public:footer"}

@@ -1,0 +1,212 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>锁屏休息</title>
+    <link href="__IMG__/favicon.ico" type="image/x-icon" rel="shortcut icon">
+    <script type="text/javascript" src="__EXT__/jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="__EXT__/layer/layer.js"></script>
+    <link href="__EXT__/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        a {
+            font-size: 12px;
+            color: white;
+        }
+
+        a:hover {
+            color: white !important;
+        }
+
+        .copy {
+            font-size: 12px;
+            color: white;
+        }
+
+        /*lock screen*/
+
+        .lock-screen {
+            background: #02bac6 url("__IMG__/lock-bg.jpg");
+            background-size: cover;
+            background-repeat: repeat;
+        }
+
+        .lock-wrapper {
+            margin: 10% auto;
+            max-width: 330px;
+        }
+
+        .lock-box {
+            background: rgba(255, 255, 255, .3);
+            padding: 20px;
+            border-radius: 10px;
+            -webkit-border-radius: 10px;
+            position: relative;
+            height: 200px;
+        }
+
+        .lock-wrapper img {
+            position: absolute;
+            left: 36%;
+            top: -60px;
+            border-radius: 50%;
+            -webkit-border-radius: 50%;
+            border: 5px solid #fff;
+            width: 100px;
+            height: 100px;
+        }
+
+        .lock-wrapper h1 {
+            text-align: center;
+            color: #fff;
+            font-size: 18px;
+            text-transform: uppercase;
+            padding: 20px 0 0 0;
+        }
+
+        .lock-wrapper .locked {
+            margin-bottom: 20px;
+            display: inline-block;
+            color: #026f7a;
+        }
+
+        .btn-lock, .btn-lock:hover {
+            background: #02b5c2;
+            color: #fff;
+        }
+
+        .lock-input {
+            width: 83%;
+            border: none;
+            float: left;
+            margin-right: 3px;
+        }
+
+        #time {
+            width: 100%;
+            color: #fff;
+            font-size: 60px;
+            margin-bottom: 80px;
+            display: inline-block;
+            text-align: center;
+            font-family: 'Open Sans', sans-serif;
+            font-weight: 300;
+        }
+    </style>
+</head>
+<body class="lock-screen" onload="startTime()">
+<div class="lock-wrapper">
+    <div id="time"></div>
+    <div class="lock-box text-center">
+        <img src="__ADMIN__/img/favicon.ico" alt="lock avatar"/>
+
+        <h1>动说科技后台管理系统</h1>
+        <span class="locked">异地登录保护中...</span> <a onclick="yidi_sms();" id="yidi_sms">发送安全验证码</a>
+        <div class="form-group col-lg-12">
+            <input type="text" placeholder="输入验证码" id="code" name="pass"
+                    class="form-control lock-input">
+            <button class="btn btn-lock" type="button" onclick="yidi_up();">
+                <i class="glyphicon glyphicon-arrow-right"></i>
+            </button>
+        </div>
+    </div>
+    <nav class="navbar navbar-fixed-bottom">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <p class="text-center copy">
+                        <a href="http://www.movesay.com" target="_blank">动说科技有限公司</a> 版权所有 Copyright © 2013-2017 movesay.com Corporation, All Rights Reserved
+                    </p>
+                </div>
+            </div>
+        </div>
+    </nav>
+</div>
+<script>
+    $(document).ready(
+            function () {
+                $("#unlock_pass").keydown(function (event) {
+                    if (event.keyCode == 13) {
+                        unlocka();
+                    }
+                })
+            }
+    );
+
+    // 发送短信
+    function yidi_sms() {
+        $.post("/admin/login/yidi_sms", {
+            token: "{$token}"
+        }, function (data) {
+            layer.msg(data.info);
+            if (data.status == 1) {
+                layer.msg(data.info, {icon: 1});
+                if (data.url) {
+                    window.location = data.url;
+                } else {
+                    $('#yidi_sms').html('短信验证码已经发送');
+                }
+            } else {
+                layer.msg(data.info, {icon: 2});
+                if (data.url) {
+                    window.location = data.url;
+                }
+            }
+        }, 'json');
+
+
+    }
+
+    // 异地验证
+    function yidi_up() {
+        var code = $('#code').val();
+        if (!code) {
+            layer.tips('请输入短信验证码', '#code', {
+                tips: [1, '#02b5c2']
+            });
+            return;
+        }
+
+        $.post("/admin/login/yidi_up", {
+            code: code,
+            token: "{$token}"
+        }, function (data) {
+            layer.msg(data.info);
+            if (data.status == 1) {
+                layer.msg(data.info, {icon: 1});
+                if (data.url) {
+                    window.location = data.url;
+                } else {
+                    window.location.reload();
+                }
+            } else {
+                layer.msg(data.info, {icon: 2});
+                if (data.url) {
+                    window.location = data.url;
+                }
+            }
+        }, 'json');
+    }
+
+    function startTime() {
+        var today = new Date();
+        var h = today.getHours();
+        var m = today.getMinutes();
+        var s = today.getSeconds();
+        // add a zero in front of numbers<10
+        m = checkTime(m);
+        s = checkTime(s);
+        document.getElementById('time').innerHTML = h + ":" + m + ":" + s;
+        t = setTimeout(function () {
+            startTime()
+        }, 500);
+    }
+
+    function checkTime(i) {
+        if (i < 10) {
+            i = "0" + i;
+        }
+        return i;
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,54 @@
+{include file="public:header"}
+<link rel="stylesheet" href="__CSS__/article.css"/>
+<link rel="stylesheet" href="__EXT__/bootstrap/css/bootstrap.css" type="text/css">
+<link rel="stylesheet" href="__CSS__/lhang/comm.css" type="text/css">
+<link rel="stylesheet" href="__CSS__/lhang/header.css" type="text/css">
+<link rel="stylesheet" href="__CSS__/lhang/service.css" type="text/css">
+<style>
+	.active{border:none;}
+</style>
+<div class="autobox">
+    <div class="now" >
+        <i class="fa fa-home fa-lg move mr5"></i><a href="/" class="">{#lang('首页')}</a> &gt;
+        <a href="/article/index/typeid/{$type['id']}" class=""> {$type['title']} </a> &gt; {$article['title']}
+    </div>
+    <div class="assets_center clear po_re ">
+	    <div class="service-newsnav" >
+		    <div class="service-newsnav-title text-center">
+			    {#lang('资讯中心')} <img src="__IMG__/lhang/news_icon_news@2x.png" alt="" class="service-newsnav-icon">
+		    </div>
+		    <div>
+			    <ul>
+
+				    {foreach $type_arr as $k => $v}
+				    <li class="service-newsnav-item list-unstyled text-center {if $type['id'] == $v['id']} active{/if}">
+					    <a href="/article/index/typeid/{$v['id']}">{$v['title']}</a>
+				    </li>
+				    {/foreach}
+			    </ul>
+		    </div>
+	    </div>
+        <div class="coin_menu">
+        </div>
+        <div class="assets_content w900 right bg_w mh1500">
+            <h1 class="h1news" >{$article['title']}</h1>
+            <div class="new_list">
+                <div class="rightcontent">
+                    <div class="articletime mt20 mb20" style="margin-top: 40px;margin-bottom: 70px;">
+                        <span>{#lang('发布时间')}：{#addtime($article['addtime'])}</span>
+                    </div>
+                    <div class="articletext ">{$article['value'] nofilter}</div>
+                </div>
+            </div>
+            <div class="pren pbm cl">
+                <em class="left">下一篇：<a href="/article/detail/id/{$xia['id']}.html" title="{$xia['title']}">{$xia['title']}</a></em>
+                <em class="right">上一篇：<a href="/article/detail/id/{$shang['id']}.html" title="{$shang['title']}">{$shang['title']}</a></em>
+            </div>
+        </div>
+    </div>
+</div>
+
+{include file="public:footer"}
+<script>
+    $(document).attr("title", $(document).attr("title") + "|" + "{$article['title']}");//修改title值
+</script>

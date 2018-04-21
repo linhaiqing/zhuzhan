@@ -1,0 +1,61 @@
+<div class="side-bar fl  white-color col-pho-12 mgb-sm">
+	<div class="col-pho-3">
+		<div class="wallet-trans side-icon">我的交易</div>
+		<ul class="hide-bar">
+			<li class="ing"><a href="/order?flag=1">进行中的交易</a></li>
+			<li class="shensu"><a href="/order?flag=4">申诉中的交易</a></li>
+			<li class="done"><a href="/order?flag=2">已完成的交易</a></li>
+			<li class="cancle"><a href="/order?flag=3">已取消的交易</a></li>
+		</ul>
+	</div>
+	<div class="col-pho-3">
+		<div class="wallet-person side-icon">我的广告</div>
+		<ul class="hide-bar">
+			<li ><a href="/ad"
+			        class="option-item">我的广告</a></li>
+			<li ><a href="/user/adForm"
+			        class="option-item">广告设置</a></li>
+			<li ><a href="/adItems"
+			        class="option-item">交易条款模版</a></li>
+			<li ><a href="/user/importData" class="option-item">
+				导入广告
+			</a></li>
+		</ul>
+	</div>
+	<div class="col-pho-3">
+		<div class="hedge side-icon">对冲工具</div>
+		<ul class="hide-bar">
+			<li ><a
+					href="/money/apply">买入对冲 </a></li>
+			<li ><a
+					href="/btc/apply">卖出对冲 </a></li>
+		</ul>
+	</div>
+	<div class="col-pho-3">
+		<div class="wallet side-icon">财务管理</div>
+		<ul class="hide-bar">
+			<li class="deposit"><a href="/order/deposit">充值</a></li>
+			<li class="withdraw"><a href="/order/withdraw">提现</a></li>
+
+			<li ><a
+					href="/accelerate"><img class="newimg" src="__IMG__/index/NEW.svg" alt="">交易加速器</a></li>
+
+			<li ><a href="/benefit">优惠券 </a></li>
+
+			<li ><a
+					href="/billing">账单明细</a></li>
+		</ul>
+	</div>
+</div>
+<script>
+
+	$(".wallet,.wallet-coin,.wallet-person,.wallet-trans,.hedge").click(function () {
+		var temp = $(".hide-bar");
+		temp.each(function (i) {
+			if (!$(this).is(":hidden")) {
+				$(this).show();
+			}
+		});
+		$(this).next().slideToggle("slow");
+	})
+</script>

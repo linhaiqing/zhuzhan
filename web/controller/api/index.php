@@ -1,0 +1,1 @@
+<?phpnamespace api;use Move\db;class index extends api{	public function index()	{		redirect('/index/api');	}} 

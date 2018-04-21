@@ -1,0 +1,1 @@
+<?phpnamespace wap;use Move\db;use move\ext\page;use Move\config;class art extends wap{	public function __construct()	{		parent::__construct();	}	public function art_h()	{		$this->display();	}	public function art()	{		$this->display();	}	public function newslist_h()	{		$this->display();	}	public function newslist()	{		$this->display();	}} 

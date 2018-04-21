@@ -1,0 +1,160 @@
+{include file="public:header"}
+<link rel="stylesheet" href="__CSS__/newtrade/finan.css">
+<div class="back pat-20">
+	<style>
+	.content12_common {
+		    position: relative;
+		    width: 1500px  !important;
+		    height: 100%;
+		    margin: 0 auto;
+		    background: #fff;
+		}
+		
+		.container {
+		    padding: 0;
+		    width: 1500px;
+		    margin: 0 auto;
+		    box-sizing: content-box;
+		}
+</style>
+	<div class="container f14">
+		<div class="clearfix">
+			{include file="finan:left"}
+			<div class="fr gray-border content color-white col-pho-12">
+				<div class="pad-sm">
+					<div class="change_title" style="border-bottom: 2px solid #69B0E4;">
+						<ul id="tabChangeNav" class="clearfix mgt-10">
+							<li class="cur show">
+								<a href="/finan/out"><span class="blue" style="border:none;"><div class="with-line">
+									{#lang('我的推荐')}
+								</div></span></a>
+							</li>
+						</ul>
+					</div>
+					<div class="tab-content mgt-20 f12">
+						<div class="mytable-body ">
+							<div class="f_body  step2">
+								<table class="f_table" id="investLog_content">
+									<thead>
+									<tr>
+										<th width="180" style="text-align: left; padding-left: 30px;">{#lang('下家类型')}</th>
+										<th>{#lang('用户名')}</th>
+										<th>{#lang('注册时间')}</th>
+										<th>{#lang('是否认证')}</th>
+									</tr>
+									</thead>
+									<tbody>
+									{foreach $pages['list'] as $k => $v}
+									<tr>
+										<td style="text-align: left; padding-left: 20px;">
+											<a href="javascript:void(0)" data-align="{$v['id']}" onclick="Address(this)"><img class="invit_img_{$v['id']}" src="__IMG__/public/jia.png" style="width: 18px; vertical-align: middle; margin-top: -5px;">{#lang('一级下家')}({$v.invitss})</a>
+										</td>
+										<td>{$v.username}</td>
+										<td>{#addtime($v['addtime'])}</td>
+										<td>
+											<font class="sell">
+												{if $v['idcard_rz'] == 0}
+												{#lang('未认证')}
+												{elseif $v['idcard_rz'] == 1}
+												{#lang('已认证')}
+												{else}
+												{#lang('认证中')}
+												{/if}
+											</font>
+										</td>
+									</tr>
+									{if $v['invits']} {foreach $v['invits'] as $kk => $vv}
+									<tr class="invit_{$v['id']}" style="display: none;">
+										<td style="text-align: left; padding-left: 40px;">
+											<a href="javascript:void(0)" data-align="{$vv['id']}" onclick="Address(this)">
+												<img class="invita_img_{$v['id']} invit_img_{$vv['id']}" src="__IMG__/public/jia.png" style="width: 18px; vertical-align: middle; margin-top: -5px;">{#lang('二级下家')}({$vv.invitss})
+											</a></td>
+										<td>{$vv.username}</td>
+										<td>{#addtime($v['addtime'])}</td>
+										<td><font class="sell">
+											{if $vv['idcard_rz'] == 0}
+					                        {#lang('未认证')}
+					                        {elseif $v['idcard_rz'] == 1}
+					                        {#lang('已认证')}
+					                        {else}
+					                        {#lang('认证中')}
+					                        {/if}
+										</font>
+										</td>
+									</tr>
+									{if $vv['invits']} {foreach $vv['invits'] as $kkk => $vvv}
+									<tr class="invita_{$v['id']} invit_{$vv['id']} " style="display: none;">
+										<td style="text-align: left; padding-left: 60px;">
+											<a href="javascript:void(0)" data-align="{$vvv['id']}" onclick="Address(this)">
+												<img class="invita_img_{$v['id']} invit_img_{$vvv['id']}" src="__IMG__/public/jian.png" style="width: 18px; vertical-align: middle; margin-top: -5px;">{#lang('三级下家')}
+											</a></td>
+										<td>{$vvv.username}</td>
+										<td>{#addtime($vvv.addtime)}</td>
+										<td><font class="sell">
+											{if $vv['idcard_rz'] == 0}
+											{#lang('未认证')}
+											{elseif $v['idcard_rz'] == 1}
+											{#lang('已认证')}
+											{else}
+											{#lang('认证中')}
+											{/if}
+										</font>
+										</td>
+									</tr>
+									{/foreach} {/if} {/foreach} {/if} {/foreach}
+									</tbody>
+								</table>
+								<div class="pages">{$pages['show'] nofilter}</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script>
+	function Address(o) {
+		var id = $(o).attr('data-align');
+
+		var img1 = "__IMG__/public/jia.png";
+		var img2 = "__IMG__/public/jian.png";
+		var img  = $(".invit_img_" + id).attr("src");
+
+
+		//alert(img)
+		if (img == img1) {
+			$(".invit_img_" + id).attr("src", img2);
+
+			$(".invit_" + id).show();
+		} else {
+			$(".invit_img_" + id).attr("src", img1);
+			$(".invita_img_" + id).attr("src", img1);
+			$(".invit_" + id).hide();
+			$(".invita_" + id).hide();
+		}
+	}
+
+
+	function Addressb(id) {
+		var img1 = "__IMG__/public/jia.png";
+		var img2 = "__IMG__/public/jian.png";
+		var img  = $(".invit_img_" + id).attr("src");
+
+
+		//alert(img)
+		if (img == img1) {
+			$(".invit_img_" + id).attr("src", img2);
+
+			$(".invit_" + id).show();
+		} else {
+			$(".invit_img_" + id).attr("src", img1);
+			$(".invit_" + id).hide();
+			$(".invita_" + id).hide();
+		}
+	}
+</script>
+<script>
+	$('.tuijian').addClass('current');
+</script>
+{include file="public:footer"}

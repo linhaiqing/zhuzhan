@@ -1,0 +1,105 @@
+{include file="public:header"}
+<link rel="stylesheet" href="__CSS__/newtrade/finan.css">
+<div class="back pat-20">
+	<div class="container f14">
+		<div class="clearfix">
+			{include file="finan:left"}
+			<div class="fr gray-border content color-white col-pho-12">
+				<div class="pad-sm">
+					<div class="change_title" style="border-bottom: 2px solid #69B0E4;">
+						<ul id="tabChangeNav" class="clearfix mgt-10">
+							<li class="cur show">
+								<a href="/finan/out"><span class="blue" style="border:none;"><div class="with-line">
+									{#lang('成交查询')}</div></span></a>
+							</li>
+
+						</ul>
+					</div>
+					<div class="tab-content  f12">
+						<div class="mytable-body ">
+							<div class="f_body  step2">
+								<table class="f_table" id="investLog_content">
+									<thead>
+									<tr>
+										<th>
+											<select id="market-select">
+												<option value="">---{#lang('全部市场')}---</option>
+												{foreach $market_list as $k => $v}
+												<option value="{$v['name']}">{$v['title']}</option>
+												{/foreach} </select></th>
+										<th>{#lang('委托时间')}</th>
+										<th>
+											<select id="type-select">
+												<option value="">-{#lang('全部')}-</option>
+												<option value="1">{#lang('买入')}</option>
+												<option value="2">{#lang('卖出')}</option>
+											</select></th>
+										<th>{#lang('委托价格')}</th>
+										<th>{#lang('委托数量')}</th>
+										<th>{#lang('交易总额')}</th>
+										<th>{#lang('买入手续费')}</th>
+										<th>{#lang('卖出手续费')}</th>
+									</tr>
+									</thead>
+									<tbody>
+									{foreach $pages['list'] as $k => $v}
+									<tr>
+										<td><img src="__UP__/{$market_list[$v['market']]['img']}" class="mr5" style="margin-bottom: -5px; width: 22px;"/>{$market_list[$v['market']]['title']}</td>
+										<td>{#addtime($v['addtime'])}</td>
+										<td>
+
+											{if $v['userid'] == $v["peerid"]}
+											<font class="buy">{#lang('自买')}</font><font class="sell">{#lang('自卖')}</font>
+											{else}
+											{if $v['type'] == 1 && $userid == $v["userid"]}
+											<font class="buy">{#lang('买入')}</font>
+											{elseif $v['type'] == 2 && $userid == $v["userid"]}
+											<font class="buy">{#lang('买入')}</font>
+											{elseif $v['type'] == 1 && $userid == $v["peerid"]}
+											<font class="sell">{#lang('卖出')}</font>
+											{elseif $v['type'] == 2 && $userid == $v["peerid"]}
+											<font class="sell">{#lang('卖出')}</font>
+											{/if}
+
+											{/if}
+										</td>
+										<td>{$v['price']}</td>
+										<td>{$v['num']}</td>
+										<td>{$v['mum']}</td>
+										<td>{$v['fee_buy']}</td>
+										<td>{$v['fee_sell']}</td>
+									</tr>
+									{/foreach}
+									</tbody>
+								</table>
+								<div class="pages">{$pages['show'] nofilter}</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script>
+	$("#type-select").val("{$type}");
+	$("#market-select").val("{$market}");
+
+	$("#type-select,#status-select,#market-select").change(function () {
+		var type   = $("#type-select option:selected").val();
+		var market = $("#market-select option:selected").val();
+		var url    = '/finan/order';
+		if (type) {
+			url += '/type/' + type;
+		}
+		if (market) {
+			url += '/market/' + market;
+		}
+
+		window.location = url;
+	});
+</script>
+<script>
+	$('.done').addClass('current');
+</script>
+{include file="public:footer"}

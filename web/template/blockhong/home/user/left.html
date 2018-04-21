@@ -1,0 +1,40 @@
+<link rel="stylesheet" href="__CSS__/newtrade/main.css">
+<div class="side-bar fl center  white-color col-pho-12 mgb-sm ">
+	<div class="col-pho-3">
+		<div class="person-info side-icon">{#lang('安全中心')}</div>
+		<ul id="personalBar" class="hide-bar">
+			<li class="index"><a href="/user/index">{#lang('个人账户')}</a></li>
+			<li class="certificate"><a href="/user/truename">{#lang('实名认证')}</a></li>
+		</ul>
+	</div>
+	<div class="col-pho-3">
+		<div class="safe side-icon">{#lang('账户安全')}</div>
+		<ul class="hide-bar">
+			<li class="password"><a href="/user/password">{#lang('登录密码')}</a></li>
+			<li class="paypassword"><a href="/user/paypassword">{#lang('交易密码')}</a></li>
+			<li class="google"><a href="/user/google">{#lang('双重验证')}</a></li>
+			<li class="mobile"><a href="/user/moble">{#lang('手机绑定')}</a></li>
+			<li class="log"><a href="/user/log">{#lang('账户日志')}</a></li>
+		</ul>
+	</div>
+	<div class="col-pho-3">
+		<div class="trust_info side-icon">{#lang('账户管理')}</div>
+		<ul class="hide-bar">
+			<li class="goods_adress"><a href="/user/goods">{#lang('收货地址')} </a></li>
+			<li class="gongd"><a href="/user/help">{#lang('工单中心')} </a></li>
+			<li class="apply"><a href="/user/api">{#lang('api申请')} </a></li>
+		</ul>
+	</div>
+</div>
+<script>
+	$('.left_nav_ul .nav_list').eq(3).addClass('active');
+	$(".person-info,.safe,.trust_info,.message_info").click(function () {
+		var temp = $(".hide-bar");
+		temp.each(function (i) {
+			if (!$(this).is(":hidden")) {
+				$(this).show();
+			}
+		});
+		$(this).next().slideToggle("slow");
+	})
+</script>

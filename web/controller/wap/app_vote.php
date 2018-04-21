@@ -1,0 +1,1 @@
+<?phpnamespace wap;use Move\db;use move\ext\page;use Move\config;class app_vote extends wap{	public function __construct()	{		parent::__construct();	}	public function coinVote_h()	{		$this->display();	}	public function coinVote()	{		$this->display();	}} 

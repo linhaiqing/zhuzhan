@@ -1,0 +1,477 @@
+﻿{include file="public:header"}
+<link rel="stylesheet" href="__EXT__/layui-v2.2.2/css/layui.css">
+<link rel="stylesheet" href="__CSS__/c2c/module.base.css">
+<link rel="stylesheet" href="__CSS__/c2c/module.common.css?v=1.0">
+<script src="https://cdn.bootcss.com/echarts/3.8.5/echarts-en.common.js"></script>
+<!--页面中部内容开始-->
+<div class="bk-onekey financen ">
+	<div class="container">
+		<div class="finance-rd" style="width:100%; margin-left:0;">
+			<div class="bk-tabList">
+				<div class="bk-c2c-nav bk-band clearfix">
+					{foreach $qu as $k => $v}
+					<a {if $v['id']==$quid}class="active"{/if} href="/c2c/index/quid/{$v.id}">{#strtoupper($v['coin'])} {#lang('交易')}</a>
+					{/foreach}
+					<div class="introabtn layui-btn layui-btn-lg layui-btn-normal" onclick="fabu()"> {#lang('发布挂单')}</div>
+				</div>
+				<div class="bk-tabList-bd bk-onekey-form bk-c2c-contlist">
+					<ul class="layui-nav " lay-filter="" style="background:#cfe2f9">
+						<li class="layui-nav-item"><a class="black inlineb pd0">{#lang('最新价')}</a>  <em class="red" id="new_price">0.00</em></li>
+						<li class="layui-nav-item"><a class="black inlineb pd0">{#lang('最高价')}</a>  <em class="red" id="max_price">0.00</em></li>
+						<li class="layui-nav-item"><a class="black inlineb pd0">{#lang('最低价')}</a>  <em class="green" id="min_price">0.00</em></li>
+						<li class="layui-nav-item"><a class="black inlineb pd0">{#lang('买一价')}</a>  <em class="red" id="buy">0.00</em></li>
+						<li class="layui-nav-item"><a class="black inlineb pd0">{#lang('卖一价')}</a>  <em class="green" id="sell">0.00</em></li>
+						<li class="layui-nav-item"><a class="black inlineb pd0">{#lang('成交量')}</a>  <em class="red" id="volume">0.00</em></li>
+						<li class="layui-nav-item"><a class="black inlineb pd0">{#lang('日涨跌')}</a>  <em class="" id="change">0.00%</em></li>
+					</ul>
+					<div class="bk-tabList-list-btc active">
+						<div id="main" style="height:400px;"></div>
+						<div class="bk-no-cont">
+							<div>
+								<ul class="tab">
+									<a {if $typeid== 1}class="on" {/if} href="/c2c/index/quid/{$quid}/typeid/1">
+									<li class='f17 bold'>{#lang('买入C2C')}</li>
+									</a>
+									<a {if $typeid== 2}class="bg-green" {/if} href="/c2c/index/quid/{$quid}/typeid/2">
+									<li class="f17 bold">{#lang('卖出C2C')}</li>
+									</a>
+								</ul>
+								<div class="tables">
+									<table class="layui-table" lay-even lay-skin="nob">
+										<thead>
+										<tr>
+											<th>{#lang('用户')}</th>
+											<th>{#lang('交易类型')}</th>
+											<th>{#lang('付款方式')}</th>
+											<th>{#lang('价格')}</th>
+											<th>{#lang('操作')}</th>
+										</tr>
+										</thead>
+										<tbody>
+										{foreach $pages['lists'] as $v}
+										<tr>
+											<td><i class="layui-icon">&#xe612;</i>
+												<em class="black">{$v['username']}</em></td>
+											<td>{if $v['type'] == 1}
+												<span class="c-red bold">{#lang('卖出')}</span> {elseif $v['type'] == 2}
+												<span class="green bold">{#lang('收购')}</span>{/if}
+											</td>
+											<td>{$v['paytype']}</td>
+											<td>
+												<p class="bold">{#round($v['price'],2)} CNY</p>
+												<p class="f12 c-gray m0">{#round($v['num'],2)} {#strtoupper($v['coin'])}</p>
+											</td>
+											<td>
+												<button class="layui-btn layui-btn-lg {if $typeid ==1}bg-red{else}bg-green{/if}" onclick='tradeIt({$v['id']},{$typeid})'>{if $typeid == 1}{#lang('买入')}{else}{#lang('卖出')}{/if}</button>
+											</td>
+										</tr>
+										{/foreach}
+										</tbody>
+									</table>
+									<div class="pages">{$pages['show'] nofilter}</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="usdtnote">
+						<div class="notecont">
+							{foreach $qu as $v}
+						{if $v['id'] == $quid}
+							{$v['content'] nofilter}
+						{/if}
+							{/foreach}
+						</div>
+					</div>
+
+					<div class="bk-pageTit" id="exchangeRecord">
+						<h4 ><i class="layui-icon">&#xe705;</i> {#lang('最近交易记录')}
+							<a href="{#url('/c2c/log')}" class="btn card-add">{#lang('查看更多')}<i class="layui-icon">&#xe607;</i></a>
+						</h4>
+						<div class="clearfix"></div>
+						<div class="table-responsive ">
+							<table class="layui-table" lay-skin="line">
+								<thead>
+								<tr>
+									<th>{#lang('时间')}</th>
+									<th>{#lang('类别')}</th>
+									<th>{#lang('交易类型')}</th>
+									<th>{#lang('付款方式')}</th>
+									<th>{#lang('对方信息')}</th>
+									<th>{#lang('数量')}</th>
+									<th>{#lang('单价')}(￥)</th>
+									<th>{#lang('总价')}(￥)</th>
+									<th>{#lang('操作')}</th>
+								</tr>
+								</thead>
+								<tbody>
+								{foreach $proLog as $v}
+								<tr>
+									<td>{#addtime($v['addtime'])}</td>
+									<td>{if $v['lei'] == 1} {#lang('买单')} {elseif $v['lei'] == 2} {#lang('挂单')} {/if}
+									</td>
+									<td>{if $v['type'] == 1}
+											{if $v['userid'] == $userid}
+												<em class="green">{#lang('卖出')}</em>
+											{else}
+									              <em class="c-red">{#lang('收购')}</em>
+											{/if}
+
+									    {else}
+									        {if $v['peerid'] == $userid}
+												<em class="green">{#lang('卖出')}</em>
+									        {else}
+												<em class="c-red">{#lang('收购')}</em>
+									         {/if}
+									    {/if}
+									</td>
+									<td onclick="checkInfo(this)" data-info="{#lang('用户名')}：{$v['username']}{if $v['payinfo']['alipay']}<br>{#lang('支付宝')}：{$v['payinfo']['alipay']}{/if} {if $v['payinfo']['weChat']}<br>{#lang('微信')}：{$v['payinfo']['weChat']}{/if} {if $v['payinfo']['bank']}<br>{#lang('开户城市')}：{$v['payinfo']['bank']['bankprov']} {$v['payinfo']['bank']['bankcity']}<br>{#lang('开户支行')}：{$v['payinfo']['bank']['bankaddr']}<br> {#lang('银行卡')}：{$v['payinfo']['bank']['bank']} {$v['payinfo']['bank']['bankcard']}{/if}{if $v['payinfo']['tel']}<br>{#lang('电话')}：{$v['payinfo']['tel']}{/if}">
+										<em class="layui-btn layui-btn-normal xs">{#lang('查看')}</em></td>
+									<td onclick="checkInfo(this)" data-info="{#lang('对方姓名')}：{$v['partner']}<br>{#lang('联系方式')}：{#substr($v['tel'],strpos($v['tel'],'|')+1)}"><em class="layui-btn layui-btn-normal xs">{#lang('查看')}</em></td>
+									<td>{#round($v['num'],4)}</td>
+									<td>{#round($v['price'],4)}</td>
+									<td>{#round($v['mum'],4)}</td>
+									<td>
+										{if $v['lei'] == 1} {if $v['status'] == 2} {if $v['type']==1}
+										<em class="layui-btn layui-btn-normal xs" onclick="statusTo({$v['id']},{$v['status']})">{#lang('已汇款')}</em>
+										{else}
+										<em class="layui-btn layui-btn-tuo blue">{#lang('已托管')}</em>{/if}
+										<em class="layui-btn layui-btn-chex" onclick="cancel({$v['id']})">{#lang('撤销')}</em>
+										{elseif $v['status'] == 3} {if $v['type']==1}
+										<em class="layui-btn layui-btn-tuo blue">{#lang('等待确认')}</em>
+										{else}
+										<em class="layui-btn layui-btn-normal xs" onclick="statusTo({$v['id']},{$v['status']})">{#lang('确认到账')}</em>
+										{/if} {elseif $v['status'] == 4}
+										<em class="green">{#lang('交易成功')}</em>
+										{elseif $v['status'] == 5}
+										<em class="green">{#lang('已撤销')}</em>
+										{/if} {elseif $v['lei'] == 2 } {if $v['status'] == 2} {if $v['type']==1}
+										<em class="layui-btn layui-btn-tuo blue">{#lang('已托管')}</em>
+										{else}
+										<em class="layui-btn layui-btn-normal xs" onclick="statusTo({$v['id']},{$v['status']})">{#lang('已汇款')}</em>
+										{/if}
+										<em class="layui-btn layui-btn-chex" onclick="cancel({$v['id']})">{#lang('撤销')}</em>
+										{elseif $v['status'] == 3} {if $v['type']==1}
+										<em class="layui-btn layui-btn-normal xs" onclick="statusTo({$v['id']},{$v['status']})">{#lang('确认到账')}</em>
+										{else}
+										<em class="layui-btn layui-btn-tuo blue">{#lang('等待确认')}</em>
+										{/if} {elseif $v['status'] == 4}
+										<em class="green">{#lang('交易成功')}</em>
+										{elseif $v['status'] == 5}
+										<em class="green">{#lang('已撤销')}</em>
+										{/if} {/if}
+									</td>
+								</tr>
+								{/foreach}
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!--页面中部内容结束-->
+<div class="guadan">
+	<form class="layui-form">
+		<div class="layui-form-item">
+			<label class="layui-form-label">{#lang('挂单类型')}</label>
+			<div class="layui-input-block">
+				<input type="radio" name="type" value="1" title="{#lang('卖出')}" checked >
+				<input type="radio" name="type" value="2" title="{#lang('买入')}" >
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">{#lang('选择币种')}</label>
+			<div class="layui-input-block coin-choose">
+				<select  lay-verify="required" id="coin-choose">
+					<option value=""></option>
+					{foreach $qu as $v}
+					<option value="{$v['coin']}">{#strtoupper($v['coin'])}</option>
+					{/foreach} </select>
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">{#lang('价格')}</label>
+			<div class="layui-input-block">
+				<input id="coin-price" type="text" name="title" required lay-verify="required" placeholder="{#lang('请输入单价')}" autocomplete="off" class="layui-input">
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">{#lang('数量')}</label>
+			<div class="layui-input-block">
+				<input id="count" type="text" name="title" required lay-verify="required" placeholder="{#lang('请输入币种数量')}" autocomplete="off" class="layui-input">
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">{#lang('总金额')}</label>
+			<div class="layui-input-block">
+				<input id="num" type="text" name="title" required lay-verify="required" placeholder="{#lang('请输入交易总金额')}" autocomplete="off" class="layui-input">
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">{#lang('银行卡')}</label>
+			<div class="layui-input-block">
+				<select  lay-verify="required" id="bank-choose" placeholder="{#lang('请选择银行卡')}">
+					<option value=""></option>
+						{if $bank}
+              {foreach $bank as $v}
+              <option value="{$v['id']}">{$v['bank']}{$v['bankcard']}</option>
+              {/foreach}
+              {else}
+              <option value=\"onclick="window.location='/c2c/bank'"\">还没有银行卡？去添加吧！</option>
+            {/if}
+					</select>
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">{#lang('支付宝')}</label>
+			<div class="layui-input-inline">
+				<input id="alipay" type="text" name="title" lay-verify="required" placeholder="{#lang('请输入支付宝账号')}" autocomplete="off" class="layui-input">
+			</div>
+			<div class="layui-form-mid layui-word-aux">{#lang('至少一种付款方式')}</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">{#lang('微信')}</label>
+			<div class="layui-input-inline">
+				<input id="wechat" type="text" name="title" lay-verify="required" placeholder="{#lang('请输入微信账号')}" autocomplete="off" class="layui-input">
+			</div>
+			<div class="layui-form-mid layui-word-aux">{#lang('至少一种付款方式')}</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">{#lang('交易密码')}</label>
+			<div class="layui-input-inline">
+				<input id="form-psw" type="password" name="title" required lay-verify="required" placeholder="{#lang('请输入交易密码')}" autocomplete="off" class="layui-input">
+			</div>
+			<div class="layui-form-mid layui-word-aux"><a href="{#url('/finan/forget')}">{#lang('忘记密码')}？</a></div>
+		</div>
+		<div class="layui-form-item">
+			<div class="layui-input-block" style="text-align:center;margin:auto">
+				<div class="layui-btn" onclick="form_up()">{#lang('立即提交')}</div>
+			</div>
+		</div>
+	</form>
+</div>
+<div class="trade-it">
+	<form class="layui-form">
+		<div class="layui-form-item {if $typeid== 1}hide{/if}">
+			<label class="layui-form-label">{#lang('银行卡')}</label>
+			<div class="layui-input-inline">
+				<select  lay-verify="required" id="t-bank-choose" placeholder="{#lang('请选择银行卡')}">
+					<option value=""></option>
+					 {if $bank}
+              {foreach $bank as $v}
+              <option value="{$v['id']}">{$v['bank']}{$v['bankcard']}</option>
+              {/foreach}
+              {else}
+              <option value=\"onclick="window.location='/c2c/bank'"\">还没有银行卡？去添加吧！</option>
+            {/if}
+         </select>
+			</div>
+			<div class="layui-form-mid layui-word-aux">{#lang('至少一种付款方式')}</div>
+		</div>
+		<div class="layui-form-item {if $typeid== 1}hide{/if}">
+			<label class="layui-form-label">{#lang('支付宝')}</label>
+			<div class="layui-input-inline">
+				<input id="t-alipay" type="text" name="title" lay-verify="required" placeholder="{#lang('请输入支付宝账号')}" autocomplete="off" class="layui-input">
+			</div>
+			<div class="layui-form-mid layui-word-aux">{#lang('至少一种付款方式')}</div>
+		</div>
+		<div class="layui-form-item {if $typeid== 1}hide{/if}">
+			<label class="layui-form-label">{#lang('微信')}</label>
+			<div class="layui-input-inline">
+				<input id="t-wechat" type="text" name="title" lay-verify="required" placeholder="{#lang('请输入微信账号')}" autocomplete="off" class="layui-input">
+			</div>
+			<div class="layui-form-mid layui-word-aux">{#lang('至少一种付款方式')}</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">{#lang('交易价格')}</label>
+			<div class="layui-input-inline">
+				<input id="t-price" type="text" name="title" class="layui-input" readonly>
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">{#lang('交易数量')}</label>
+			<div class="layui-input-inline">
+				<input id="t-num" type="text" name="title" class="layui-input" readonly>
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">{#lang('交易总额')}</label>
+			<div class="layui-input-inline">
+				<input id="t-mum" type="text" name="title" class="layui-input" readonly>
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">{#lang('交易密码')}</label>
+			<div class="layui-input-inline">
+				<input id="t-psw" type="password" name="title" class="layui-input" autocomplete="off">
+			</div>
+			<div class="layui-form-mid layui-word-aux">
+				<a class="c-red" href="{#url('/finan/forget')}">{#lang('忘记密码')}？</a></div>
+		</div>
+		<div class="layui-form-item hide notice">
+			<label class="layui-form-label c-red">{#lang('温馨提示')}</label>
+			<div class="layui-input-inline">
+				<p class="weituo c-red">{#lang('提交后您的币种将委托到平台')}</p>
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<div class="layui-input-block" style="text-align:center;margin:auto;">
+				<div class="layui-btn" onclick="trade_up(this)" data-id="" id="trade-it-up">{#lang('立即提交')}</div>
+			</div>
+		</div>
+	</form>
+</div>
+<script src="__EXT__/layui-v2.2.2/layui.js"></script>
+<script>
+	var $quName = "{$quName}";
+
+	var myChart = echarts.init(document.getElementById('main'));
+	hangqing();
+	function hangqing(){
+		myChart.showLoading();
+		$.get('/c2c/hangqing',{coin:$quName},function (data) {
+			// 填入数据
+			if(data.status == 1){
+				myChart.setOption({
+					tooltip: {
+						trigger: 'axis',
+						position: function (pt) {
+							return [pt[0], '10%'];
+						}
+					},
+					grid: {
+						width: '100%',
+						left: 50
+					}
+					,
+					title: {
+						left: 'center',
+						text: "{#strtoupper($quName)}价格走势图",
+					},
+					xAxis: {
+						type: 'category',
+						boundaryGap: false,
+						data: data.info.time
+					},
+					yAxis: {
+						type: 'value',
+						boundaryGap: [0, '100%']
+					},
+					dataZoom: [{
+						type: 'inside',
+						start: 0,
+						end: 95
+					}, {
+						start: 0,
+						end: 10,
+						handleIcon: 'M10.7,11.9v-1.3H9.3v1.3c-4.9,0.3-8.8,4.4-8.8,9.4c0,5,3.9,9.1,8.8,9.4v1.3h1.3v-1.3c4.9-0.3,8.8-4.4,8.8-9.4C19.5,16.3,15.6,12.2,10.7,11.9z M13.3,24.4H6.7V23h6.6V24.4z M13.3,19.6H6.7v-1.4h6.6V19.6z',
+						handleSize: '80%',
+						handleStyle: {
+							color: '#fff',
+							shadowBlur: 3,
+							shadowColor: 'rgba(0, 0, 0, 0.6)',
+							shadowOffsetX: 2,
+							shadowOffsetY: 2
+						}
+					}],
+					series: [
+						{
+							name: '成交价',
+							type:'line',
+							smooth:true,
+							symbol: 'none',
+							sampling: 'average',
+							itemStyle: {
+								normal: {
+									color: 'rgb(255, 70, 131)'
+								}
+							},
+							areaStyle: {
+								normal: {
+									color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+										offset: 0,
+										color: 'rgb(255, 158, 68)'
+									}, {
+										offset: 1,
+										color: 'rgb(255, 70, 131)'
+									}])
+								}
+							},
+							data: data.info.data
+						}
+					]
+
+				});
+				myChart.hideLoading();
+				setTimeout('hangqing()',120000)
+			}
+		},'json');
+
+	}
+	//保留2位
+function formatCount(count) {
+    var countokuu = (count / 100000000).toFixed(3)
+    var countwan = (count / 10000).toFixed(3);
+
+    if (count > 100000000)
+        return countokuu.substring(0, countokuu.lastIndexOf('.') + 3) + '{#lang("亿")}'
+    if (count > 10000)
+        return countwan.substring(0, countwan.lastIndexOf('.') + 3) + '{#lang("万")}'
+    else
+        return count
+}
+
+</script>
+<script src="__JS__/c2c/c2c.js?v=1.0"></script>
+<script>
+	// 挂单弹窗
+	function fabu() {
+		const $user = "{$user['id']}";
+		if (!$user) {
+			loginpop();
+		} else {
+			layer.open({
+				type: 1,
+				title: 0,
+				content: $('.guadan'),
+				area: ['auto', 'auto']
+			})
+		}
+	}
+
+	// 交易弹窗
+	function tradeIt(id, type) {
+		const $user = "{$user['id']}";
+		if (!$user) {
+			return loginpop();
+		}
+		$('#trade-it-up').attr('data-id', id);
+		$('#trade-it-up').attr('data-type', type);
+		$.post('/c2c/trade', {id: id}, function (data) {
+			if (data.status == 1) {
+				if (type == 2) {
+					$('.trade-it .notice').show();//状态为卖出时显示提示语
+					$('.trade-it .hide').show();
+				}
+
+				for (let k in data.info) {
+					$('#t-' + k).val(data.info[k]);
+				}//显示付款方式
+
+				//弹出表单
+				layer.open({
+					type: 1,
+					title: 0,
+					content: $('.trade-it'),
+					area: ['auto', 'auto']
+				})
+			} else {
+				layer.msg("{#lang('此单异常')}", {icon: 5, anim: 6}) //anim 抖动
+			}
+		}, 'json')
+	}
+</script>
+{include file="public:footer"}

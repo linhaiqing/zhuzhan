@@ -1,0 +1,350 @@
+{include file="public:header"}
+<div class="back pat-20">
+	<div class="container f14">
+		<div class="clearfix">
+			{include file="order:left"}
+			<div class="content fr color-white gray-border">
+				<div class="pad-sm">
+					<div class="alert alert-info ">
+						温馨提示：在BitcoinWorld内提现无需手续费，提现到BitcoinWorld以外的地址需要支付 0.0001 BTC（标准模式）或  0.001 BTC（极速模式）作为网络手续费。极速模式的提现会较快得到确认。
+					</div>
+					<form id="inputForm" class="form-horizontal tb-register" action="/withdraw" method="post">
+						<div class="table-wrapper">
+							<div class="transferAddress group mgt-20" style="position: relative">
+								<div class="col_input  col_text  align-right">地址:</div>
+								<div class="col_w">
+
+									<select id="trust" style="" class="input-text" value="" onChange="changeF();">
+										<option style="display: none"></option>
+
+									</select>
+									<input name="targetBitcoinsAddress" id="address" htmlEscape="false"
+									       value="" class="input-text required" maxlength="40" autocomplete="off"/>
+									<a onclick="showMyAddressIframe()" style="margin-left: 40px">地址管理</a>
+								</div>
+							</div>
+							<div class="group">
+								<div class="col_input  col_text align-right">可提现:</div>
+								<div class="transfer_width padtop-15">
+									0.0000 BTC
+									<input type="hidden" id="cashAmount" name="cashAmount"
+									       value=" 0.0000"/>
+								</div>
+							</div>
+							<div class="clearfix"></div>
+
+							<div class="group">
+								<div class="col_input  col_text  align-right">提现:</div>
+								<div class="col_w transfer_width ">
+									<input id="bitcoinsAmount" name="bitcoinsAmount"
+									       min="0"
+									       value=""
+									       length="17" htmlEscape="false" class="input-text required input-append"
+									       onkeypress="return isNum(event)" autocomplete="off" onblur="clearNoNum(this)"/>
+									BTC
+								</div>
+							</div>
+
+							<div class="group">
+								<div class="col_input col_text align-right">手续费模式:</div>
+								<div class="col_w padtop-15">
+									<input name="netFeeMode" id="netFeeMode1" value="std" type="radio" required/><label for="netFeeMode1">标准( 0.0001 BTC )&nbsp</label>
+									<input name="netFeeMode" id="netFeeMode2" value="quick" type="radio" required/><label for="netFeeMode2">极速 ( 0.001 BTC )</label>
+								</div>
+							</div>
+
+							<div class="group" id="emailCode" style="display:none">
+								<div class="col_input col_text  align-right">邮件验证码:</div>
+								<div class="col_w transfer_width ">
+									<input id="btnsendEmail" class="btn btn-primary" onclick="sendEmailCode();" type="button"
+									       value="发送邮件验证码"/>
+								</div>
+								<div class="col_w transfer_width ">
+									<input id="tfaEmailCode" name="tfaEmailCode" length="6" style="width:51%;" type="text" class="input-text required" readonly="readonly" value=""/>
+								</div>
+							</div>
+
+							<div class="group">
+								<div class="col_input col_text  align-right">资金密码:</div>
+
+
+
+
+								<div class="transfer_width padtop-15">
+									请前往个人中心设置您的
+									<a href="/google?tag=assetPassword">
+										<span>资金密码</span>
+									</a>
+								</div>
+
+							</div>
+
+
+
+							<div class="group">
+								<div class="col_input col_text  align-right">备注:</div>
+								<div class="col_w transfer_width ">
+									<input name="userNote" htmlEscape="false" value="" class="input-text"
+									       autocomplete="off"/>
+								</div>
+							</div>
+
+							<div class="group mgb-40">
+								<div class="col_input col_text  align-right"></div>
+								<div class="col_w">
+									<input id="btnSubmit" class="login-btn" type="submit"
+									       value="确认提现"/>&nbsp;
+								</div>
+							</div>
+						</div>
+					</form>
+					<!-- start分页页面 -->
+					<form id="searchForm" action="/withdraw/" method="get">
+						<input id="pageNo" name="pageNo" type="hidden" value="1"/>
+						<input id="pageSize" name="pageSize" type="hidden" value="10"/>
+					</form>
+					<!-- end分页页面 -->
+					<div class="box-deafult">
+						<h4 class="title colorboard-font mg10">提现记录</h4>
+						<table width="100%" border="0" cellspacing="0" cellpadding="0" class="table">
+							<colgroup>
+								<col width="17%" class="hide-sm">
+								<col width="11%" class="no-f col-pho-2">
+								<col width="9%" class="hide-sm">
+								<col>
+								<col width="30%"  class="no-f col-pho-6">
+							</colgroup>
+							<tr>
+								<th align="left" class="hide-sm">时间</th>
+								<th align="left">金额</th>
+								<th align="left" class="hide-sm">网络手续费</th>
+								<th align="left">地址</th>
+								<th align="left">状态</th>
+							</tr>
+
+							<tr class="table_crumbs">
+								<td colspan="5" class="center">
+									<i class="fa fa-info-circle blue-theme f18" aria-hidden="true"></i> 暂无提现记录</td>
+							</tr>
+
+
+
+						</table>
+						<!-- start分页页面 -->
+						<div class="pages fr"></div>
+						<!-- end分页页面 -->
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="modal fade" id="myAddress" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"></button>
+				<h4 class="modal-title" id="myModalLabel">地址管理</h4>
+			</div>
+			<div class="modal-body" >
+				<iframe width="100%" height="370px" frameborder="0" id="myAddressIframe" scrolling="auto"></iframe>
+			</div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+	$('.withdraw').addClass('current');
+
+	$(document).ready(function () {
+		successTip();
+		$.validator.addMethod("bitcoinsAmountIsNum", function (value, element, params) {
+			return !isNaN(value);
+		}, "请输入正确的比特币数量");
+
+		$("#cancelApp").click(function () {
+		//	console.log($(this).data("cancel"));
+			var appId = $(this).data("cancel");
+			sweetAlert({
+				title: "",
+				text: "是否要取消此提现申请？",
+				confirmButtonText: '确定',
+				cancelButtonText: '取消',
+				type: "info"
+			}, function () {
+				var a = "/withdraw/cancelTransfer?appId=" + $(this).data("cancel");
+				console.log(a);
+				window.location = "/withdraw/cancelTransfer?appId=" + appId;
+			});
+		});
+
+		$("#inputForm").validate({
+			submitHandler: function (form) {
+				$("#btnSubmit").attr("disabled", false);
+				form.submit();
+			},
+			rules: {
+				bitcoinsAmount: {
+					required: true,
+					bitcoinsAmountIsNum: ""
+				}
+			},
+			messages: {
+				targetBitcoinsAddress: {required: "提现比特币地址不能为空"},
+				bitcoinsAmount: {required: "请输入正确的比特币数量"},
+				tfaEmailCode: {required: "邮件验证码不能为空"},
+				identityCode: {required: "双重身份验证码不能为空"},
+				password: {required: "账户密码不能为空"}
+			},
+			errorContainer: "#messageBox",
+			errorPlacement: function (error, element) {
+				$("#messageBox").text("输入有误，请先更正");
+				if (element.is(":checkbox") || element.is(":radio") || element.parent().is(".input-append")) {
+					error.appendTo(element.parent().parent());
+				} else if (element.is(".input-append")) {
+					error.appendTo(element.parent());
+				} else {
+					error.insertAfter(element);
+				}
+			}
+		});
+	});
+
+	function sendEmailCode(n) {
+		$.ajax({
+			type: "POST",
+			url: "/withdraw/ajaxSendEmailCode",
+			data: "bid=" + n,
+			success: function (msg) {
+				if (msg == '1') {
+					sweetAlert({
+						title: "",
+						text: "邮件发送成功",
+						showCancelButton: false,
+						type: "success",
+						confirmButtonText: '确定'
+					});
+					$("#re_send").attr("disabled", true);
+					var t=60;
+					for(i=1;i<=t;i++) {
+						window.setTimeout("update_p(" + i + ","+t+")", i * 1000);
+					}
+				}
+				else {
+					sweetAlert({
+						title: "",
+						text: "邮件验证码发送失败",
+						showCancelButton: false,
+						type: "error",
+						confirmButtonText: '确定'
+					});
+				}
+			},
+			error: function (XMLResponse) {
+				sweetAlert({
+					title: "",
+					text: "邮件验证码发送失败",
+					showCancelButton: false,
+					type: "error",
+					confirmButtonText: '确定'
+				});
+			}
+		});
+	}
+
+	function update_p(num,t) {
+		if(num == t) {
+			document.getElementById("re_send").value =" 重新发送邮件 ";
+			document.getElementById("re_send").disabled=false;
+		}
+		else {
+			printnr = t-num;
+			document.getElementById("re_send").value = " (" + printnr +")重新发送邮件";
+		}
+	}
+
+	function displayEmail() {
+		var bcoins = parseInt($("#bitcoinsAmount").val(), 10);
+		var ccoins = parseInt($("#cashAmount").val(), 10);
+		if (bcoins > ccoins) {
+			sweetAlert({
+				title: "",
+				text: "提取金额不能超过账户余额",
+				showCancelButton: false,
+				type: "error",
+				confirmButtonText: '确定'
+			});
+			$("#bitcoinsAmount").val(ccoins);
+		} else {
+			if ($("#bitcoinsAmount").val() >= 50) {
+				$("#tfaEmailCode").addClass("input-text required");
+				$("#emailCode").show();
+			} else {
+				$("#tfaEmailCode").removeClass("input-text required");
+				$("#tfaEmailCode").attr("readonly", true);
+				$("#emailCode").hide();
+			}
+		}
+	}
+
+	function successTip() {
+		console.log("");
+
+	}
+
+	function changeF() {
+		$("#address").val($("#trust").val());
+		if($("#trust").find("option:selected").attr("isTrust") == "1") {
+			$("#googleCodeGroup").hide();
+		} else {
+
+		}
+	}
+	function showMyAddressIframe() {
+		$("#myAddressIframe").attr("src", "/withdraw/trustAddress");
+		$('#myAddress').modal('show');
+	}
+
+	function closeyAddressIframe(){
+		$('#myAddress').modal('hide');
+	}
+
+	$(document).ready(function(){
+		$("#password").val("");
+	});
+
+	//start分页页面
+	function clearNoNum(obj) {
+		obj.value = obj.value.replace(/[^\d.]/g, ""); //清除"数字"和"."以外的字符
+		obj.value = obj.value.replace(/^\./g, ""); //验证第一个字符是数字而不是
+		obj.value = obj.value.replace(/\.{2,}/g, "."); //只保留第一个. 清除多余的
+		obj.value = obj.value.replace(".", "$#$").replace(/\./g, "").replace("$#$", ".");
+		obj.value = obj.value.replace(/^(\-)*(\d+)\.(\d\d\d\d).*$/, '$1$2.$3'); //最多只能输入四个小数
+	}
+
+	//end分页页面
+
+	function isNum(e) {  //限制提现币数的输入框只能输入数字和小数点
+		var k = window.event ? e.keyCode : e.which;
+		if (((k >= 48) && (k <= 57)) || k == 8 || k == 0 || k == 46) {
+		} else {
+			if (window.event) {
+				window.event.returnValue = false;
+			}
+			else {
+				e.preventDefault();
+			}
+		}
+	}
+
+	foreachI18nList($(".i18n-time-zone-date"), 2);
+
+	function page(n, s) {
+		$("#pageNo").val(n);
+		$("#pageSize").val(s);
+		$("#searchForm").submit();
+		return false;
+	}
+</script>
+
+
+{include file="public:footer"}

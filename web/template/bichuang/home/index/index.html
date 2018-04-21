@@ -1,0 +1,782 @@
+{include file="public:header"}
+<style>
+	.login {
+    width: 24.5em;
+    position: absolute;
+    top: 8.5em;
+    right: 0;
+    color: #fff;
+}
+.item {
+    background-repeat: no-repeat !important;
+    background-size: 100% 100% !important;
+    height:450px !important;
+}
+.carousel-indicators {
+    text-align: center;
+}
+#leftsead{
+	display: none  !important;
+}
+</style>
+<script type="text/javascript" src="__JS__/bootstrap.js"></script>
+<div class="container-full ">
+	<div class="container login-box">
+		{if $userid}
+		<div class="banner-tag login-banner-tag" style='display: none;'>
+			<div class="user-base">
+                    <span class="user-base-sp">
+                        Hi,<a href="#" target="_blank">{$user["username"]}</a>
+                    </span>
+				<div class="user-info-block">
+					<table>
+						<tr>
+							<td>{#lang('可用')} CNY</td>
+							<td>{#lang('冻结')}</td>
+							<td>{#lang('总资产')}</td>
+						</tr>
+						<tr>
+							<td>{#num($user_coin['cny'])}</td>
+							<td>{#num($user_coin['cnyd'])}</td>
+							<td>{#num($user['zzc'])}</td>
+						</tr>
+					</table>
+				</div>
+			</div>
+			<ul class="clearfix">
+				<div class="user-info-fina">
+					<a href="/finan/pay.html">{#lang('CNY充值')}</a> <a href="/finan/out.html">{#lang('CNY提现')}</a>
+					<a href="/finan/trades.html" class="w82">{#lang('委托管理')}</a>
+				</div>
+			</ul>
+			<a href="/finan.html" target="_blank" class="green-link-btn">{#lang('去财务中心')}</a>
+			<a href="/finan/invit.html" target="_blank" class="transparent-link-btn">
+				<i class="icon-hot-tag"></i> {#lang('推荐好友拿奖励')} </a>
+		</div>
+		{else}
+		<div class="login" style='display: none;'>
+			<div class="login-bg"></div>
+			<div class="login-cn">
+				<div class="form-group">
+					<h3 class="margin-top-clear login-cn-title">{#lang('登录')}</h3>
+				</div>
+				<div class="form-group">
+					<input type="text" id="bichuang_mobles" class="texts" style="display: none;">
+					<input type="text" class="form-control" id="indexLoginName" placeholder="{#lang('请输入手机/邮箱/用户名')}" value="{#cookie('moble')}" style="padding-left:50px"/>
+					
+					<script src="__EXT__/intlTelInput/js/intlTelInput.js"></script>
+					<script>
+						$("#bichuang_mobles").intlTelInput({
+							autoHideDialCode: false,
+							defaultCountry: "cn",
+							nationalMode: false,
+							preferredCountries: ['cn', 'us', 'hk', 'tw', 'mo']
+						});
+					</script>
+				</div>
+				<div class="form-group">
+					<input type="password" class="form-control" id="indexLoginPwd" placeholder='{#lang("请输入密码")}'/>
+				</div>
+				<div class="form-group has-error">
+					<span id="indexLoginTips" class="errortips text-danger help-block"></span>
+				</div>
+				<div class="form-group">
+					<input type="password" class="form-control" id="indexLoginYzm" placeholder='{#lang("请输入验证码")}' style="width:58%;"/>
+					<span style="display: block;float: right;margin-top: -33px;">
+				<img id="login_verify_upII" class="codeImg reloadverify " src="/ajax/verify" title="换一张" onclick="login_verify_upsII();" width="100" height="32px">
+			</span>
+				</div>
+				<div class="form-group">
+					<a id="loginbtn" class="btns2 login_btn" href="javascript:;" onclick="footer_loginII();" type="button">{#lang('登录')}</a>
+				</div>
+				<div class="form-group" style="text-align:center">
+					<a href="/reg">{#lang('免费注册')}</a>
+					|
+					<a href="/findpwd">{#lang('忘记密码?')}</a>
+					</div>
+			</div>
+		</div>
+		{/if}
+	</div>
+	<div id="shuffling" class="carousel slide carousel-fade" data-ride="carousel">
+		<ol class="carousel-indicators">
+
+		</ol>
+		<div class="carousel-inner">
+			{foreach $sys_ad as $v}
+			<a target="_blank" href="{$v['url']}" class="item " style='background: url("/upload/{$v['img']}") no-repeat;background-size:100% 100%;
+			height: 546px;'></a>
+			{/foreach}
+		</div>
+	</div>
+</div>
+<script>
+	$('.carousel-inner a').eq(0).addClass('active');
+	var count=$('.carousel-inner a').length;
+	var li='';
+	for(var j=0;j<count;j++){
+		if(j==0){
+			li+='<li data-target="#shuffling" data-slide-to="'+j+'" class="active"></li>';
+		}else{
+			li+='<li data-target="#shuffling" data-slide-to="'+j+'" ></li>';
+		}
+		$('.carousel-indicators').html(li);
+
+	}
+</script>
+<div class="container-full notice" style="overflow: hidden;">
+	<div class="container text-center" id="newstoplist" style="overflow: hidden; height: 45px; width: auto; color: #FFF;">
+		<div id=newsList>
+			{foreach $bichuang_news[2]['list'] as $v}
+			<p class="newsList_p">
+				<a href="/article/detail/id/{$v['id']}" class="notice-item"> <i class="fa fa-volume-up"></i> {#lang ($v['title'])}
+				</a>
+			</p>
+			{/foreach}
+
+
+		</div>
+	</div>
+</div>
+<!--<div class="container-full index market">
+	<div class="container">
+	<div class="container text-center" style="overflow: hidden; height: 45px; width: auto; color: #ff0000;">
+			{#lang('友情提示：请控制风险，不要投入超过您风险承受能力的资金，不要投资您所不了解的数字货币，拒绝传销组织，警惕虚假宣传。')}</div>
+	
+
+		<div class="row market-top text-center">
+			<span class="col-xs-2">{#lang('币种')}</span> <span class="col-xs-2">{#lang('最新成交价')}</span> <span class="col-xs-2">{#lang('24H成交量')}</span>
+			<span class="col-xs-2">{#lang('今日涨跌')}</span> <span class="col-xs-2 text-center">{#lang('价格趋势3日')}</span>
+			<span class="col-xs-2">{#lang('操作')}</span>
+		</div>
+		<div class="xr">
+
+		</div>
+	</div>
+</div>-->
+<!--<div class="container-full index market" style="background:#f8f8f8">
+		<div class="container">
+			<div id="oranger" style="background:#fff;">
+				<a class="hover e55600" style="border-right:1px solid #eee;" id="1" >普通交易区</a><a  id="2" >Watch交易区</a>			</div>
+			<div class="row market-top text-center">
+				<span class="col-xs-2 ">交易市场</span> <span class="col-xs-2">最新成交价(CNY)</span> <span class="col-xs-2">买一价</span> <span class="col-xs-2">卖一价</span> <span class="col-xs-2 text-center">24H成交量</span> <span class="col-xs-2 text-center">24H成交额(CNY)</span> <span class="col-xs-2 text-center">24H涨跌</span><span class="col-xs-2"></span>
+			</div>
+			<div class="tablea" style="background:#fff">
+			
+				<div class="box" id="price_today_ul">
+				</div>
+				
+				<div class="box" id="btcprice_today_ul">
+					
+				</div>
+			</div>
+			<ul class="price_today_ul" id="price_today_ul" style="width:1200px;">
+		</div>
+	</div>-->
+	<!--<div class="container-full notice" style="overflow: hidden;">
+		<div class="container text-center" style="overflow: hidden; height: 45px; width: auto; color: #ff0000;">
+			酷赚网友情提示：请控制风险，不要投入超过您风险承受能力的资金，不要投资您所不了解的数字货币，拒绝传销组织，警惕虚假宣传。		
+		</div>
+	</div>
+	<div class="container-full index market" style="background:#f8f8f8">
+		<div class="container">
+			<div id="oranger" style="background:#fff;">
+				<a class="hover e55600" style="border-right:1px solid #eee;" id="1"  data='1' >普通交易区</a><a  id="2" data='2' >Watch交易区</a>			</div>
+			<div class="row market-top text-center">
+				<span class="col-xs-2 ">交易市场</span> <span class="col-xs-2">最新成交价(CNY)</span> <span class="col-xs-2">买一价</span> <span class="col-xs-2">卖一价</span> <span class="col-xs-2 text-center">24H成交量</span> <span class="col-xs-2 text-center">24H成交额(CNY)</span> <span class="col-xs-2 text-center">24H涨跌</span><span class="col-xs-2"></span>
+			</div>
+			<div class="tablea" style="background:#fff">
+			
+				<div class="box" id="price_today_ul">
+				</div>
+				
+				<div class="box" id="btcprice_today_ul">
+					
+				</div>
+			</div>
+			
+		</div>
+	</div>-->
+	{if $trade_qu}
+		<div class="tradeBox hg40" style=" width: 1200px;margin: 0 auto;height: 42px;   background: #fff;margin-top: 30px;border: 1px solid #eee;">
+			<div class="slideHd hg40" style="width: 1200px;margin: 0 auto;background:none;height: 42px;">
+				<!-- 下面是前/后按钮代码，如果不需要删除即可 -->
+				<ul class="active hg40  trade_qu_list" style="background: none;display: table;height: 42px;">
+					{foreach $trade_qu as $k => $v}
+					<li id="trade_qu_{$v['id']}" class="trade_moshi trade_qu_pai   {if $k == 0}current {/if}" data="{$v['id']}" onclick="trade_qu(this)" style='display: table-cell;float: initial !important;'>
+						<a> {$v['title']} </a></li>
+					{/foreach}
+				</ul>
+			</div>
+		</div>
+		{/if}
+		<div class="price_today" style='height: initial;'>
+			<div class="row market-top text-center">
+				<span class="col-xs-2 ">{#lang('交易市场')}</span> <span class="col-xs-2">{#lang('最新成交价')}</span> <span class="col-xs-2">{#lang('买一价')}</span> <span class="col-xs-2">{#lang('卖一价')}</span> <span class="col-xs-2 text-center">{#lang('24H成交量')}</span> <span class="col-xs-2 text-center">{#lang('24H成交额')}</span> <span class="col-xs-2 text-center">{#lang('24H涨跌')}</span><span class="col-xs-2"></span>
+			</div>
+			<div class="xr" style='background: #fff;'></div>
+		</div>
+<!--<div class="tradeBox hg40" style=" width: 1200px;margin: 0 auto;   background: #FFF;">
+	<div class="slideHd hg40" style="width: 1200px;margin: 0 auto;background: #FFF;">
+		
+
+		<ul class="active hg40  trade_qu_list" style="height: 40px;line-height: 40px;">
+						<li id="trade_qu_1" class="trade_moshi trade_qu_pai   current " data="1" onclick="trade_qu(this)">
+				<a> 人民币交易区 </a></li>
+						<li id="trade_qu_2" class="trade_moshi trade_qu_pai   " data="2" onclick="trade_qu(this)">
+				<a> USD Trade </a></li>
+					</ul>
+	</div>
+</div>
+
+
+<div class="price_today">
+	<div class="autobox">
+		<ul class="price_today_ull">
+			<li data-sort="0" style="cursor: default;">交易市场</li>
+			<li class="click-sort" data-sort="1" data-flaglist="0" data-toggle="0">最新成交价 <i
+					class="cagret cagret-down"></i> <i class="cagret cagret-up"></i>
+			</li>
+			<li class="click-sort" data-sort="2" data-flaglist="0" data-toggle="0">买一价 <i
+					class="cagret cagret-down"></i> <i class="cagret cagret-up"></i>
+			</li>
+			<li class="click-sort" data-sort="3" data-flaglist="0" data-toggle="0">卖一价 <i
+					class="cagret cagret-down"></i> <i class="cagret cagret-up"></i>
+			</li>
+			<li class="click-sort" data-sort="6" data-flaglist="0" data-toggle="0">24H成交量 <i
+					class="cagret cagret-down"></i> <i class="cagret cagret-up"></i>
+			</li>
+			<li class="click-sort" data-sort="4" data-flaglist="0" data-toggle="0">24H成交额				<i class="cagret cagret-down"></i> <i class="cagret cagret-up"></i>
+			</li>
+			<li class="click-sort" data-sort="7" data-flaglist="0" data-toggle="0">24H涨跌 <i
+					class="cagret cagret-down"></i> <i class="cagret cagret-up"></i>
+			</li>
+			<li data-sort="0">价格趋势(3日)</li>
+			<li data-sort="0" style="width: 150px; text-align: center; text-indent: 0.5em;">操作</li>
+		</ul>
+	</div>
+</div>
+<ul class="price_today_ul" id="price_today_ul" style="width:1200px;">
+</ul>-->
+<style>
+	.market {
+    background: #fff;
+    padding: 40px 0;
+}
+.container {
+    width: 1200px;
+    max-width: none !important;
+    padding: 0;
+}
+
+#oranger {
+    height: 42px;
+    border: 1px solid #eee;
+}
+#oranger a.e55600 {
+    color: #e55600;
+    border-bottom: 1px solid #e55600;
+}
+.trade_qu_pai{
+	height: 42px;
+	line-height: 42px;
+}
+.about .about-con-box {
+    margin: 30px auto;
+}
+#oranger a {
+    width: 50%;
+    text-align: center;
+    display: block;
+    float: left;
+    line-height: 42px;
+    height: 42px;
+    text-decoration: none;
+    color: #333;
+    font-size: 16px;
+    cursor: pointer;
+}
+.trade_qu_pai a{
+	color: #000;
+	font-size: 16px;
+}
+.market-top {
+    border-right: 1px solid #eee;
+    border-left: 1px solid #eee;
+}
+.market-top span {
+    text-align: center;
+    padding-left:0px;
+    color: #000;
+}
+.market-top span {
+    line-height: 40px;
+    font-size:16px;
+    color: #9b9ba0;
+}
+.row {
+    margin: 0;
+}
+body{
+	background: #f8f8f8 !important;
+}
+.market-con {
+    border: 1px solid #eee;
+}
+.market-con span {
+    font-size: 16px;
+    line-height: 60px;
+}
+.col-xs-2 {
+    width: 12.5%;
+    padding: 0;
+}
+.mpebv_new{
+	text-indent: initial !important;
+}
+.market-con:hover {
+    background: #d5d8d6;
+}
+.tradeBox ul li.current, .tradeBox ul li.current a {
+    background: none;
+    color: #e55600;
+    border-bottom: 1px solid #e55600;
+}
+.tradeBox ul li.current a{
+	border-bottom: none;
+}
+</style>
+<script src="__EXT__/jquery/jquery.flot.js"></script>
+<script>
+
+	/*$('.price_today_ull > .click-sort').each(function () {
+		$(this).click(function () {
+			click_sortList(this);
+		})
+	})*/
+
+	/*function allcoin_callback(priceTmp) {
+		for (var i in priceTmp) {
+			var c = priceTmp[i][8];
+			if (typeof (trends[c]['data']) && typeof (trends[c]['data']) != 'null') {
+				if (typeof (trends[c]) != 'undefined' && typeof (trends[c]['data']) != 'undefined') {
+					$.plot($("#" + c + "_plot"), [{shadowSize: 0, data: trends[c]['data']}], {
+						grid: {borderWidth: 0},
+						xaxis: {mode: "time", ticks: false},
+						yaxis: {tickDecimals: 0, ticks: false},
+						colors: ['#f99f83']
+					});
+				}
+			}
+
+		}
+	}*/
+
+
+	function trends() {
+		$.getJSON('/ajax/index_b_trends?t=' + rd(), function (d) {
+			trends = d;
+			allcoin();
+		});
+	}
+	
+	
+
+	function allcoin(cb) {
+		var trade_qu_id = $('.current').attr('data');
+		$.get('/ajax/allcoin_a/id/' + trade_qu_id + '?t=' + rd(), cb ? cb : function (data) {
+			var d;
+			if (data.status == 1) {
+				d = data.url;
+			}
+
+			ALLCOIN  = d;
+			var t    = 0;
+			var img  = '';
+			priceTmp = [];
+			//把json转换为二维数组 进行渲染
+			for (var x in d) {
+				if (typeof(trends[x]) != 'undefined' && parseFloat(trends[x]['yprice']) > 0) {
+					rise1 = (((parseFloat(d[x][4]) + parseFloat(d[x][5])) / 2 - parseFloat(trends[x]['yprice'])) * 100) / parseFloat(trends[x]['yprice']);
+					rise1 = rise1.toFixed(2);
+				} else {
+					rise1 = 0;
+				}
+				img = d[x].pop();
+				d[x].push(rise1);
+				d[x].push(x);
+				d[x].push(img);
+				priceTmp.push(d[x]);
+			}
+			//二次排序
+			$('.price_today_ull > .click-sort').each(function () {
+				var listId = $(this).attr('data-sort');
+				if ($(this).attr('data-flaglist') == 1 && $(this).attr('data-sort') !== 0) {
+					priceTmp = priceTmp.sort(sortcoinList('dec', listId))
+				} else if ($(this).attr('data-flaglist') == 2 && $(this).attr('data-sort') !== 0) {
+					priceTmp = priceTmp.sort(sortcoinList('asc', listId))
+				}
+			});
+			//console.log(priceTmp)
+			renderPage(priceTmp);
+			allcoin_callback(priceTmp);
+			change_line_bg('price_today_ul', 'li');
+			t = setTimeout('allcoin()', 5000);
+
+		}, 'json');
+	}
+
+	function rd() {
+		return Math.random()
+	}
+	//渲染函数
+	function renderPage(ary) {
+		var html = '';
+		for (var i in ary) {
+			var coinfinance = 0;
+			if (typeof FINANCE == 'object') coinfinance = parseFloat(FINANCE.data[ary[i][8] + '_balance']);
+	            html += '<div class="row market-con">'+
+		            		'<a href="/trade/index/market/' + ary[i][8] + '">'+
+		            			'<span class="col-xs-2 back" style="font-size:15px">'+
+		            				'<img class="coin-logo" style="position: absolute; top: 50%; transform: translateY(-50%); left: 10px; width:25px;" src ="/upload/' + ary[i][9] + '" />'+
+		            				'<i style="margin-left:20px">'+ary[i][0]+'</i>'+
+		            			'</span>'+
+		            		'</a>'+
+		            		'<span data-hisprice="0" class="col-xs-2 indent back " id="BTC_price">' + ary[i][1] + ' </span>'+
+		            		'<span class="col-xs-2 indent back" id="BTC_total">' + ary[i][2] + '</span>'+
+		            		'<span class="col-xs-2 indent-db back" id="BTC_rose">' + ary[i][3] + '</span>'+
+		            		'<span class="col-xs-2 indent-db back" id="BTC_rose">' + ary[i][6] + '</span>'+
+		            		'<span class="col-xs-2 indent-db  back" id="BTC_rose">' + ary[i][4] + '</span>'+
+		            		'<span class="col-xs-2 indent-db ' + (ary[i][7] >= 0 ? 'red' : 'green') + '" id="BTC_rose">' + (parseFloat(ary[i][7]) < 0 ? '' : '+') + ((parseFloat(ary[i][7]) < 0.01 && parseFloat(ary[i][7]) > -0.01) ? "0.00" : ary[i][7]) + '%</span>'+
+		            		'<span class="col-xs-2 indent mpebv_new"><a class="btn market-trading lqjy" href="javascript:;" onclick="top.location=\'/trade\/index\/market\/' + ary[i][8] + '/\'">{#lang("去交易")}<i class="triangle-right"></i></a></span>'+
+	            		'</div>';
+	       }
+		$('.xr').html(html);
+	}
+	
+	
+	//保留2位
+	function formatCount(count) {
+		var countokuu = (count / 100000000).toFixed(3)
+		var countwan  = (count / 10000).toFixed(3)
+		if (count > 100000000)
+			return countokuu.substring(0, countokuu.lastIndexOf('.') + 3) + '亿'
+		if (count > 10000)
+			return countwan.substring(0, countwan.lastIndexOf('.') + 3) + '万'
+		else
+			return count
+	}
+	//移入行变色
+	function change_line_bg(id, tag, nobg) {
+		var oCoin_list = $('#' + id);
+		var oC_li      = oCoin_list.find(tag);
+		var oInp       = oCoin_list.find('input');
+		var oldCol     = null;
+		var newCol     = null;
+		if (!nobg) {
+			for (var i = 0; i < oC_li.length; i++) {
+				oC_li.eq(i).css('background-color', i % 2 ? '#f8f8f8' : '#fff');
+			}
+		}
+		oCoin_list.find(tag).hover(function () {
+			oldCol = $(this).css('backgroundColor');
+			$(this).css('background-color', '#eaedf4');
+		}, function () {
+			$(this).css('background-color', oldCol);
+		})
+	}
+	//排序函数
+	function sortcoinList(order, sortBy) {
+		var ordAlpah = (order == 'asc') ? '>' : '<';
+		var sortFun  = new Function('a', 'b', 'return parseFloat(a[' + sortBy + '])' + ordAlpah + 'parseFloat(b[' + sortBy + '])? 1:-1');
+		return sortFun;
+	}
+
+	function trade_qu(o){
+		$('.trade_qu_pai').removeClass('current');
+		$(o).addClass('current');
+		allcoin();
+	}
+	trends();
+	
+	
+</script>
+<div class="container-full about index">
+	<div class="about-bg">
+		<div></div>
+	</div>
+	<div class="container text-center">
+		<div class="about-con-box clearfix">
+			<div class="col-xs-4 about-item">
+				<div class="col-xs-12 about-con">
+					<h3 class="text-danger about-title">{#lang('安全')}</h3>
+					<span class="about-img security"></span>
+					<p class="text-left">
+						{#lang('SSL、冷钱包机制、多重加密存储等银行级安全技术，流程化、责任化的多重审核管理体系。')}
+						</p>
+				</div>
+			</div>
+			<div class="col-xs-4 about-item">
+				<div class="col-xs-12 about-con">
+					<h3 class="text-danger about-title">{#lang('便捷')}</h3>
+					<span class="about-img quick"></span>
+					<p class="text-left">
+						{#lang('界面简约易懂，操作方便。系统稳定高效，速度响应快。手机电脑等客户端，随时随地均可交易。')}
+						</p>
+				</div>
+			</div>
+			<div class="col-xs-4 about-item">
+				<div class="col-xs-12 about-con">
+					<h3 class="text-danger about-title">{#lang('平等')}</h3>
+					<span class="about-img professional"></span>
+					<p class="text-left">
+						{#lang('交易有前景的投资币种，减少投资风险；致力于数字资产落地化，惠及更多线下交易者，享有平等投资机会。')}
+						</p>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="container-full index news">
+	<div class="container">
+		{foreach $bichuang_news as $v} {if $v['id']==7}
+		<div class="news-items active">
+			{else}
+			<div class="news-items">
+				{/if}
+				<div class="news-item-hd text-center">
+					<i class="notice-icon"></i>
+					<p class="hd1">{#lang ($v['title'])}</p>
+					<p class="hd2">{#lang('掌握各类活动资讯')}</p>
+				</div>
+				<div class="news-item-cn">
+					{foreach $v['list'] as $k=>$val}{if $k==4}{break}{/if}
+					<a class="media" href="/article/detail/id/{$val['id']}">
+						<div class="media-left">
+							<img src="__up__/public/92b1fb1e57fb608a46ac158002e7d758.png"/>
+						</div>
+						<div class="media-body">
+							<h4 class="media-heading">{$val['title']}</h4>
+							{$val['value'] }
+						</div>
+					</a>
+					{/foreach}
+				</div>
+			</div>
+			{/foreach}
+		</div>
+	</div>
+
+
+	<!--<link rel="stylesheet" href="__EXT__/intlTelInput/css/intlTelInput.css">
+	<div class="container-full index contact ">
+		<div class="container">
+			<div class="contact-con text-center clearfix">
+				<div class="top-split"></div>
+				<div class="col-xs-2 contact-item">
+					<div class="icon-iten">
+
+							<i class="icon qq"></i>
+					</div>
+					<p>{#lang('官方QQ')}</p>
+					<ul>
+						<li>
+							
+						</li>
+					</ul>
+				</div>
+				<div class="col-xs-2 contact-item">
+					<div class="icon-iten">
+						<i class="icon phone"></i>
+					</div>
+					<p>{#lang('24小时热线')}</p>
+					<ul>
+						<li></li>
+					</ul>
+				</div>
+				<div class="col-xs-2 contact-item">
+					<div class="icon-iten">
+						<i class="icon app"></i>
+					</div>
+					<p>{#lang('APP下载')}</p>
+					<ul>
+						<li>{#lang('安卓、IOS')}</li>
+					</ul>
+					<a class="dilog" target="_black" href="/app.html"> <i class="dilog-icon"></i>
+						<p>{#lang('点击查看下载APP')}</p>
+					</a>
+				</div>
+				<div class="col-xs-2 contact-item">
+					<div class="icon-iten">
+						 <i class="icon weibo"></i>
+
+					</div>
+					<p>{#lang('官方微博')}</p>
+					<ul>
+						<li>
+							 @{#lang('交子网')}
+						</li>
+					</ul>
+					<div class="dilog">
+						<img alt="微博二维码" src="/static/default/home/img/kefu/app_guanggao.png">
+						<p>{#lang('扫描关注币创微博')}</p>
+					</div>
+				</div>
+				<div class="col-xs-2 contact-item">
+					<div class="icon-iten">
+						<i class="icon wechat"></i>
+					</div>
+					<p>{#lang('官方微信')}</p>
+					<ul>
+						<li>jz17</li>
+					</ul>
+					<div class="dilog">
+						<img alt="微信二维码" src="/static/default/home/img/kefu/app_guanggao.png">
+						<p>{#lang('扫描关注币创微信')}</p>
+					</div>
+				</div>
+				<div class="col-xs-2 contact-item">
+					<div class="icon-iten">
+						<a target="_blank" href="javascript:void(0)"> <i class="icon qq"></i> </a>
+					</div>
+					<p>{#lang('官方QQ群')}</p>
+					<ul>
+						{foreach $config['contact_qqun'] as $v}
+						<li>
+							<i class="dots"></i><span>{$v}</span>
+						</li>
+						{/foreach}
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>-->
+
+	<script type="text/javascript">
+		function autoScroll() {
+			$('#newstoplist').find("#newsList").animate({
+
+				marginTop: "-50px"
+			}, 500, function () {
+				$(this).css({marginTop: "0px"}).find(".newsList_p:first").appendTo("#newsList");
+				//当前第一条插入最后
+			})
+		}
+		setInterval('autoScroll()', 5000);
+
+
+		$(function () {
+			$('#thridconnect').modal({
+				backdrop: 'static',
+				keyboard: false,
+				show: true
+			});
+
+			$('#thridconnect').on('hidden.bs.modal', function (e) {
+				login.closethridlogin();
+			});
+
+			$('#isIcoShow').modal({
+				backdrop: 'static',
+				keyboard: false,
+				show: true
+			});
+			var diff    = 4;
+			var diffInt = setInterval(function () {
+				if (diff == 0) {
+					clearInterval(diffInt);
+					$('#isIcoShow').modal("hide");
+				}
+				$("#icoColse").html(diff + "秒关闭");
+				diff--;
+			}, 1000);
+		});
+		function login_verify_upsII() {
+			$('#login_verify_upII').attr('src', "{#url('verify/code')}?t=" + Math.random());
+		}
+
+		function footer_loginII() {
+			var mobles   = $("#bichuang_mobles").val();
+			var moble    = $("#indexLoginName").val();
+			var password = $("#indexLoginPwd").val();
+			var verify   = $("#indexLoginYzm").val();
+
+			if (moble == "" || moble == null) {
+				layer.tips('{#lang("请输入手机号/用户名/邮箱")}', '#indexLoginName', {tips: 2});
+				return false;
+			}
+			if (password == "" || password == null) {
+				layer.tips('{#lang("请输入登录密码")}', '#indexLoginPwd', {tips: 2});
+				return false;
+			}
+			if (verify == "" || verify == null) {
+				layer.tips('{#lang("请输入验证码")}', '#indexLoginYzm', {tips: 2});
+				return false;
+			}
+
+			$.post("{#url('login/up_login')}", {
+				moble: moble,
+				mobles: mobles,
+				password: password,
+				verify: verify,
+				login_token: "{$login_token}",
+			}, function (data) {
+				if (data.status == 1) {
+					$.cookies.set('move_moble', moble);
+					layer.msg(data.info, {icon: 1});
+					if (data.url) {
+						window.location = data.url;
+					} else {
+						window.location.reload();
+					}
+				} else {
+					$("#login_verify_upII").click();
+					layer.msg(data.info, {icon: 2});
+					if (data.url) {
+						window.location = data.url;
+					}
+				}
+			}, "json");
+		}
+
+		$('.news-items').hover(function(){
+			$(".news-items").removeClass("active"),
+			$(".news-items").stop().animate({width: "345px"}, 50),
+			$(this).stop().animate({width: "450px"}, 50),
+			$(this).addClass("active")
+		})
+		
+		function conse_lang(lang){
+			var imv = $.cookie.set('lang',lang)
+			window.location.reload();
+		}
+		
+		
+	</script>
+
+
+
+
+
+{include file="public:footer"}
+
+	<script>
+$(function(){
+  $(".tablea").find(".box:first").show();
+  $("#oranger a").on("click",function(){
+     var index=$(this).index();
+	 $(this).addClass("e55600").siblings().removeClass("e55600");;
+     $(this).parent().next().next().find(".box").hide().eq(index).show();
+     $(this).addClass("hover").siblings().removeClass("hover");
+  })
+})
+</script>
+<!--end-->
+
+
+<style>
+	.header .header-nav {
+    border-top: none;
+    padding-top: 7px !important;
+}
+</style>

@@ -1,0 +1,75 @@
+{include file="public:header"}
+<div id="main-content">
+	<div id="top-alert" class="fixed alert alert-error" style="display: none;">
+		<button class="close fixed" style="margin-top: 4px;">&times;</button>
+		<div class="alert-content">警告内容</div>
+	</div>
+	<div id="main" class="main">
+		<div class="main-title-h">
+			<span class="h1-title">系统检测</span>
+		</div>
+		<block name="body">
+			<div class="container-span">
+				<div class="span4" style="margin: 0 0px;width: 100%;">
+					<div class="columns-mod">
+						<div class="hd cf">
+							<h5>检查系统状态</h5>
+						</div>
+						<div class="bd">
+							<div id="sys-info" class="sys-info" style="height: 500px;max-height:500px;">
+								<table id="qianbao_table">
+									<tr>
+										<td>
+											<div id="loader"></div>
+										</td>
+										<th>
+											<button class="btn" id="btn" onclick="start_chk_qianbao();">检查系统</button>
+										</th>
+									</tr>
+								</table>
+							</div>
+						</div>
+						<div id="jiancha" style="display:none;"></div>
+						<script type="text/javascript" src="__EXT__/jquery/jquery.percentageloader-0.1.min.js"></script>
+						<script type="text/javascript">
+							var $loader;
+
+							$loader = $("#loader").percentageLoader({
+								width: 200,
+								height: 200,
+								progress: 0
+							});
+							$loader.setValue('检查');
+
+							function start_chk_qianbao() {
+								$('.btn').hide();
+								request('initialize');
+							}
+
+							function request(name) {
+								$loader.setValue('检查' + name);
+								$.getJSON('/admin/movesay/check', {name: name}).success(function (data) {
+									if (data.status === 1) {
+										$('#jiancha').append('<tr><td colspan="2" style="color: green">' + data.info + '</td></tr>');
+										request(data.url);
+									} else if (data.status === -1) {
+										$('#jiancha').append('<tr><td colspan="2" style="color: yellowgreen;font-weight: bold">' + data.info + '</td></tr>');
+
+										request(data.url);
+									} else if (data.status == -2) {
+										$('#qianbao_table').append('<tr><td colspan="2" style="color: red;font-weight: bold">' + data.info + '</td></tr>');
+										request(data.url);
+									} else if (data.status == 100) {
+										$('#btn').show();
+
+									}
+								});
+							}
+						</script>
+					</div>
+				</div>
+			</div>
+		</block>
+	</div>
+</div>
+{include file="public:footer"}

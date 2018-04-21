@@ -1,0 +1,145 @@
+{include file="public:header"}
+<div id="main-content">
+	<div id="top-alert" class="fixed alert alert-error" style="display: none;">
+		<button class="close fixed" style="margin-top: 4px;">&times;</button>
+		<div class="alert-content">警告内容</div>
+	</div>
+	<div id="main" class="main">
+		<div class="main-title-h">
+			<span class="h1-title">核心更新</span>
+		</div>
+		<block name="body">
+			<div class="container-span">
+				<div class="span4" style="margin: 0 0px;width: 100%;">
+					<div class="columns-mod">
+						<div class="hd cf">
+							<h5>操作信息</h5>
+						</div>
+						<div class="bd">
+							<div class="sys-info">
+								<table>
+									{if(!is_array($demo_str))}
+										<tr>
+											<td>提示:</td>
+											<td>
+												{if !$demo_str }
+													官方接口未返回json
+												{else}
+													{$demo_str}
+												{/if}
+											</td>
+										</tr>
+									{else}
+										<tr>
+											<td>官方MD5 {$demo_str[0]}</td>
+											<td>
+												更新时间 {#addtime($demo_str[1])}
+												{if trim($moveso_data['cur']['md5']) == trim($demo_str[0])}
+													<button class="btn add-btn btn-success" readonly="" style="background-color: gray;">已是最新</button>
+												{else}
+													<button id="update_move" class="btn add-btn btn-success" onclick="update_move('{$demo_str[0]}');">更新</button>
+												{/if}
+											</td>
+										</tr>
+
+										{if $moveso_data}
+											<tr>
+												<td>当前模块 {$moveso_data['cur']['md5']}</td>
+												<td>更新时间 {#addtime($moveso_data['cur']['time'])}</td>
+											</tr>
+											{if $moveso_data['last']['md5']}
+												<tr>
+													<td>上一模块 {$moveso_data['last']['md5']} </td>
+													<td>更新时间 {#addtime($moveso_data['last']['time'])}</td>
+												</tr>
+											{/if}
+										{else}
+											<tr>
+												<td>提示:</td>
+												<td>模块队列未配置或未运行</td>
+											</tr>
+										{/if}
+									{/if}
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</block>
+	</div>
+</div>
+<script>
+	var update_lock = 0;
+	var countdown = 0;
+	var _countdown = 0;
+	function update_move(hash){
+		if(countdown<0){
+			window.location.reload();
+			return;
+		}
+
+		if(!hash){
+			layer.msg('hash 获取失败...');
+			return;
+		}
+		if(update_lock){
+			layer.msg('正在处理中...');
+			return;
+		}
+		update_lock = 1;
+
+
+		layer.load(1, {
+			shade: [0.1,'#fff'] //0.1透明度的白色背景
+		});
+
+
+		$.post("/admin/tools/moveso",{
+			hash:hash
+		},function (ret){
+			update_lock = 0;
+			layer.closeAll();
+			console.log(ret);
+			if(ret.status == 0){
+				layer.msg(ret.info);
+			}else{
+				countdown = _countdown = ret.info;
+				layer.msg("处理中.. 还需要:" + ret.info + " S");
+				settime($("#update_move"));
+			}
+		},"json");
+	}
+	var time_handel;
+
+	function settime(obj) {
+		if(countdown < 0){
+			console.log("countdown < 0 " + countdown);
+			return;
+		}
+		if (countdown == 0) {
+			clearTimeout(time_handel);
+			$.get("/admin/tools/moveso",{
+				check:1
+			},function (ret){
+				if(ret.status == 0){
+					obj.html("更新失败 刷新页面重试");
+					layer.msg(ret.info);
+				}else{
+					obj.html("更新成功 刷新页面查看");
+					layer.msg(ret.info);
+				}
+			},"json");
+			countdown --;
+		} else {
+			obj.html("(" + countdown + ") 后完成更新");
+			countdown--;
+		}
+		time_handel = setTimeout(function() {
+			settime(obj)
+		},1000)
+	}
+
+
+</script>
+{include file="public:footer"}

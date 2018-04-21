@@ -1,0 +1,1 @@
+<?phpnamespace home;use Move\db;class atest extends home{	public function __construct()	{		parent::__construct();	}	public function index()	{		dump(db::table('atext')->add(['username' => '2']));	}	public function suo()	{		db::exec("set autocommit = 0");		db::exec("lock tables #pre#atext write");		dump(db::table('atext')->select());		sleep(10);	}}

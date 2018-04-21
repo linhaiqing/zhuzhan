@@ -1,0 +1,270 @@
+{include file="public:header"}
+<div id="main-content">
+    <div id="top-alert" class="fixed alert alert-error" style="display: none;">
+        <button class="close fixed" style="margin-top: 4px;">&times;</button>
+        <div class="alert-content">警告内容</div>
+    </div>
+    <div id="main" class="main">
+        <div class="main-title-h" style="font-size: 24px;">
+            <span class="h1-title">{$title['title']}</span> {if $title['list_title']}
+            <span style=""> >> [<a href="{$title['url']}"> {$title['list_title']}</a> ] </span>{/if} 
+        </div>
+        <div class="tab-wrap">
+            <div class="tab-content">
+                <form id="form" action="" method="post" class="form-horizontal">
+                    <div id="tab" class="tab-pane in tab">
+                        <div class="form-item cf">
+                            <table>
+                                <script type="text/javascript"
+                                        src="__EXT__/ueditor/ueditor.config.js" class="defer"></script>
+                                <script type="text/javascript"
+                                        src="__EXT__/ueditor/ueditor.all.js" class="defer"></script>
+                                {foreach $keylist as $k => $v}
+                                <div></div>
+                                {if $v['type']=='hidden'} <input type="hidden" name="{$v['name']}" value="{$v['value']}"
+                                    class="text input-large"/> {/if} {if $v['type']=='readonly'}
+                                <tr class="controls">
+                                    <td class="item-label">{$v['title']} :</td>
+                                    <td>
+                                        <input type="text" class="form-control" name="{$v['name']}"
+                                                value="{$v['value']}" disabled="disabled"
+                                                style="background-color: #ECECEC;min-width: 400px;color: red;">
+                                    </td>
+                                    <td class="item-note">{$v['subtitle']}</td>
+                                </tr>
+                                {/if} {if $v['type']=='text'}
+                                <tr class="controls">
+                                    <td class="item-label">{$v['title']} :</td>
+                                    <td>
+                                        <input type="text" class="form-control" name="{$v['name']}"
+                                                value="{$v['value']}" style="min-width: 400px;">
+                                    </td>
+                                    <td class="item-note">{$v['subtitle']}</td>
+                                </tr>
+                                {/if} {if $v['type']=='password'}
+                                <tr class="controls">
+                                    <td class="item-label">{$v['title']} :</td>
+                                    <td>
+                                        <input type="password" class="form-control" name="{$v['name']}"
+                                                value="{$v['value']}" style="min-width: 400px;">
+                                    </td>
+                                    <td class="item-note">{$v['subtitle']}</td>
+                                </tr>
+                                {/if} {if $v['type']=='time'}
+                                <script type="text/javascript" src="__EXT__/layer/laydate/laydate.js" class="defer"></script>
+                                <tr class="controls">
+                                    <td class="item-label">{$v['title']} :</td>
+                                    <td>
+                                        <input type="text" class="form-control" name="{$v['name']}"
+                                                value="{$v['value']}"
+                                                onclick="laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})"
+                                                style="min-width: 400px;">
+                                    </td>
+                                    <td class="item-note">{$v['subtitle']}</td>
+                                </tr>
+                                {/if} {if $v['type']=='select'}
+                                <tr class="controls">
+                                    <td class="item-label">{$v['title']} :</td>
+                                    <td>
+                                        <select name="{$v['name']}" class="form-control" style="min-width: 400px;"> {foreach $v['opt'] as $ks => $vs} {if $ks==$v['value']}
+                                            <option value="{$ks}" selected="selected">{$vs}</option>
+                                            {else}
+                                            <option value="{$ks}">{$vs}</option>
+                                            {/if} {/foreach} </select>
+                                    </td>
+                                    <td class="item-note">{$v['subtitle']}</td>
+                                </tr>
+                                {/if} {if $v['type']=='radio'}
+                                <case value="radio">
+                                    <tr class="controls">
+                                        <td class="item-label">{$v['title']} :</td>
+                                        <td>
+                                            {foreach $v['opt'] as $kk => $option}
+                                            <label><input type="radio" name="{$v['name']}" value="{$kk}" style=""
+                                                    {if $kk== $v['value']} checked="checked" {/if} > {$option}
+                                            </label> {/foreach}
+                                        </td>
+                                        <td class="item-note">{$v['subtitle']}</td>
+                                    </tr>
+                                </case>
+                                {/if} {if $v['type']=='checkbox'}
+                                <case value="checkbox">
+                                    <tr class="controls">
+                                        <td class="item-label">{$v['title']} :</td>
+                                        <td style="    width: 400px; ">
+                                            {foreach $v['opt'] as $kk => $vv} <label style="margin-left: 15px;">
+                                            <input type="checkbox" name="{$v['name']}_{$kk}" value="{$vv['status']}"
+                                                    {if $vv['status'] == 1} checked="checked" {/if} > {$vv['title']}
+                                        </label> {/foreach}
+                                        </td>
+                                        <td class="item-note">{$v['subtitle']}</td>
+                                    </tr>
+                                </case>
+                                {/if} {if $v['type']=='textarea'}
+                                <tr class="controls">
+                                    <td class="item-label">{$v['title']} :</td>
+                                    <td>
+                                        <textarea name="{$v['name']}" class="form-control "
+                                                style="margin: 10px 0px;height: 100px;min-width: 400px;">{$v['value']}</textarea>
+                                    </td>
+                                    <td class="item-note">{$v['subtitle']}</td>
+                                </tr>
+                                {/if} {if $v['type']=='editor'}
+                                <tr class="controls">
+                                    <td class="item-label">{$v['title']} :</td>
+                                    <td>
+                                        <script id="iframee_{$v['name']}" name="{$v['name']}" type="text/plain" class="defer">
+                                            {$v['value'] nofilter}
+
+
+
+
+                                        </script>
+                                    </td>
+                                    <td class="item-note">{$v['subtitle']}</td>
+                                </tr>
+                                <!-- 实例化编辑器 -->
+                                <script type="text/javascript" class="defer">
+                                    var ue = UE.getEditor("iframee_{$v['name']}", {
+                                        initialFrameWidth: 600,
+                                        initialFrameHeight: 400,
+                                        autoHeightEnabled: false,
+                                    });
+                                </script>
+                                {/if} {if $v['type']=='thinker'}
+                                <tr class="controls">
+                                    <td class="item-label">{$v['title']} :</td>
+                                    <td>
+									 <textarea name="{$v['name']}" class="form-control "
+                                             style="margin: 10px 0px;height: 100px;min-width: 400px;">{$v['value']}</textarea>
+                                    </td>
+                                    <td class="item-note">{$v['subtitle']}</td>
+                                </tr>
+                                <style type="text/css">
+                                    @import "__EXT__/thinker-md/stylesheets/vendor/font.css";
+                                    @import "__EXT__/thinker-md/stylesheets/vendor/markdown.css";
+                                    @import "__EXT__/thinker-md/stylesheets/emoji/nature.css";
+                                    @import "__EXT__/thinker-md/stylesheets/emoji/object.css";
+                                    @import "__EXT__/thinker-md/stylesheets/emoji/people.css";
+                                    @import "__EXT__/thinker-md/stylesheets/emoji/place.css";
+                                    @import "__EXT__/thinker-md/stylesheets/emoji/Sysmbols.css";
+                                    @import "__EXT__/thinker-md/stylesheets/emoji/twemoji.css";
+                                    @import "__EXT__/thinker-md/stylesheets/vendor/font-awesome.css";
+                                    @import "__EXT__/thinker-md/stylesheets/vendor/sunburst.css";
+                                </style>
+                                <script type="text/javascript" charset="utf-8" src="__EXT__/thinker-md/javascripts/vendor/underscore/underscore-min.js"></script>
+                                <script type="text/javascript" charset="utf-8" src="__EXT__/thinker-md/javascripts/vendor/jquery/jquery-2.1.3.js"></script>
+                                <script type="text/javascript" charset="utf-8" src="__EXT__/thinker-md/javascripts/vendor/highlight/highlight.js"></script>
+                                <script type="text/javascript" charset="utf-8" src="__EXT__/thinker-md/javascripts/vendor/markdown/he.js"></script>
+                                <script type="text/javascript" charset="utf-8" src="__EXT__/thinker-md/javascripts/vendor/markdown/marked.js"></script>
+                                <script type="text/javascript" charset="utf-8" src="__EXT__/thinker-md/javascripts/vendor/markdown/to-markdown.js"></script>
+                                <script type="text/javascript" charset="utf-8" src="__EXT__/thinker-md/javascripts/vendor/markdown/jsHtmlToText.js"></script>
+                                <script type="text/javascript" charset="utf-8" src="__EXT__/thinker-md/javascripts/vendor/markdown/tab.js"></script>
+                                <script type="text/javascript" charset="utf-8" src="__EXT__/thinker-md/javascripts/vendor/markdown/config.js"></script>
+                                <script type="text/javascript" charset="utf-8" src="__EXT__/thinker-md/javascripts/vendor/markdown/emoji.js"></script>
+                                <script type="text/javascript" charset="utf-8" src="__EXT__/thinker-md/javascripts/vendor/markdown/bootstrap-markdown.js"></script>
+                                <script type="text/javascript" charset="utf-8"
+                                        src="__EXT__/thinker-md/javascripts/vendor/markdown/locale/bootstrap-markdown.zh.js"></script>
+                                <!-- 实例化编辑器 -->
+                                <script type="text/javascript" class="defer">
+                                    $("textarea").markdown({
+                                        language: 'zh',
+                                        fullscreen: {
+                                            enable: true
+                                        },
+                                        resize: 'vertical',
+                                        localStorage: 'md',
+                                        imgurl: '/ajax/imgUpload',
+                                        base64url: '/ajax/imgUpload'
+                                    });
+                                </script>
+                                {/if} {if $v['type']=='image' || $v['type']=='img'}
+                                <case value="singleImage">
+                                    <tr class="controls">
+                                        <td class="item-label">{$v['title']} :</td>
+                                        <td>
+                                            {if $v['value']}
+                                            <img class="{$v['name']}_up_img" onclick="getElementById('{$v['name']}_inputfile').click()"
+                                                    style="cursor:pointer;max-width:400px;" title="点击添加图片" alt="点击添加图片"
+                                                    src="__UP__/{$v['value']}"> {else}
+                                            <img class="{$v['name']}_up_img" onclick="getElementById('{$v['name']}_inputfile').click()"
+                                                    style="cursor:pointer;max-width:400px;" title="点击添加图片" alt="点击添加图片"
+                                                    src="__IMG__/addimg.png"> {/if}
+                                            <input type="hidden" id="{$v['name']}_img" name="{$v['name']}" value="{$v['value']}">
+                                            <input type="file" id="{$v['name']}_inputfile"
+                                                    style="height:0;width:0;z-index: -1; position: absolute;left: 10px;top: 5px;"
+                                                    value=""/> <a onclick="qingchu()">清除 </a>
+                                        </td>
+                                        <td class="item-note">{$v['subtitle']}</td>
+                                        <script type="text/javascript">
+                                            function qingchu() {
+                                                $(".{$v['name']}_up_img").attr("src", '');
+                                                $('#{$v["name"]}_img').val('');
+                                            }
+
+
+                                            $(document).ready(function () {
+                                                //响应文件添加成功事件
+                                                $("#{$v['name']}_inputfile").change(function () {
+                                                    //创建FormData对象
+                                                    var data = new FormData();
+                                                    //为FormData对象添加数据
+                                                    $.each($('#{$v["name"]}_inputfile')[0].files, function (i, file) {
+                                                        data.append('upload_file' + i, file);
+                                                    });
+                                                    //发送数据
+                                                    $.ajax({
+                                                        url: '/ajax/upload/?action=uploadimage',
+                                                        type: 'POST',
+                                                        data: data,
+                                                        dataType: "json",
+                                                        cache: false,
+                                                        contentType: false,		//不可缺参数
+                                                        processData: false,		//不可缺参数
+                                                        success: function (data) {
+                                                            console.log(data);
+                                                            console.log(data.state);
+                                                            if (data.state == "SUCCESS") {
+                                                                $(".{$v['name']}_up_img").attr("src", data.url);
+                                                                $(".{$v['name']}_up_img").show();
+                                                                $('#{$v["name"]}_img').val(data.basename);
+                                                            } else {
+                                                                layer.msg(data.state);
+                                                            }
+                                                        },
+                                                        error: function () {
+                                                            alert('上传出错');
+                                                            $(".loading").hide();	//加载失败移除加载图片
+                                                        }
+                                                    });
+
+                                                });
+                                            });
+                                        </script>
+                                    </tr>
+                                    {/if} {/foreach}
+                                    <tr class="controls" style="margin: 10px 0px;height: 80px;">
+                                        <td class="item-label"></td>
+                                        <td>
+                                            <button class="btn submit-btn ajax-post" id="submit" type="submit"
+                                                    target-form="form-horizontal">确 定
+                                            </button>
+                                            <a class="btn btn-return" href="{$_SERVER['HTTP_REFERER']}">返 回</a>
+                                        </td>
+                                        <td class="item-note"></td>
+                                    </tr>
+                            </table>
+                        </div>
+                    </div>
+                </form>
+                <script type="text/javascript">
+                    //提交表单
+                    $('#submit').click(function () {
+                        $('#form').submit();
+                    });
+                </script>
+            </div>
+        </div>
+    </div>
+</div>
+{include file="public:footer"}

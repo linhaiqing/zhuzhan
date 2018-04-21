@@ -1,0 +1,143 @@
+{include file="public:header"}
+<link rel="stylesheet" href="__CSS__/newtrade/finan.css">
+<div class="back pat-20">
+	<div class="container f14">
+<style>
+	.content12_common {
+		    position: relative;
+		    width: 1500px  !important;
+		    height: 100%;
+		    margin: 0 auto;
+		    background: #fff;
+		}
+		
+		.container {
+		    padding: 0;
+		    width: 1500px;
+		    margin: 0 auto;
+		    box-sizing: content-box;
+		}
+</style>
+
+		<div class="clearfix">
+			{include file="finan:left"}
+			<div class="fr gray-border content color-white col-pho-12">
+				<div class="pad-sm">
+					<div class="change_title">
+						<ul id="tabChangeNav" class="clearfix mgt-10">
+							<li>
+								<a href="/finan/out"><span class="blue"><div class="with-line">
+									{#lang('账户提现')}</div></span></a>
+							</li>
+							<li class="cur">
+								<a href="/finna/outlog"><span class="blue"><div class="with-line">
+									{#lang('提现记录')}</div></span></a>
+							</li>
+							<li>
+								<a href="/finan/bank"><span class="blue"><div class="with-line">
+									{#lang('提现地址管理')}</div></span></a>
+							</li>
+
+						</ul>
+					</div>
+					<div class="tab-content mgt-20 f12">
+						<div class="mytable-body ">
+
+							<div class="step2 f_body  ">
+								<table class="f_table" id="investLog_content">
+									<thead>
+									<tr>
+										<th>{#lang('提现时间')}</th>
+										<th>{#lang('提现金额')}</th>
+										<th>{#lang('提现币种')}</th>
+										<th>{#lang('手续费')}</th>
+										<th>{#lang('额外费用')}</th>
+										<th>{#lang('额外币种')}</th>
+
+
+										<th>{#lang('到账金额')}</th>
+										<th>{#lang('提现地址')}</th>
+										<th width="">
+								<span>
+									<select id="status-select">
+										<option value="">{#lang('全部状态')}</option>
+										<option value="1">{#lang('已申请')}</option>
+										<option value="2">{#lang('提现成功')}</option>
+										<option value="3">{#lang('已撤销')}</option>
+										<option value="4">{#lang('正在处理')}</option>
+									</select>
+								</span>
+										</th>
+									</tr>
+									</thead>
+									<tbody>
+									{foreach $pages['list'] as $k => $v}
+									<tr>
+										<td>{#addtime($v['addtime'])}</td>
+										<td>{$v['num']}</td>
+										<td>{$v['coinname']}</td>
+										<td>{$v['fee']}</td>
+
+										<td>{$v['out_coin_fee']}</td>
+										<td>{$v['out_coin']}</td>
+
+										<td>{$v['mum']}</td>
+
+										<td>{$v['name']}</td>
+										<td>
+											{if $v['status'] == 0}
+											<div>{#lang('已申请')} <a data="{$v['id']}" onclick="out_chexiao(this)" href="javascript:void(0)" style="    color: #2674FF!important;">{#lang('撤销')}</a></div>
+											{else if $v['status'] == 1}
+											<div>{#lang('提现成功')}</div>
+											{else if $v['status'] == 2}
+											<div>{#lang('已撤销')}</div>
+											{else if $v['status'] == 3}
+											<div>{#lang('正在处理')}</div>
+											{else}
+											<div color="red">{#lang('异常')}</div>
+											{/if}
+										</td>
+									</tr>
+									{/foreach}
+									</tbody>
+								</table>
+								<div class="pages">{$pages['show'] nofilter}</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script>
+	$("#status-select").val("{$status}");
+
+	$("#status-select").change(function () {
+		var status = $("#status-select option:selected").val();
+		var url    = '/finan/outlog';
+		if (status) {
+			url += '/status/' + status;
+		}
+		window.location = url;
+	});
+
+
+	function out_chexiao(_this) {
+		var id = $(_this).attr('data');
+		$.post("/finan/out_chexiao", {id: id}, function (data) {
+			if (data.status == 1) {
+				layer.msg(data.info, {icon: 1});
+				window.location.reload();
+			} else {
+				layer.msg(data.info, {icon: 2});
+			}
+		}, "json");
+	}
+
+
+</script>
+<script>
+	$('.finan_index').addClass('active');
+</script>
+{include file="public:footer"}

@@ -1,0 +1,277 @@
+{include file="public:header"}
+
+<link rel="stylesheet" href="__CSS__/yuanbao.css"/>
+<div class="wrapper">
+
+	<div class="banner-box">
+		<!-- 用户信息 start -->
+		<div class="banner-tag-box">
+			{if $user}
+			<!-- 已登录 start -->
+			<div class="banner-tag login-banner-tag">
+				<div class="user-base">
+                    <span class="user-base-sp">
+                        Hi,<a href="#" target="_blank">{$user["username"]}</a>
+                    </span>
+					<div class="user-info-block">
+						<table>
+							<tr>
+								<td>{#lang('可用')} CNY</td>
+								<td>{#lang('冻结')}</td>
+								<td>{#lang('总资产')}</td>
+							</tr>
+							<tr>
+								<td>￥{#num($user_coin['cny'])}</td>
+								<td>￥{#num($user_coin['cnyd'])}</td>
+								<td>￥{#num($user['zzc'])}</td>
+							</tr>
+						</table>
+					</div>
+				</div>
+				<ul class="clearfix">
+					<div class="user-info-fina">
+						<a href="/finan/pay.html">CNY {#lang('充值')}</a> <a href="/finan/out.html">CNY {#lang('提现')}</a>
+						<a href="/finan/trades.html" class="w82">{#lang('委托管理')}</a>
+					</div>
+				</ul>
+				<a href="/finan.html" target="_blank" class="green-link-btn">{#lang('去财务中心')}</a>
+				<a href="/finan/invit.html" target="_blank" class="transparent-link-btn">
+					<i class="icon-hot-tag"></i> {#lang('推荐好友拿奖励')} </a>
+			</div>
+			<!-- 已登录 end -->{else}
+			<!-- 未登录 start -->
+			<div class="banner-tag visitor-banner-tag">
+				<ul class="clearfix">
+					<li class="float-r">
+						<!--     <a href="/index/guide.html" target="_blank" rel="nofollow" class="guide-new">{#lang('新手引导')}</a>-->
+					</li>
+				</ul>
+				<div class="topest-profit">
+					<strong> {$zong_num_login nofilter}</strong><br><br> {#lang('全站24H累计交易量')}
+				</div>
+				<a href="/reg" class="red-link-btn" target="_blank">
+					<i class="fa fa-cny index-reg-ico"></i> {#lang('注册领取新人大礼包')} </a>
+				<a href="javascript:loginpop();" class="login-now"> {#lang('立即登录')} </a>
+			</div>
+			{/if}
+		</div>
+		<!-- 用户信息 end -->
+		<!-- 轮播图 start -->
+		<!-- 轮播图 end -->        {#slider("index")}
+	</div>
+	<!--交易区-->
+	<div class="tot-top">
+		<div class="trade_area">
+			{foreach $trade_qu as $k=>$v}
+
+
+			<span data="{$v['id']}" class="trade_list" value="{$v['id']}">
+
+				<a href="javascript:void(0);">{$v['title']}</a>
+
+
+			</span> {/foreach}
+		</div>
+	</div>
+	<div class="container pt20">
+		<div class="content mainContent">
+			<div class="main main_left">
+				<div class="tableBox1">
+					<table width="100%" id="market">
+						<thead>
+						<tr>
+							<th scope="col">交易市场</th>
+							<th scope="col">最新价格</th>
+							<th scope="col">买一价</th>
+							<th scope="col">卖一价</th>
+							<th scope="col">成交量</th>
+							<th scope="col">成交额(CNY)</th>
+							<th scope="col">日涨跌</th>
+						</tr>
+						</thead>
+						<tbody class="tb">
+						<a href=""></a>
+						</tbody>
+					</table>
+				</div>
+			</div>
+			<div class="aside">
+				{foreach $index_article as $k=>$v}
+				<div class="title" style="margin-top:10px;">
+					<span class="line"></span>{$v['title']}
+					<span><a href="/article/index/id/{$arts['newss']['id']}" style="float:right;font-size:14px;margin-right:5px;">{#lang('更多')}+</a></span>
+				</div>
+				<div>
+					{foreach $v['list'] as $k1=>$v1}
+					<ul class="tilt_ul">
+						<li class="tit_left"><a href="/article/detail/id/{$v1['id']}"><i class="fa  fa-angle-double-right"></i>&nbsp{$v1['title']}</a>
+						</li>
+						<span class="tit_right"><a href="/article/detail/id/{$v1['id']}">{#addtime($v1['addtime'],"m-d")}</a></span>
+					</ul>
+					{/foreach}
+				</div>
+				{/foreach}
+			</div>
+		</div>
+	</div>
+	<!--专业的安全保障-->
+	<div class="scurty_total">
+		<div class="scurty">专业的安全保障</div>
+		<div>
+			<ul class="slogan">
+				<li>
+					<img src="__IMG__/safe_ico.png">
+					<h3>安全可靠</h3>
+					<p class="slogan_foot">专业的金融IT风险控制团队, 网站和APP均采用银行级安全技术。</p>
+				</li>
+				<li>
+					<img src="__IMG__/protect_ico.png">
+					<h3>资金保障</h3>
+					<p class="slogan_foot">钱包多重加密，冷钱包存储资金第三方托管, 专业金融安全。</p>
+				</li>
+				<li>
+					<img src="__IMG__/fast_ico.png">
+					<h3>快捷方便</h3>
+					<p class="slogan_foot">专业级高速撮合引擎支持每秒上千次交易、充值即时、提现迅速。</p>
+				</li>
+				<li>
+					<img src="__IMG__/platform_ico.png">
+					<h3>多终端</h3>
+					<p class="slogan_foot">WEB HTML5 Android IOS全平台接入，随时随地掌握行情。</p>
+				</li>
+			</ul>
+		</div>
+	</div>
+	{if $links}
+	<div class="links_total">
+		<div class="links"><a href="#">友情链接</a></div>
+		{foreach $links as $k=>$v} <a href="{$v['value']}"> <img src="__UP__/{$v['img']}" class="links_img" style="width: 137px;
+    height: 53px;"> </a> {/foreach}
+	</div>
+	</div>
+
+	{/if}
+	<script>
+		$(function () {//市场交易信息
+
+			$.post("/ajax/allcoin",
+					function (data) {
+						//console.log(data);
+
+						$(".trade_area span:first").css("background", "#1a81d6");
+						$(".trade_area span a:first").css("color", "#ffffff");
+						var tot  = '';
+						var json = data;
+
+						$.each(json, function (index, obj) {
+							// console.log(obj[8]);
+							tot += '<tr data-pair="" class="btc" onclick="top.location=\'/trade/index/market/' + obj[8] + '/\'">';
+							tot += '<td>' + '<div class="coin">' + '<a href="/trade/index/market/' + obj[8] + '">' + '<img src=' + "__UP__/" + obj[9] + '>' + '<span>' + obj[0] + '</span>' + '</a>' + '</div>' + '</td>';
+							tot += '<td>' + '<span class="trade_price" style="color:' + (obj[1] >= 0 ? '#e9854f' : '#1EAE58') + '">' + obj[1] + '</span>' + '</td>';
+							tot += '<td class="high_price">' + obj[2] + '</td>';
+							tot += '<td class="low_price">' + obj[3] + '</td>';
+							tot += '<td class="amount">' + obj[6] + '</td>';
+							tot += '<td class="total">' + obj[4] + '</td>';
+							tot += '<td>' + '<span class="change" style="color:' + (obj[7] >= 0 ? '#e9854f' : '#1EAE58') + '">' + obj[7] + '%' + '</span>' + '</td>';
+							tot += '</tr>';
+
+						});
+
+
+						$(".tb").html(tot);
+
+					}, "json");
+
+
+			$('.trade_area span').click(function () {//市场交易信息分页
+
+				var index = $(this).attr('value');
+
+				$(this).css({'background': '#1a81d6'}).children().css({'color': '#fff'});
+				$(this).siblings().css({'background': '#F4F4F4'}).children().css({'color': '#999'})
+
+				$.get("/ajax/allcoin_a/ajax/1/id/" + index, {},
+
+						function (data1) {
+							var a     = '';
+							var json1 = data1.url;
+							//console.log(json1);
+							$.each(json1, function (i, obj1) {
+
+								//console.log(obj1);
+								//console.log(i);
+								a += '<tr data-pair="">';
+								a += '<td>' + '<div class="coin">' + '<a href="/trade/index/market/' + i + '">' + '<img src=' + "__UP__/" + obj1[9] + '>' + '<span>' + obj1[0] + '</span>' + '</a>' + '</div>' + '</td>';
+								a += '<td>' + '<span class="trade_price" style="color:' + (obj1[1] >= 0 ? '#e9854f' : '#1EAE58') + '">' + obj1[1] + '</span>' + '</td>';
+								a += '<td class="high_price">' + obj1[2] + '</td>';
+								a += '<td class="low_price">' + obj1[3] + '</td>';
+								a += '<td class="amount">' + obj1[6] + '</td>';
+								a += '<td class="total">' + obj1[4] + '</td>';
+								a += '<td>' + '<span class="change" style="color:' + (obj1[7] >= 0 ? '#e9854f' : '#1EAE58') + '">' + obj1[7] + '%' + '</span>' + '</td>';
+								a += '</tr>';
+							});
+
+							$(".tb").html(a);
+
+						}, "json");
+
+			})
+
+
+		})
+
+		function yuanbao_login() {
+			var moble    = $("#login_moble").val();
+			var mobles   = $("#login_mobles").val();
+			var password = $("#login_password").val();
+			var verify   = $("#login_verify").val();
+
+			if (moble == "" || moble == null) {
+				layer.tips('请输入手机号', '#login_moble', {tips: 2});
+				return false;
+			}
+			if (password == "" || password == null) {
+				layer.tips('请输入登录密码', '#login_password', {tips: 2});
+				return false;
+			}
+			if (verify == "" || verify == null) {
+				layer.tips('请输入验证码', '#login_verify', {tips: 2});
+				return false;
+			}
+
+			$.post("{#url('login/up_login')}", {
+				moble: moble,
+				mobles: mobles,
+				password: password,
+				verify: verify,
+				login_token: "{$login_token}",
+			}, function (data) {
+				if (data.status == 1) {
+					layer.msg(data.info, {icon: 1});
+					if (data.url) {
+						window.location = data.url;
+					} else {
+						window.location.reload();
+					}
+				} else {
+					$("#login_verify_up").click();
+					layer.msg(data.info, {icon: 2});
+					if (data.url) {
+						window.location = data.url;
+					}
+				}
+			}, "json");
+		}
+	</script>
+	<script>
+		$('#index_box').addClass('active');
+		$(".links_img").mouseover(function () {//图片放大
+			$(this).addClass('hover');
+		});
+		$(".links_img").mouseout(function () {
+			$(this).removeClass('hover');
+		});
+
+		$(".loginArea").parent().css({"position":"relative"});
+	</script>
+	{include file="public:footer"}

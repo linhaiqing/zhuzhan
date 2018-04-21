@@ -1,0 +1,83 @@
+{include file="public:header"}
+
+	<link rel="stylesheet" href="__CSS__/lhang/service.css" type="text/css">
+
+<style>
+	.nav .open > a, .nav .open > a:hover, .nav .open > a:focus{
+		background-color:transparent !important;
+		border-color:#C83935;
+	}
+</style>
+
+
+<div class="container-full">
+</div>
+<div class="container-full">
+	<div class="container service-max">
+		<div class="col-xs-9 service-leftbg ">
+			<div class="service-newsnav">
+				<div class="service-newsnav-title text-center">
+					{#lang('资讯中心')} <img src="__IMG__/lhang/news_icon_news@2x.png" alt="" class="service-newsnav-icon">
+				</div>
+				<div>
+					<ul>
+
+						{foreach $type_arr as $k => $v}
+						<li class="service-newsnav-item list-unstyled text-center {if $type['id'] == $v['id']} active{/if}">
+							<a href="/article/index/typeid/{$v['id']}">{$v['title']}</a>
+						</li>
+						{/foreach}
+					</ul>
+				</div>
+			</div>
+
+			<!-- 新闻列表 -->
+			<div class="service-newscontent">
+				{foreach $pages['list'] as $k=>$v}
+				<div class="snc-max clearfix">
+					<div class="col-xs-3 snc-left">
+						<a href="/article/detail/id/{$v.id}" target="_blank">
+							<img src="{$v['img']}" class="snc-newsimg"/></a>
+					</div>
+					<div class="col-xs-9 snc-right">
+						<a href="/article/detail/id/{$v.id}" target="_blank">
+							<h3 class="snc-newscontent" >
+								{$v['title']}
+							</h3>
+						</a>
+						<p>　{$v['jian'] nofilter}...</p>
+						<div class="col-xs-12 snc-newsinfo">
+							<div class="col-xs-4 ">
+								<p>{#date("Y-m-d H:i",$v['addtime'])} </p>
+							</div>
+							<div class="col-xs-8 ">
+							</div>
+						</div>
+					</div>
+				</div>
+				{/foreach}
+				{if $pages['show']}
+				<div style="height: 60px;line-height: 60px;">
+				<div class="pages">{$pages['show'] nofilter}</div>{/if}
+				</div>
+			</div>
+		</div>
+		<!-- 右侧 -->
+
+	</div>
+</div>
+{include file="public:footer"}
+
+<style>
+	.container-full, .service-leftbg {
+		width: initial;
+	}
+	.service-newsnav{
+		margin-right: 0 !important;
+		width: 20%;
+	}
+	.service-newscontent{
+		width:77%;
+		margin-left: 3%;
+	}
+</style>

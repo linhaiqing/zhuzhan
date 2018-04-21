@@ -1,0 +1,261 @@
+{include file="public:header"}
+<link rel="stylesheet" href="__EXT__/bootstrap/css/bootstrap.min.css">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.css">
+<!--<script src="__EXT__/morris.js-0.4.3/morris.css"></script>-->
+<script src="__EXT__/morris.js-0.4.3/morris.min.js"></script>
+<script src="__EXT__/morris.js-0.4.3/raphael-min.js"></script>
+<link rel="stylesheet" href="__CSS__/overstyle.css">
+	<script>
+		$('#lang_top').parent('li').css({'border-right':'none'})
+		$(window).scroll(function(){
+
+			if($(window).scrollTop() >0){
+				$('.trade-status li>a').css({'color':'#666'});
+			}else{
+				$('.trade-status li>a').css({'color':'rgba(255, 255, 255, 0.6)'});
+			}
+		});
+	</script>
+	<div class="bk-pageTop" id="bk-pageTop">
+		<div class="section bk-page-home">
+			<div class="bk-mouse"><div class="wheel"></div></div>
+			<div class="bk-page-table">
+				<div class="bk-page-tableCell">
+					<div class="container" style="position:relative;">
+						<div class="bk-themeWord">
+							<h2>全球最大的数字资产平台</h2>
+							<p>{#lang("Connecting people, assets and the world by using tomorrow's currency to build today's world.")}</p>
+						</div>
+
+						<div class="bk-rockNumber">
+							<div class="item">
+								<h4>{#lang('累计交易量')}</h4>
+								<p class="clearfix" id="accumulated_storage">
+									{foreach $zongArr as $v}
+									<span><i>{$v}</i></span>
+									{/foreach}
+									<b></b>
+								</p>
+							</div>
+							<div class="item none" style="display:none">
+								<h4>{#lang('累计支付利息')}</h4>
+								<p class="clearfix" id="accumulated_financial">
+									<span><i>0</i></span>
+									<span><i>0</i></span>
+									<span><i>0</i></span>
+									<span><i>0</i></span>
+									<b>.00BTC</b>
+								</p>
+							</div>
+						</div>
+						<div class="bk-productData">
+							<div class="item">
+								<div class="itemRate">
+									<i class="bk-ico btc"></i>
+									<i class="bk-ico huoqi"></i>
+									<p>
+										1.6
+
+										%</p>
+									<h4>{#lang('活期年化收益率')}</h4>
+								</div>
+								<div class="itemBtn">
+									{if $userid}
+									<button onClick="location.href ='/trade/index/market/dsc_cny'"  type="button" class="btn btn-primary">
+										{else}
+									<button onClick="loginpop();"  type="button" class="btn btn-primary">
+										{/if}
+										<i class="bk-ico download"></i>{#lang('投资数字资产')}</button>
+
+								</div>
+								<div class="itemList">
+									<a class="bk-animated" href="/" target="_blank" title=""><i class="bk-ico huoqi"></i><span>
+	                			1.6%</span><b>{#lang('最新价')}</b></a>
+									<a class="bk-animated " href="/" target="_blank" title=""><i class="bk-ico fix3"></i><span>
+	                			2.6%</span><b>{#lang('新高价')}</b></a>
+									<a class="bk-animated " href="/" target="_blank" title=""><i class="bk-ico fix6"></i><span>
+
+	                			4.6%</span><b>{#lang('三月均价')}</b></a>
+
+									<a class="bk-animated " href="/" target="_blank" title=""><i class="bk-ico fix12"></i><span>
+
+	                			5.6%</span><b>{#lang('六月均价')}</b></a>
+
+									<a class="bk-animated " href="/" target="_blank" title=""><i class="bk-ico fix12"></i><span>
+	                			6.6%</span><b>{#lang('一年均价')}</b></a>
+
+									<a class="bk-animated" href="/" target="_blank" title="">
+										<i class="bk-ico p2p"></i><span>10.0%</span>
+										<b>
+											DSC...
+
+										</b></a>
+
+
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script>
+		$('.wheel').click(function(){
+			var height=$('#bk-pageTop').height();
+			//console.log(height)
+			$('body').animate({scrollTop:height},600);
+		})
+
+		$('.bk-productData').hover(function(){
+			$('.bk-productData .item .itemList').fadeIn();
+		},function(){
+			$('.bk-productData .item .itemList').fadeOut();
+		})
+	</script>
+<!--
+	<div class="bk-pageMain">
+		<div class="section bk-page-app" id="bk-pageApp">
+			<div class="container">
+				<div class="row">
+					<div class="bk-page-ld col-sm-6 hidden-xs"></div>
+					<div class="bk-page-rd col-sm-6 col-xs-12 text-left pull-right">
+						<div class="hd">
+							<h3><img src="" style="width: 55px;margin-left: 20px"> App</h3>
+							<p><i class="fa fa-check"></i>{#lang('安全管理：账户管理')}</p>
+							<p><i class="fa fa-check"></i>{#lang('快速交易：一键交易，安全快捷')}</p>
+
+						</div>
+						<div class="bd">
+							<p>{#lang('最新版本：')} V1.8.0(2016-12-10)</p>
+							<p><a href="/" target="_blank">{#lang('了解更多')}>>></a></p>
+						</div>
+						<div class="fd">
+							<button type="button" class="btn btn-dark" onclick="ios_alert();" style="margin-right:10px;"><i class="fa fa-apple fa-3x"></i>iPhone<br>{#lang('立即下载')}</button>
+
+							<button type="button" class="btn btn-dark" onclick="location.href='/'"><i class="fa fa-android fa-3x"></i>Android<br>{#lang('立即下载')}</button>
+							
+
+
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script>
+			function ios_alert(){
+				alert("IOS版本企业版安装后需要在\n 设置>>通用>>设备管理 \n里面添加本应用\n 微信用户请右上角浏览器打开,知道了吧?");
+				window.location.href="itms-services://?action=download-manifest&url=/";
+				return false;
+			}
+		</script>
+
+		-->
+	
+		<div class="bk-exchange-stock" id="bk-pageExchange">
+			<div class="container">
+				<div id="myfirstchart" style="height: 250px;"></div>
+			</div>
+		</div>
+
+		<div class="bk-exchange-price">
+			<div class="container">
+				<div class="row">
+
+					<div class="col-xs-4">
+						<div class="exPrice active">
+							<h4><i class="fa fa-cny"></i><b id="price">1.80</b></h4>
+							<p>DSC {#lang('当前市场价')}</p>
+							<span class="curArrow"></span>
+						</div>
+					</div>
+
+				</div>
+			</div>
+		</div>
+		<script>
+
+			new Morris.Line({
+				// ID of the element in which to draw the chart.
+				element: 'myfirstchart',
+				// Chart data records -- each entry in this array corresponds to a point on
+				// the chart.
+				data: [
+					{ year: '2013', value: 20 },
+					{ year: '2014', value: 10 },
+					{ year: '2015', value: 5 },
+					{ year: '2016', value: 5 },
+					{ year: '2017', value: 20 }
+				],
+				// The name of the data record attribute that contains x-values.
+				xkey: 'year',
+				// A list of names of data record attributes that contain y-values.
+				ykeys: ['value'],
+				// Labels for the ykeys -- will be displayed when you hover over the
+				// chart.
+				labels: ['Value'],
+				barColors: ['#6883a3', '#a94442']
+			});
+		</script>
+
+		<div class="section bk-page-feature" id="bk-pageFeature">
+			<div class="container">
+				<div class="hd">
+					<h3>{#lang('数字资产，解放您的现金')}</h3>
+					<p>{#lang('数字资产已经成为一种前卫时尚的金融工具。')}</p>
+				</div>
+				<div class="bd">
+					<div class="row">
+						<div class="col-sm-4 col-xs-12 sm-text-left">
+							<p><img src="__IMG__/further-img1.jpg"></p>
+							<h4>{#lang('节约&快捷')}</h4>
+							<p>{#lang('它可以跨区域、跨平台，在任意一台接入互联网的终端以低廉甚至零成本进行交易或转账')}</p>
+						</div>
+						<div class="col-sm-4 col-xs-12 sm-text-left">
+							<p><img src="__IMG__/further-img2.jpg"></p>
+							<h4>{#lang('隐私&安全')}</h4>
+							<p>{#lang('它是基于数字和密码学而产生的科学结晶，充分保障了拥有者的个人隐私以及资金安全')}</p>
+						</div>
+						<div class="col-sm-4 col-xs-12 sm-text-left">
+							<p><img src="__IMG__/further-img3.jpg"></p>
+							<h4>{#lang('流行&未来')}</h4>
+							<p>{#lang('它是名副其实的电子黄金，是一种可实现全球无碍流通、无缝覆盖的互联网专属货币')}</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		{if $links}
+		<div class="section bk-page-support" id="bk-pageSupport">
+				<div id="intro_partner">
+					<div class="container">
+						<div class="outline-head">
+							<strong>{#lang('合作伙伴')}</strong>
+						</div>
+						<ul class="index_pernter_logo ml25 mt20">
+						{foreach $links as $v}
+							<li style="">
+								<a href="{$v['value']}" class="partner1" alt="{$v['name']}" target="_blank" rel="nofollow">
+									<img src="__UP__/{$v['img']}" title="{$v['name']}" class="links_img"> </a>
+							</li>
+							{/foreach}
+						</ul>
+					</div>
+				</div>
+			</div>
+		{/if}
+		</div>
+		<div class="section bk-page-join" id="bk-pageJoin">
+			<div class="container">
+				<h3>{#lang('为改变世界而生')}</h3>
+				<p>{#lang('数字货币---颠覆现实、引发技术革命，即将渗透至你我生活的方方面面')}</p>
+				<p><a class="btn btn-downblue btn-lg" href="javascript:loginpop();" onclick="" target="_self" role="button" style="margin-top:30px;">{#lang('马上加入')}</a></p>
+			</div>
+		</div>
+	</div>
+	<div style="position:fixed; width:100%; height:100px; bottom:0px; left:0px; z-index:999999; display:none;">
+
+	</div>
+
+
+{include file="public:footer"}

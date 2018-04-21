@@ -1,0 +1,376 @@
+{include file="public:header"}
+<link rel="stylesheet" href="__CSS__/newtrade/finan.css">
+<div class="back pat-20">
+	<div class="container f14">
+
+
+		<div class="clearfix">
+			{include file="user:left"}
+			<div class="fr gray-border content color-white col-pho-12">
+				<div class="pad-sm">
+					<div class="change_title" style="border-bottom: 2px solid #69B0E4;">
+						<ul id="tabChangeNav" class="clearfix mgt-10">
+							<li class="cur show">
+								<a href="/finan/out"><span class="blue" style="border:none;"><div class="with-line">
+									{#lang('绑定手机')}</div></span></a>
+							</li>
+
+						</ul>
+					</div>
+					<div class="tab-content mgt-20 f12" style="margin-left: 180px">
+						<div class="pwtrade mart30 mt50">
+							{if !$user['moble']}
+							<dl>
+								<dt>{#lang('手机号码')}：</dt>
+								<dd id="dd-mobilebinda">
+									<input type="text" id="mobles" class="texts" style="display:none;"> <input type="text" id="moble" class="texts" style="padding-left: 40px;">
+								</dd>
+								<link rel="stylesheet" href="__EXT__/intlTelInput/css/intlTelInput.css">
+								<script src="__EXT__/intlTelInput/js/intlTelInput.js"></script>
+								<script>
+									$("#mobles").intlTelInput({
+										autoHideDialCode: false,
+										defaultCountry: "cn",
+										nationalMode: false,
+										preferredCountries: ['cn', 'us', 'hk', 'tw', 'mo'],
+									});
+								</script>
+							</dl>
+							<dl class="step1">
+								<dt>{#lang('验证码')}：</dt>
+								<dd id="dd-mobilebindb">
+									<input type="text" id="verify" value="" class="texts" style="width: 98px; box-shadow: none;"/>
+							<span style="vertical-align: -14px;line-height: 20px;">
+								<img class="codeImg reloadverify" src="{#url('ajax/verify')}" title="{#lang('换一张')}" onclick="this.src=this.src+'?t='+Math.random()" width="100" height="34">
+							</span>
+								</dd>
+							</dl>
+							<dl class="step1">
+								<dt>{#lang('获取验证码')}：</dt>
+								<dd class="yuyin">
+									<div class="clear">
+										{if $sys_sms['sms']==1}
+										<input type="button" value="{#lang('发送短信验证码')}" id="send-sms" class="btns" onclick="send_moble_set('sms')" style="width: 100px;font-size: 12px;"/>
+										{/if}
+										{if $sys_sms['tel']==1}
+										<input type="button" value="{#lang('发送语音验证码')}" id="send-tel" class="btns" onclick="send_moble_set('tel')" style="width: 100px;font-size: 12px;"/>
+										{/if}
+									</div>
+								</dd>
+							</dl>
+							<dl class="step2" style="display: none;">
+								<dt>{#lang('短信验证码')}：</dt>
+								<dd>
+									<input type="text" id="moble_verify" value="" class="texts" placeholder="{#lang('请输入短信验证码')}"/> <span id="reg_moble"></span>
+								</dd>
+							</dl>
+							<dl>
+								<dt></dt>
+								<dd>
+									<input type="button" value="{#lang('绑定手机')}" id="btn-mobilebind" class="btns2" onclick="moble_set()"/>
+								</dd>
+							</dl>
+							<script>
+								function new_send() {
+									$(".step2").hide();
+									$(".step1").show();
+								}
+								function send_moble_set(type) {
+									var moble  = $("#moble").val();
+									var mobles = $("#mobles").val();
+									var verify = $("#verify").val();
+									if (moble == "" || moble == null) {
+										layer.tips("{#lang('请输入手机号码')}", '#moble', {tips: 3});
+										return false;
+									}
+									if (verify == "" || verify == null) {
+										layer.tips("{#lang('请输入图形验证码')}", '#verify', {tips: 3});
+										return false;
+									}
+									$.post("{#url('verify/moble_set')}", {
+										moble: moble,
+										mobles: mobles,
+										type: type,
+										verify: verify
+									}, function (data) {
+										if (data.status == 1) {
+											layer.msg(data.info, {icon: 1});
+											$(".step1").hide();
+											$(".step2").show();
+											$('#moble').attr("disabled", "disabled");
+											var obj      = $('#reg_moble');
+											var wait     = 60;
+											var interval = setInterval(function () {
+												obj.html(wait + "{#lang('秒可再次发送')}");
+												wait--;
+												if (wait < 0) {
+													clearInterval(interval);
+													$(".reloadverify").click();
+													$("#verify").val('');
+													obj.html('<a class="move" onclick="new_send()">{#lang("没有收到？重新发送")}</a>');
+												}
+												;
+											}, 1000);
+										} else {
+											$(".reloadverify").click();
+											layer.msg(data.info, {icon: 2});
+											if (data.url) {
+												window.location = data.url;
+											}
+										}
+									}, "json");
+								}
+								function moble_set() {
+									var moble        = $("#moble").val();
+									var mobles       = $("#mobles").val();
+									var moble_verify = $("#moble_verify").val();
+									if (moble == "" || moble == null) {
+										layer.tips("{#lang('请输入手机号码')}", '#moble', {tips: 3});
+										return false;
+									}
+									if (moble_verify == "" || moble_verify == null) {
+										layer.msg("{#lang('请输入短信验证码')}", {icon: 2});
+										//layer.tips("{#lang('请输入短信验证码')}", '#moble_verify', {tips: 3});
+										return false;
+									}
+									$.post("{#url('user/moble_set')}", {
+										moble: moble,
+										mobles: mobles,
+										moble_verify: moble_verify
+									}, function (data) {
+										if (data.status == 1) {
+											layer.msg(data.info, {icon: 1});
+											location.reload();
+										} else {
+											layer.msg(data.info, {icon: 2});
+											if (data.url) {
+												window.location = data.url;
+											}
+										}
+									}, "json");
+								}
+							</script>
+							{else}
+							<div class="step3">
+								<div class="band_succ move" style="margin-bottom: 20px;margin-left: 155px;">
+									<i class="fa fa-check mr5"></i>{#lang('您的账户已启用手机验证')}
+								</div>
+								<dl>
+									<dt>{#lang('手机号码')}：</dt>
+									<dd id="dd-mobilebindc" title="{#lang('联系管理员修改')}">
+										<input type="text" value="{$user['moble']}" readonly>
+									</dd>
+								</dl>
+								<dl>
+									<dt>{#lang('绑定时间')}：</dt>
+									<dd id="dd-mobilebindd"> {#addtime($user['mobletime'])}</dd>
+								</dl>
+								<dl style="margin-left: -70px;">
+									<dt></dt>
+									<dd><input type="button" class="btns2" value="{#lang('更换绑定')}" onclick="new_moble()"></dd>
+								</dl>
+							</div>
+							<div class="step4" style="display:none;">
+								<form class="pwtrade mart30">
+									<dl>
+										<dt>{#lang('新手机号码')}：</dt>
+										<dd>
+											<input type="text" id="mobles_new" class="texts" style="display: none;"> <input type="text" id="moble_new" class="texts" style="padding-left: 40px;">
+										</dd>
+										<link rel="stylesheet" href="__EXT__/intlTelInput/css/intlTelInput.css">
+										<script src="__EXT__/intlTelInput/js/intlTelInput.js"></script>
+										<script>
+											$("#mobles_new").intlTelInput({
+												autoHideDialCode: false,
+												defaultCountry: "cn",
+												nationalMode: false,
+												preferredCountries: ['cn', 'us', 'hk', 'tw', 'mo'],
+											});
+										</script>
+									</dl>
+									<dl class="step5">
+										<dt>{#lang('当前手机号码')}：</dt>
+										<dd class="yuyin">
+											<div class="clear">
+												{$user['moble']} ({#lang('接收验证码')})
+											</div>
+										</dd>
+									</dl>
+									<dl class="step5">
+										<dt>{#lang('获取验证码')}：</dt>
+										<dd class="yuyin">
+											<div class="clear">
+												{if $sys_sms['sms']==1}
+												<input type="button" value="{#lang('发送短信验证码')}" class="btns" onclick="send_moble_new('sms')" style="width: 100px;font-size: 12px;"/>
+												{/if}
+												{if $sys_sms['tel']==1}
+												<input type="button" value="{#lang('发送语音验证码')}" class="btns" onclick="send_moble_new('tel')" style="width: 100px;font-size: 12px;"/>
+												{/if}
+											</div>
+										</dd>
+									</dl>
+									<dl class="step6" style="display:none;">
+										<dt>{#lang('短信验证码')}：</dt>
+										<dd>
+											<input type="text" id="moble_verify_new" value="" class="texts" placeholder="{#lang('请输入短信验证码')}"/> <span id="reg_moble_new"></span>
+										</dd>
+									</dl>
+									<dl>
+										<dt></dt>
+										<dd>
+											<input type="button" value="{#lang('更换绑定')}" id="" class="btns2" onclick="moble_news()"/>
+										</dd>
+									</dl>
+								</form>
+							</div>
+							<script>
+								function new_moble() {
+									$(".step3").hide();
+									$(".step4").show();
+								}
+
+								function send_new() {
+									$(".step6").hide();
+									$(".step5").show();
+								}
+
+								function send_moble_new(type) {
+									var moble      = "{$user['moble']}";
+									var moble_new  = $("#moble_new").val();
+									var mobles_new = $("#mobles_new").val();
+									if (moble == "" || moble == null) {
+										layer.tips("{#lang('请输入手机号码')}", '#moble', {tips: 3});
+										return false;
+									}
+									$.post("{#url('verify/moble_new')}", {
+										moble: moble,
+										moble_new: moble_new,
+										mobles_new: mobles_new,
+										type: type,
+									}, function (data) {
+										if (data.status == 1) {
+											layer.msg(data.info, {icon: 1});
+											$(".step5").hide();
+											$(".step6").show();
+											$('#moble_new').attr("disabled", "disabled");
+											var obj      = $('#reg_moble_new');
+											var wait     = 60;
+											var interval = setInterval(function () {
+												obj.html(wait + "{#lang('秒可再次发送')}");
+												wait--;
+												if (wait < 0) {
+													clearInterval(interval);
+													$(".reloadverify_new").click();
+													$("#verify_new").val('');
+													obj.html('<a class="move" onclick="send_new()">{#lang("没有收到？重新发送")}</a>');
+												}
+												;
+											}, 1000);
+										} else {
+											layer.msg(data.info, {icon: 2});
+											if (data.url) {
+												window.location = data.url;
+											}
+										}
+									}, "json");
+								}
+								function moble_news() {
+									var moble_new        = $("#moble_new").val();
+									var mobles_new       = $("#mobles_new").val();
+									var moble_verify_new = $("#moble_verify_new").val();
+									if (moble_new == "" || moble_new == null) {
+										layer.tips("{#lang('请输入手机号码')}", '#moble_new', {tips: 3});
+										return false;
+									}
+									if (moble_verify_new == "" || moble_verify_new == null) {
+										layer.tips("{#lang('请输入短信验证码')}", '#moble_verify_new', {tips: 3});
+										return false;
+									}
+									$.post("{#url('user/moble_new')}", {
+										moble_new: moble_new,
+										mobles_new: mobles_new,
+										moble_verify_new: moble_verify_new
+									}, function (data) {
+										if (data.status == 1) {
+											layer.msg(data.info, {icon: 1});
+											location.reload();
+										} else {
+											layer.msg(data.info, {icon: 2});
+											if (data.url) {
+												window.location = data.url;
+											}
+										}
+									}, "json");
+								}
+							</script>
+							{/if}
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script>
+	function password_up() {
+		var oldpassword = $('#oldpassword').val();
+		var newpassword = $('#newpassword').val();
+		var repassword  = $('#repassword').val();
+
+		if (oldpassword == '' || oldpassword == null) {
+			layer.tips("{#lang('请输入旧登录密码')}", '#oldpassword', {tips: 2});
+			return false;
+		}
+		if (newpassword == '' || newpassword == null) {
+			layer.tips("{#lang('请输入新登录密码')}", '#newpassword', {tips: 2});
+			return false;
+		}
+		if (repassword != newpassword) {
+			layer.tips("{#lang('确认密码错误')}", '#repassword', {tips: 2});
+			return false;
+		}
+
+		$.post("{#url('user/password')}", {
+			oldpassword: oldpassword,
+			newpassword: newpassword
+		}, function (data) {
+			if (data.status == 1) {
+				layer.msg(data.info, {icon: 1});
+				if (data.url) {
+					window.location = data.url;
+				} else {
+					window.location.reload();
+				}
+			} else {
+				layer.msg(data.info, {icon: 2});
+				if (data.url) {
+					window.location = data.url;
+				}
+			}
+		}, 'json');
+	}
+</script>
+<script>
+	$('.mobile').addClass('current');
+</script>
+{include file="public:footer"}
+<style>
+				.container {
+    padding: 0;
+    width: 1500px;
+    margin: 0 auto;
+    box-sizing: content-box;
+}
+.content12_common {
+    position: relative;
+    width: 1500px;
+    height: 100%;
+    margin: 0 auto;
+}
+.side-bar li a {
+    display: block;
+    text-align: center;
+    font-size: 14px;
+    color: #2E4052;
+}
+			</style>

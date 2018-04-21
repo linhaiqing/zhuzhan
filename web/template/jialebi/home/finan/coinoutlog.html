@@ -1,0 +1,183 @@
+{include file="public:header"}
+<link rel="stylesheet" href="__CSS__/newtrade/finan.css">
+<div class="back pat-20">
+	<div class="container f14">
+
+
+		<div class="clearfix">
+			{include file="finan:left"}
+			<div class="fr gray-border content color-white col-pho-12">
+				<div class="pad-sm">
+					<div class="change_title">
+						<ul id="tabChangeNav" class="clearfix mgt-10">
+							<li>
+								<a href="/finan/coinout"><span class="blue"><div class="with-line">
+									{#lang('转出虚拟币')}</div></span></a>
+							</li>
+							<li class="cur">
+								<a href="/finan/outlog"><span class="blue"><div class="with-line">
+									{#lang('转出记录')}</div></span></a>
+							</li>
+							<li>
+								<a href="/finan/qianbao"><span class="blue"><div class="with-line">
+									{#lang('转出地址管理')}</div></span></a>
+							</li>
+
+						</ul>
+					</div>
+					<div class="tab-content mgt-20 f12">
+						<div class="mytable-body ">
+							<div class="f_body  step2">
+								<table class="f_table" id="investLog_content">
+									<thead>
+									<tr>
+
+										<th width="">{#lang('转出时间')}</th>
+										<th width="">	<select name="type" id="coinnam-select">
+											<option value="">--{#lang('全部币种')}--</option>
+											{foreach $coin_list as $k => $v}
+											<option value="{$v['name']}">{$v.title} ({#strtoupper($v['name'])})</option>
+											{/foreach} </select></th>
+										<th width="">{#lang('接收地址')}</th>
+										<th width="">{#lang('转出数量')}</th>
+										<th width="">{#lang('转出费用')}</th>
+										<th width="">{#lang('实际到账')}</th>
+										<th width="">{#lang('类型')}</th>
+										<th width="">{#lang('状态')}</th>
+									</tr>
+									</thead>
+									<tbody>
+									{foreach $pages['list'] as $k => $v}
+									<tr>
+										<td>{#addtime($v.addtime)}</td>
+										<td><img src="__UP__/{$coin_list[$v['coinname']]['img']}" class="mr5" style="margin-bottom: -5px; width: 22px;"/>{$coin_list[$v['coinname']]['title']} ({#strtoupper($coin_list[$v['coinname']]['name'])})</td>
+
+										<td class="green" onclick="view('{$v.username}')">查看</td>
+										<td>{$v['num']}</td>
+										<td>{$v['fee']}</td>
+										<td>{$v['mum']}</td>
+										<td>{$v["type"]}</td>
+										<td>
+											{if $v['status']==0 } <font color="#23a800">{#lang('等待处理')} </font>  {/if}
+											{if $v['status']==1 } <font color="#23a800">{#lang('转出成功')} </font>  {/if}
+											{if $v['status']==2 } <font color="#23a800">{#lang('已经审核')} </font>  {/if}
+											{if $v['status']==3 } <font color="#23a800">{#lang('已经撤销')} </font>  {/if}
+										</td>
+									</tr>
+									{/foreach}
+									</tbody>
+								</table>
+								<div class="pages">{$pages['show'] nofilter}</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script>
+	$("#coinnam-select").val("{$coinname}");
+
+	$("#coinnam-select").change(function () {
+		var coinname = $("#coinnam-select option:selected").val();
+		var url      = '/finan/coinoutlog';
+		if (coinname) {
+			url += '/coinname/' + coinname;
+		}
+		window.location = url;
+	});
+	function view(address){
+		layer.alert(address);
+	}
+
+	function send_new() {
+		$(".step6").hide();
+		$(".step5").show();
+	}
+	function send_moble_cnyout(type) {
+		$.post("{#url('verify/moble_cnyout')}", {
+			type: type,
+		}, function (data) {
+			if (data.status == 1) {
+				layer.msg(data.info, {icon: 1});
+				$(".step5").hide();
+				$(".step6").show();
+				$('#moble_new').attr("disabled", "disabled");
+				var obj      = $('#reg_moble_new');
+				var wait     = 60;
+				var interval = setInterval(function () {
+					obj.html(wait + "{#lang('秒可再次发送')}");
+					wait--;
+					if (wait < 0) {
+						clearInterval(interval);
+						$(".reloadverify_new").click();
+						$("#verify_new").val('');
+						obj.html('<a class="move" onclick="send_new()">{#lang("没有收到")}？{#lang("重新发送")}</a>');
+					}
+					;
+				}, 1000);
+			} else {
+				layer.msg(data.info, {icon: 2});
+				if (data.url) {
+					window.location = data.url;
+				}
+			}
+		}, "json");
+	}
+	function cnyout_up() {
+		var num          = $("#cnyout_num").val();
+		var paypassword  = $("#cnyout_paypassword").val();
+		var moble_verify = $("#cnyout_moble_verify").val();
+		var bank         = $('#cnyout_bank option:selected').val();
+		if (moble_verify == "" || moble_verify == null) {
+			layer.tips('{#lang("请输入短信验证码")}', '#cnyout_moble_verify', {
+				tips: 2
+			});
+			return false;
+		}
+		if (num == "" || num == null) {
+			layer.tips('{#lang("请输入提现金额")}', '#cnyout_num', {
+				tips: 2
+			});
+			return false;
+		}
+		if (bank == "" || bank == null) {
+			layer.tips('{#lang("请输入提现金额")}', '#cnyout_bank', {
+				tips: 2
+			});
+			return false;
+		}
+		if (paypassword == "" || paypassword == null) {
+			layer.tips('{#lang("请输入交易密码")}', '#cnyout_paypassword', {
+				tips: 2
+			});
+			return false;
+		}
+		$.post("/finan/cnyout_up", {
+			num: num,
+			paypassword: paypassword,
+			moble_verify: moble_verify,
+			bank: bank,
+		}, function (data) {
+			if (data.status == 1) {
+				layer.msg(data.info, {
+					icon: 1
+				});
+				//window.location.reload();
+				window.location = "{#url('finan/cnyoutlog')}";
+			} else {
+				layer.msg(data.info, {
+					icon: 2
+				});
+				if (data.url) {
+					window.location = data.url;
+				}
+			}
+		}, "json");
+	}
+</script>
+<script>
+	$('.zhuanchuw').addClass('current');
+</script>
+{include file="public:footer"}

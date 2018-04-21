@@ -1,0 +1,139 @@
+@charset "utf-8";
+/*分类页面********************************************************************************************/
+.mui-row.mui-fullscreen>[class*="mui-col-"] {
+	height: 100%;
+}
+.mui-col-xs-3,
+.mui-control-content {
+	overflow-y: auto;
+	height: 100%;
+}
+.mui-segmented-control .mui-control-item {
+	line-height: 50px;
+	width: 100%;
+}
+.mui-segmented-control.mui-segmented-control-inverted .mui-control-item.mui-active {
+	background-color: #fff;
+}
+.bgf3{
+	background: #F3F5F7;
+}
+/*02分类.html*/
+.hi35{
+	height: 35px;
+	line-height: 35px;
+}
+.fy_bg1{
+	background:#F23030;
+}
+
+/**/
+.ma2{
+	margin: 2%;	
+}
+.wi28{
+	width: 29.33%;
+}
+.wi60{
+	display: block;
+	width: 60%;
+	margin: 5% auto;
+}
+.lih28{
+	line-height: 28px;
+}
+/*03分类-列表.html*/
+.w25{
+	width: 25%;
+}
+.xc_list30{
+	position: fixed;
+	top:43px;
+	width: 100%;
+	height: 40px;
+	background: #fff;
+	border-bottom: 1px solid #ccc;
+	z-index: 999;
+}
+.mat50{
+	margin-top: 50px;
+}
+.mat45{
+	margin-top:45px;
+}
+.xc_list30 li{
+	text-align: center;
+}
+.xc_list30 li a{
+	font-size: 0.8em;
+}
+
+.xc_sel1{
+	padding: 0 0 0 20%;
+	margin: 0;
+	-webkit-appearance: menulist;
+}
+.hei35{
+	height: 35px;
+	line-height: 18px;
+	overflow: hidden;
+}
+.lih22{
+	line-height: 25px;
+}
+.xc_youlike_lsit h6 i{
+	font-size:1.2em;
+	color: #f23030;
+	float: left;
+	padding-right: 8px;
+}
+.borb1{
+	border-bottom: 1px solid #ccc;
+}
+.xc_youlike_r .xc_p21{
+	color: #999;
+	font-size: 0.7em;
+	margin-bottom:5px;
+}
+.xc_youlike_r .xc_p21 .zt1{
+	float: right;
+	background:#FF6600 ;
+	color: #fff;
+	border-radius:30px;
+	font-size: 1.2em;
+	line-height:25px;
+	padding: 0 2%;
+}
+.xc_youlike_r .xc_p21 .zt2{
+	float: right;
+	background:#999;
+	color: #fff;
+	border-radius:30px;
+	font-size: 1.2em;
+	line-height:25px;
+	padding: 0 2%;
+}
+
+.xc_gwc{
+	position: fixed;
+	bottom: 100px;
+	right: 10px;
+	width:45px;
+	height:45px;
+	line-height:45px;
+	text-align: center;
+	border: 1px solid #999;
+	border-radius: 30px;
+	background: #fff;
+	border-bottom: 1px solid #ccc;
+	z-index: 999;
+}
+.xc_gwc i{
+	font-size: 25px;
+}
+/**/
+.bg2{
+	background: url("../images/bg2.png") no-repeat;
+	background-size: 100%;
+	height: 200px;
+}

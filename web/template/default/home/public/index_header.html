@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+	<meta name="renderer" content="webkit">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<title>{#lang($seos['title'])}</title>
+	<meta name="Keywords" content="{#lang($seos['keywords'])}">
+	<meta name="Description" content="{#lang($seos['description'])}">
+	<meta name="author" content="movesay.com">
+	<meta name="coprright" content="movesay.com">
+	<link rel="shortcut icon" href="/favicon.ico"/>
+	<link href="//libs.baidu.com/fontawesome/4.0.3/css/font-awesome.min.css" rel="stylesheet">
+	<link href="__CSS__/lhang/app.css?v=" rel="stylesheet">
+	<script type="text/javascript" src="https://cdn.bootcss.com/jquery/1.8.0/jquery-1.8.0.js"></script>
+	<script type="text/javascript" src="__EXT__/jquery/jquery.cookies.2.2.0.js"></script>
+	<script type="text/javascript" src="https://cdn.bootcss.com/layer/3.0.1/layer.js"></script>
+	<!--轮播图 start-->{#config("slider_first",intval(config("slider_first")) +1)} {if config("slider_first")== 1}
+	<link rel="stylesheet" href="__EXT__/slider/css/slider.css">
+	<script type="text/javascript" src="__EXT__/slider/js/slider.js"></script>
+	{/if}
+	<!--轮播图主体-->
+</head>
+
+<body>
+<div id="app">
+	<div class="header_common">
+		<div id="content2">
+			<div data-v-803eb566="" class="content2">
+				<div data-v-803eb566="" class="content12_common">
+					<div data-v-803eb566="" class="content2_nav_left nav_layout">
+						<h1 data-v-803eb566="" style="display: inline;">
+							{if $config['web_logo']}
+							<a data-v-803eb566="" href="#/" class="home_logo_box router-link-exact-active router-link-active">
+								<img src="__UP__/{$config['web_logo']}" style="width:175px;height:65px"> </a> {else}
+							<a href="/" class="xiaozhu-logo"> <i class="move-self move-logo2 move"></i> </a> {/if}
+						</h1>
+						<ul data-v-803eb566="" class="left_nav_ul first_nav_ul">
+							<li data-v-803eb566="" class="nav_list ">
+								<a data-v-803eb566="" href="/" class="a_link router-link-exact-active router-link-active">{#lang('首页')}</a>
+							</li>
+							{foreach $daohang as $k => $v} {if $v['name']=='trade'}
+							<li data-v-803eb566="" class="nav_list fast_trade">
+								<a data-v-803eb566="" href="{#url($v['url'])}" class="a_link">{#lang($v['title'])}</a> {if $menu}
+								<span class="all_coin_box_jian"></span>
+								<div data-v-454fa2dd="" data-v-803eb566="" class="trade_hover">
+									<div data-v-454fa2dd="" class="cont">
+										{foreach $menu as $v}
+										<div data-v-454fa2dd="" class="group">
+											<div data-v-454fa2dd="" class="title">{#lang($v['title'])}</div>
+											<ul data-v-454fa2dd="" class="trade_hover_ul">
+												{foreach $v['data'] as $kk=>$vv}
+												<li data-v-454fa2dd="" class="list">
+													<div data-v-454fa2dd="" class="img_box lay">
+														<img data-v-454fa2dd="" src="__UP__/{$vv['img']}">
+													</div>
+													<div data-v-454fa2dd="" class="txt lay">{#lang($vv['title'])}</div>
+													<a data-v-454fa2dd="" href="{#url('/trade/index/market/'.$kk)}"></a>
+												</li>
+												{/foreach}
+											</ul>
+										</div>
+										{/foreach}
+									</div>
+								</div>
+								                                                                                       {/if}
+							</li>
+							{else}
+							<li data-v-803eb566="" class="nav_list ">
+								<a data-v-803eb566="" href="{#url($v['url'])}" class="a_link">{#lang($v['title'])}</a>
+							</li>
+							{/if} {/foreach}
+							{if $game}
+							<li data-v-803eb566=""  class="nav_list " id="game">
+							<a data-v-803eb566="" class="a_link"  id="game_top">{#lang('应用')}</a>
+							<div id="game-nav-body" data-v-454fa2dd="" data-v-803eb566="" class="trade_hover">
+							<div data-v-454fa2dd="" class="cont">
+							<span class="all_coin_box_jian"></span>
+							<div data-v-454fa2dd="" class="group">
+							<ul data-v-454fa2dd="" class="trade_hover_ul">
+							{foreach $game as $k => $v}
+							<li data-v-454fa2dd="" class="list">
+							<div data-v-454fa2dd="" class="img_box lay">
+							<img data-v-454fa2dd="" src="__UP__/{$v['img']}">
+							</div>
+							<div data-v-454fa2dd="" class="txt lay">{#lang($v['title'])}</div>
+							<a data-v-454fa2dd="" href="{$v['url']}"></a></li>
+							{/foreach}
+							</ul>
+							</div>
+							</div>
+							</div>
+							</li>
+							{/if}
+						</ul>
+					</div>
+					<div data-v-803eb566="" class="content2_nav_right nav_layout">
+						<ul data-v-803eb566="" class="right_nav_ul">
+							{if $user}
+							<li data-v-803eb566="" class="right_nav_list">
+								<a data-v-803eb566="" href="{#url('/user')}" class="right_link">{$user['username']}</a> |
+								<a data-v-803eb566="" href="{#url('/login/loginout')}" class="right_link">{#lang('退出')}</a>
+							</li>
+							{else}
+							<li data-v-803eb566="" class="right_nav_list">
+								<a data-v-803eb566="" href="javascript:loginpop();" class="right_link">{#lang('登录')}</a> |
+								<a data-v-803eb566="" href="{#url('/reg')}" class="right_link">{#lang('注册')}</a>
+							</li>
+							{/if} {if $lang_type_list}
+							<li data-v-803eb566="" id="lang_top" class="right_nav_list" style="padding: 0px 0px 0px 10px;height:30px;line-height:30px;border-right: 1px solid #FFF;position: relative;">
+								<a href="#" style="padding-left:3px;">
+							<span id="lang-show">
+							<img src="__UP__/{$lang_type_cn['img']}" style="width: 18px; height:18px;vertical-align: -4px;margin-right: 5px;">{$lang_type_cn['title']}</span>
+									<i class="icon-angle-down"></i> </a>
+								<div id="lang_list" class="deal_list  lang_list" style="display:none;left: 8px;width: 90px;">
+									<div id="lang-nav-body">
+										<ul class="lang-chose">
+											{foreach $lang_type_list as $k => $v}
+											<dd style="height: 32px;line-height: 33px;  width: 100px;">
+												<li onclick="chose_lang('{$v.name}')" style="padding-left: 0px;width: 100px;">
+													<img src="__UP__/{$v['img']}" style="width: 18px; height:18px;vertical-align: -4px;margin-right: 5px;">{$v['title']}
+												</li>
+											</dd>
+											{/foreach}
+										</ul>
+									</div>
+									<i class="fa fa-caret-up move" style="position: absolute;top: -20px;right: 41px;font-size: 28px;"></i>
+									<div class="nocontent"></div>
+								</div>
+							</li>
+							{/if}
+						</ul>
+					</div>
+					<div data-v-803eb566="" class="v_center"></div>
+				</div>
+			</div>
+		</div>
+	</div>

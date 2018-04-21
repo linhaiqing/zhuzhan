@@ -1,0 +1,140 @@
+{include file="public:header"}
+<div class="pat-20 back">
+	<div class="container f14">
+		<div class="clearfix">
+{include file="order:left"}
+			<div class="fr gray-border content color-white col-pho-12">
+				<div class="pad-sm">
+					<div class="info-box">
+						<h4 class="title colorboard-font mgb-20">
+							进行中的交易
+						</h4>
+					</div>
+					<div class="tab-content mgt-20 f12">
+						<div class="tab-pane  active" id="sell">
+							<div style="overflow:hidden;">
+								<table width="100%" border="0" cellspacing="0" cellpadding="0" class="table-zebra">
+
+									<div class="no-data-uc no-order">
+										暂无交易记录
+									</div>
+
+								</table>
+								<form id="orderList1" action="/order" method="get">
+									<input id="flag" name="flag" type="hidden" value="1"/>
+									<input id="page1No" name="pageNo" type="hidden" value="1"/>
+									<input id="page1Size" name="pageSize" type="hidden" value="10"/>
+								</form>
+								<div class="pages fr"></div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script>
+	$('.ing').addClass('current');
+	if ("" != "") {
+		swal({
+			title: "Success",
+			text: "",
+			timer: 4000,
+			type: "success",
+			showConfirmButton: false,
+			showCancelButton: false,
+		});
+	}
+	if ("" != "") {
+		swal({
+			title: "Error",
+			text: "",
+			timer: 4000,
+			type: "error",
+			showConfirmButton: false,
+			showCancelButton: false,
+		});
+	}
+	function page1(n, s) {
+		$("#page1No").val(n);
+		$("#page1Size").val(s);
+		$("#orderList1").submit();
+		return false;
+	}
+
+	function page2(n, s) {
+		$("#page2No").val(n);
+		$("#page2Size").val(s);
+		$("#orderList2").submit();
+		return false;
+	}
+
+	$(function () {
+		$('#myTab a:first').tab('show')
+	});
+
+	foreachI18nList($(".i18n-time-zone-date"), 2);
+
+	$(document).ready(function () {
+		formatTimeEach($('.format-time'));
+	});
+
+	function formatTimeEach(formatTimeList) {
+		formatTimeList.each(function (index, dom) {
+			$(this).text(formatTime($(this).text()));
+		});
+	}
+	function formatTime(longTime) {
+		var time = parseFloat(longTime);
+		var timestamp = new Date().getTime();
+		time = (time - timestamp) / 1000;
+		if (time != null && time != "") {
+			if (time < 0) {
+
+				time = '已过期';
+
+
+			} else if (time < 60) {
+				var m = 1;
+
+				time = m + ' 分钟';
+
+
+			} else if (time > 60 && time < 3600) {
+				var m = parseInt(time / 60);
+
+				time = m + " 分钟";
+
+
+			} else if (time >= 3600) {
+				var h = parseInt(time / 3600);
+				var m = parseInt(time % 86400 % 3600 / 60);
+
+				time = h + " 小时 " + m + " 分钟";
+
+
+			}
+		}
+		return time;
+	}
+
+	function finishClick(id) {
+		window.location = "/order/release?id=" + id + "&flag=1";
+	}
+
+	function payClick(id) {
+		swal({
+			title: '提示',
+			text: "您确定要标记付款为完成吗？",
+			confirmButtonText: '确定',
+			cancelButtonText: '取消',
+			type: "info"
+		}, function () {
+			window.location = "/order/orderPay?id=" + id + "&flag=1";
+		});
+	}
+</script>
+
+
+{include file="public:footer"}

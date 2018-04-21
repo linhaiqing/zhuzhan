@@ -1,0 +1,387 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+<!-- 引用星巢css -->
+<link rel="stylesheet" type="text/css" href="css/xc_style.css">
+<link rel="stylesheet" type="text/css" href="css/xc_xincor.css">
+<!-- 字体引用css -->
+<link rel="stylesheet" type="text/css" href="font/iconfont.css">
+<!-- 引用动画JQ -->
+<script type="text/javascript" src="js/jquery-1.8.3.min.js"></script>
+<script type="text/javascript" src="js/jquery.SuperSlide.2.1.1.source.js"></script>
+<title>比特风云交易所</title>
+
+</head>
+
+<body>
+<div class="menu bg03">
+    <ul>
+        <li  class="d2"><a href="?page=47">首页</a></li>
+        <li class="d2"><a href="">C2C</a></li>
+        <li class="d2"><a href="">交易中心</a></li>
+        <li class="d2"><a href="">财务中心</a></li>
+        <li class="d2"><a href="">安全中心</a></li>
+        <li class="d2"><a href="">登录</a></li>
+        <li class="d2"><a href="">注册</a></li>
+        <li class="d2"><a href="">中文简体</a></li>
+        <li class="d2"><a href="">联系我们</a></li>
+    </ul>
+</div>
+<div class="boxbg"></div>
+<div class="box clearfix">
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var flbox = $('.menuiocn');
+            nav = $('.menu');
+            box = $('.boxbg');
+            flbox.click(function () {
+                box.animate({ right: '0%' }, '500');
+                nav.animate({ right: '0px' }, '500');
+                $('.menu').css("display", "block");
+                $('.boxbg').css("display", "block");
+                return;
+            });
+            $('.boxbg').click(function () {
+                box.animate({ right: '0' }, '500');
+                nav.animate({ right: '-50%' }, '500');
+                $(this).hide();
+                return;
+            }
+            )
+        });
+    </script> 
+</div>
+<header class="logo w bg01">
+	<h1><a href=""><img src="images/waplogo.png"></a></h1> 
+	<a class="menuiocn" style="position: inherit;">
+		<i class="iconfont">&#xe603;</i>
+	</a>
+<div class="clear"></div>
+</header>
+	<!--
+		头部
+	-->
+	<header class="xc_head">
+		<!-- logo图片 -->
+		<div class="xc_nav_box3">
+			<div class="xc_logo l">
+				<a href=""><img src="images/logo.png"> </a>
+			</div>
+			<!-- 导航 -->
+			<ul class="nav clearfix r">
+				<li class="m on">
+					<h3><a target="_blank" href="">首页</a></h3>
+				</li>
+				<li class="m">
+					<h3><a target="_blank" href="">C2C</a></h3>
+				</li>
+				<li class="m">
+					<h3><a target="_blank" href="">交易中心<i class="iconfont">&#xe6db;</i></a></h3>
+					<ul class="sub">
+						<li><a href="">交易中心</a></li>
+						<li><a href="">交易中心</a></li>
+						<li><a href="">交易中心</a></li>
+						<li><a href="">交易中心</a></li>
+						<li><a href="">交易中心</a></li>
+						<li><a href="">交易中心</a></li>
+					</ul>
+				</li>                                              
+				<li class="m">
+					<h3><a target="_blank" href="">财务中心</a></h3>
+				</li>
+				<li class="m">
+					<h3><a target="_blank" href="">安全中心</a></h3>
+				</li>
+				<li class="m">
+					<h3><a target="_blank" href="">登录</a></h3>
+				</li>
+				<li class="m">
+					<h3><a target="_blank" href="">注册</a></h3>
+				</li>
+				<li class="m">
+					<h3><a target="_blank" href="">中文简体<i class="iconfont">&#xe6db;</i></a></h3>
+					<ul class="sub">
+						<li><a href="">多国语言</a></li>
+						<li><a href="">多国语言</a></li>
+						<li><a href="">多国语言</a></li>
+						<li><a href="">多国语言</a></li>
+						<li><a href="">多国语言</a></li>	
+					</ul>				
+				</li>
+			</ul>
+			<script type="text/javascript">
+				jQuery(".nav").slide({ type:"menu",  titCell:".m", targetCell:".sub",effect:"slideDown", delayTime:300, triggerTime:0,returnDefault:true  });
+			</script>
+		</div>
+	</header>
+	<!--
+		banner
+	-->
+	<div id="bannerbox" class="bannerbox">
+		<div class="hd">
+			<ul>
+				<li class="on">1</li>
+				<li class="">2</li>
+				<li class="">3</li>
+				<li class="">4</li>
+			</ul>
+		</div>
+		<div class="bd1">
+			<ul>
+				<li>
+					<a href="" target="_blank">
+						<img src="images/banner.jpg">
+					</a>
+				</li>
+				<li>
+					<a href="" target="_blank">
+						<img src="images/banner.jpg">
+					</a>
+				</li>
+				<li>
+					<a href="" target="_blank">
+						<img src="images/banner.jpg">
+					</a>
+				</li>
+				<li>
+					<a href="" target="_blank">
+						<img src="images/banner.jpg">
+					</a>
+				</li>
+			</ul>
+		</div>
+	</div>
+	<script id="jsID" type="text/javascript">
+		jQuery(".bannerbox").slide({mainCell:".bd1 ul",autoPlay:true});
+	</script>
+	 <!-- 列表1 -->
+	 <ul class="xc_list01">
+	 	<li style="border: 0;">
+	 		<span class="xc_span1"><img src="images/bb.jpg" alt=""></span>
+	 		<span>SDE/DFC</span>
+	 		<span class="xc_span2">0.00%</span>
+	 		<span>0.456413135</span>
+	 		<span class="xc_span3">BTB</span>
+	 	</li>
+	 	<li>
+	 		<span class="xc_span1"><img src="images/bb.jpg" alt=""></span>
+	 		<span>SDE/DFC</span>
+	 		<span class="xc_span2">0.00%</span>
+	 		<span>0.456413135</span>
+	 		<span class="xc_span3">BTB</span>
+	 	</li>
+	 	<li>
+	 		<span class="xc_span1"><img src="images/bb.jpg" alt=""></span>
+	 		<span>SDE/DFC</span>
+	 		<span class="xc_span2">0.00%</span>
+	 		<span>0.456413135</span>
+	 		<span class="xc_span3">BTB</span>
+	 	</li>
+	 	<li>
+	 		<span class="xc_span1"><img src="images/bb.jpg" alt=""></span>
+	 		<span>SDE/DFC</span>
+	 		<span class="xc_span2">0.00%</span>
+	 		<span>0.456413135</span>
+	 		<span class="xc_span3">BTB</span>
+	 	</li>
+	 	<li>
+	 		<span class="xc_span1"><img src="images/bb.jpg" alt=""></span>
+	 		<span>SDE/DFC</span>
+	 		<span class="xc_span2">0.00%</span>
+	 		<span>0.456413135</span>
+	 		<span class="xc_span3">BTB</span>
+	 	</li>
+	 	<li>
+	 		<span class="xc_span1"><img src="images/bb.jpg" alt=""></span>
+	 		<span>SDE/DFC</span>
+	 		<span class="xc_span2">0.00%</span>
+	 		<span>0.456413135</span>
+	 		<span class="xc_span3">BTB</span>
+	 	</li>
+	 <div class="clear"></div>
+	 </ul>
+	<!--标题 交易详情-->
+	<div class="xc_title">
+		<span>交易详情</span>
+	</div>
+	<div class="clear"></div>
+	<!-- 内容列表 -->
+	<div id="outer">
+	    <ul id="tab">
+	        <span class="current">BTC交易区</span>
+	        <span>USC交易区</span>
+	        <span>USC交易区</span>
+	    </ul>
+	    <div class="clear"></div>
+	    <div id="content">
+			<!-- 第一个 -->
+	        <ol style="display:block;">
+	        	<table class="xc_table1">
+	        		<thead>        
+	        			<tr>
+	        				<th>币名</th>
+	        				<th>最新价格</th>
+	        				<th>买一价</th>
+	        				<th>卖一价</th>
+	        				<th>24H成交量</th>
+	        				<th>24H成交额</th>
+	        				<th>日涨跌</th>
+	        			</tr>
+	        		</thead>
+	        		<tbody>
+	        			<tr>
+							<td>EOS/BTC</td>
+							<td class="col1">CHT 6,000,0000</td>
+							<td>CHT 6,000,0000</td>
+							<td>CHT 6,000,0000</td>
+							<td>0.00</td>
+							<td>0.00</td>
+							<td class="col1">0.00%</td>
+	        			</tr>
+	        			<tr>
+							<td>EOS/BTC</td>
+							<td class="col1">CHT 6,000,0000</td>
+							<td>CHT 6,000,0000</td>
+							<td>CHT 6,000,0000</td>
+							<td>0.00</td>
+							<td>0.00</td>
+							<td class="col1">0.00%</td>
+	        			</tr>
+	        			<tr>
+							<td>EOS/BTC</td>
+							<td class="col1">CHT 6,000,0000</td>
+							<td>CHT 6,000,0000</td>
+							<td>CHT 6,000,0000</td>
+							<td>0.00</td>
+							<td>0.00</td>
+							<td class="col1">0.00%</td>
+	        			</tr>
+	        		</tbody>
+	        	</table>
+	        </ol>
+			<!-- 第二个 -->
+	        <ol>
+	       		<table class="xc_table1">
+	        		<thead>        
+	        			<tr>
+	        				<th>币名</th>
+	        				<th>最新价格</th>
+	        				<th>买一价</th>
+	        				<th>卖一价</th>
+	        				<th>24H成交量</th>
+	        				<th>24H成交额</th>
+	        				<th>日涨跌</th>
+	        			</tr>
+	        		</thead>
+	        		<tbody>
+	        			<tr>
+							<td>EOS/BTC</td>
+							<td class="col1">CHT 6,000,0000</td>
+							<td>CHT 6,000,0000</td>
+							<td>CHT 6,000,0000</td>
+							<td>0.00</td>
+							<td>0.00</td>
+							<td class="col1">0.00%</td>
+	        			</tr>
+	        			
+	        		</tbody>
+	        	</table>
+	        </ol>
+	        <!-- 第三个 -->
+	        <ol>
+	       		<table class="xc_table1">
+	        		<thead>        
+	        			<tr>
+	        				<th>币名</th>
+	        				<th>最新价格</th>
+	        				<th>买一价</th>
+	        				<th>卖一价</th>
+	        				<th>24H成交量</th>
+	        				<th>24H成交额</th>
+	        				<th>日涨跌</th>
+	        			</tr>
+	        		</thead>
+	        		<tbody>
+	        			<tr>
+							<td>EOS/BTC</td>
+							<td class="col1">CHT 6,000,0000</td>
+							<td>CHT 6,000,0000</td>
+							<td>CHT 6,000,0000</td>
+							<td>0.00</td>
+							<td>0.00</td>
+							<td class="col1">0.00%</td>
+	        			</tr>
+	        			
+	        		</tbody>
+	        	</table>
+	        </ol>
+	    </div>
+	</div>
+	<script>
+		$(function(){
+			window.onload = function()
+			{
+			// var 声明的意思
+				var $span = $('#tab span');
+				var $ul = $('#content ol');
+				// 事件产生，当鼠标经过会有什么效果出现
+				// $li.mouseover(function(){
+				$span.click(function(){
+					var $this = $(this);
+					var $t = $this.index();
+					$span.removeClass();
+					$this.addClass('current');
+					$ul.css('display','none');
+					$ul.eq($t).css('display','block');
+				})
+
+			}
+		});
+	</script>
+	<div class="clear"></div>
+	<!-- 底部 -->
+	<div class="bg2">
+		<div class="xc_foot_box01">
+			<div class="xc_foot_logo l wi25 bor">
+				<a href=""><img src="images/logo1.png"> </a>
+			</div>
+			<div class="xc_list3 wi50 l">
+				<dl class="wi33 l">
+					<dt>平台相关</dt>
+					<dd><a href="">平台简介</a></dd>
+					<dd><a href="">联系我们</a></dd>
+					<dd><a href="">平台费率</a></dd>
+				</dl>
+				<dl class="wi33 l">
+					<dt>法律条款</dt>
+					<dd><a href="">用户协议</a></dd>
+					<dd><a href="">隐私政策</a></dd>
+					<dd><a href="">防洗钱</a></dd>
+				</dl>
+				<dl class="wi33 r">
+					<dt>服务支持</dt>
+					<dd><a href="">商务合作</a></dd>
+					<dd><a href="">API支持</a></dd>
+				</dl>
+			</div>
+			<div class="xc_list4 wi25 r bol">
+				<h3>联系我们</h3>
+				<p>工作时间：9:00-17:00（GMT+8）</p>
+				<p>联系邮箱：123456@qq.com </p>
+				<p>客服QQ：123456789 </p>
+			</div>
+		<div class="clear"></div>
+		<div class="xc_aa1">
+			<a href="">www.windcloud.vip</a>
+		</div>
+		</div>
+	<div class="clear"></div>
+	</div>
+</body>
+
+</html>

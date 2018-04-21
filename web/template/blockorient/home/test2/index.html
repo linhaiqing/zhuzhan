@@ -1,0 +1,559 @@
+{include file="public:header1"}
+
+<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="__CSS__/newtrade/main.css"/>
+
+<style>
+	#carousel-example-generic .carousel-inner .left,#carousel-example-generic .carousel-inner .right{
+		float:none;
+	}
+	#carousel-example-generic .carousel-inner .active{
+		border-bottom:none;
+	}
+	.main-nav .ext{
+		right:5px;
+	}
+	#yzm{width:150px}
+	#username{
+		padding-left:78px;
+	}
+	.intl-tel-input{left:36px}
+	.mywallet_btn_box a{
+		width:85px;
+		height:30px;
+	}
+</style>
+<div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+	<!-- Indicators -->
+	<ol class="carousel-indicators">
+		<li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
+		<li data-target="#carousel-example-generic" data-slide-to="1"></li>
+
+	</ol>
+
+	<!-- Wrapper for slides -->
+	<div class="carousel-inner" role="listbox">
+		<div class="item active">
+			<img src="https://bitcoin-world-public.oss-cn-hongkong.aliyuncs.com/static/images/nav/banner-1-cn.jpg" alt="..." width="100%">
+
+		</div>
+		<div class="item">
+			<img src="https://bitcoin-world-public.oss-cn-hongkong.aliyuncs.com/static/images/nav/banner-3-cn.jpg" alt="..."  width="100%">
+
+		</div>
+
+	</div>
+
+	<div class="userLoginPart">
+		<div class="inner">
+			<div class="loginuser">
+
+				<div class="loginContent center">
+					{if !$user}
+					<a id="login-qrcode" class="icon-scan"></a>
+
+					<div class="login-maincontent">
+						<div class="login-tip">
+							<div class="poptip">
+								<div class="poptip-arrow">
+									<em></em>
+									<span></span>
+								</div>
+								<div class="poptip-content">
+									{#lang('扫码登录更安全')}
+								</div>
+							</div>
+						</div>
+						<form name="login" class="login mgt50" id="loginForm" action="" method="post">
+							<div class="login-wrap">
+								<span class="icon-login"><i class="icon-user"></i></span>
+								<input type="text" id="login_moblesII" class="texts" style="display: none;">
+								<input type="text" id="username" name="username" class="input-text"   value="" placeholder="{#lang('请输入手机/邮箱/用户名')}">
+								<link rel="stylesheet" href="__EXT__/intlTelInput/css/intlTelInput.css">
+								<script src="__EXT__/intlTelInput/js/intlTelInput.js"></script>
+								<script>
+									$("#login_moblesII").intlTelInput({
+										autoHideDialCode: false,
+										defaultCountry: "cn",
+										nationalMode: false,
+										preferredCountries: ['cn', 'us', 'hk', 'tw', 'mo'],
+									});
+								</script>
+							</div>
+							<div class="login-wrap">
+								<span class="icon-login"><i class="icon-password"></i></span>
+								<input type="password" id="password" name="password" required="" oninput="check()" class="input-text" placeholder="{#lang('密码')}">
+							</div>
+							<div class="login-wrap">
+								<span class="icon-login"><i class="icon-password"></i></span>
+								<input type="password" id="yzm" name="yzm" required="" oninput="check()" class="input-text" placeholder="{#lang('请输入验证码')}">
+								<span >
+				<img id="login_verify_upII" class="codeImg reloadverify hg40" src="{#url('ajax/verify')}" title="{#lang('换一张')}" onclick="login_verify_upsII();" width="100" height="34" style="margin-top:-3px">
+			</span>
+							</div>
+							<div class="login-wrap">
+								<button type="text" onclick="footer_loginII()" class="login-btn fr" >{#lang('登录')}</button>
+								<a href="/resetPasswordPage" class="forget"><span style="color: #EEE">{#lang('忘记密码')}</span></a>
+								<a href="/register" class="register"><span style="color: #EEE">{#lang('注册')}</span></a>
+							</div>
+						</form>
+					</div>
+					<script>
+						function login_verify_upsII() {
+							$('#login_verify_up').attr('src', "{#url('verify/code')}?t=" + Math.random());
+						}
+						function footer_loginII() {
+							var moble    = $("#username").val();
+							var mobles   = $("#login_moblesII").val();
+							var password = $("#password").val();
+							var verify   = $("#yzm").val();
+
+							if (moble == "" || moble == null) {
+								layer.tips('{#lang("请输入手机/邮箱/用户名")}', '#username', {tips: 2});
+								return false;
+							}
+							if (password == "" || password == null) {
+								layer.tips('{#lang("请输入登录密码")}', '#password', {tips: 2});
+								return false;
+							}
+							if (verify == "" || verify == null) {
+								layer.tips('{#lang("请输入验证码")}', '#yzm', {tips: 2});
+								return false;
+							}
+
+							$.post("{#url('login/up_login')}", {
+								moble: moble,
+								mobles: mobles,
+								password: password,
+								verify: verify,
+								login_token: "{$login_token}",
+							}, function (data) {
+								if (data.status == 1) {
+									$.cookies.set('move_moble',moble);
+									layer.msg(data.info, {icon: 1});
+									if (data.url) {
+										window.location = data.url;
+									} else {
+										window.location.reload();
+									}
+								} else {
+									$("#login_verify_upII").click();
+									layer.msg(data.info, {icon: 2});
+									if (data.url) {
+										window.location = data.url;
+									}
+								}
+							}, "json");
+						}
+					</script>
+					{else}
+					<div class="login-subcontent" >
+						<div class="loginSuccess">
+							<h4>{#lang('欢迎回来')}， {$user['username']}</h4>
+							<div class="money text-left">
+								<p>{#lang('总资产')}&nbsp;:&nbsp;
+								</p><p>{#lang('净资产')}&nbsp;:&nbsp;
+							</p><p>{#lang('可用资产')}&nbsp;:&nbsp;
+							</p></div>
+							<div class="money">
+								<p><span class="totalAmount">฿0</span></p>
+								<p><span class="netAmount">฿0</span></p>
+								<p><span class="canUserAmount">฿0</span></p>
+							</div>
+							<a href="/order?flag=1" class="login-btn mg-auto mgt-10 width-60per"> {#lang('进入控制面板')}</a>
+						</div>
+					</div>
+					{/if}
+
+					<div class="login-scancontent mgt50" style="display: none">
+						<div class="login-tip">
+							<div class="poptip">
+								<div class="poptip-arrow">
+									<em></em>
+									<span></span>
+								</div>
+								<div class="poptip-content">
+									{#lang('点击密码登录')}
+								</div>
+							</div>
+						</div>
+						<div class="clearfix"></div>
+						<div class="scan-wrapper" style="display:none">
+							<div class="scan">
+								<div id="loginQrCode" class="qrcode">
+									<canvas width="110" height="110"></canvas>
+								</div>
+								<div class="scan-error" style="display: none">
+									<p class="white f14">二维码过期</p>
+									<a class="btn btn-blue btn-sm" id="scan-btn" onclick="reloadQrcode()">重扫</a>
+								</div>
+							</div>
+							<div class="scan-tip">
+								<p class="center white">打开 BitcoinWorld APP 扫码
+								</p><p class="mgt-10"><a class="white" href="/register">免费注册</a> |
+								<a class="blue" target="_blank" href="/pageAPP">下载 BitcoinWorld APP</a></p>
+							</div>
+						</div>
+						<div class="scan-success-wrapper" style="display:none">
+							<div class="scan-success">
+								<img width="60px" src="https://bitcoin-world-public.oss-cn-hongkong.aliyuncs.com/static/images/icon-right.svg" alt="">
+							</div>
+							<div class="scan-success-tips">
+								<p></p><p class="white f14">扫码成功</p><p></p>
+								<p class="mgt-10"><b class="white f14">请在手机上根据提示确认登录</b></p>
+							</div>
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+	<!-- 如果需要分页器 -->
+</div>
+<div class="clearfix"></div>
+<div class="container clearfix" style="overflow: hidden;">
+	<div id="notices" class="hide-sm">
+		<img class="notice_img" src="__IMG__/index/tz.png" alt="">
+		<a target="_blank" href="&#10; /bulletin/detail?id=353ee8c1ebd74a74b33d127e27c50508">
+			<span class="notice_caption">{#lang('用户零手续费，交易员仅收千分之一')}</span> </a>
+		<a class="close"><i class="fa fa-times" aria-hidden="true"></i></a>
+	</div>
+	<div class="c-content col-pho-12  fl mgb-20 mgt-20">
+		<div class="panel filter-search">
+			<form action="/index/index" id="indexForm" method="post">
+				<input id="current" name="current" type="hidden" value="">
+				<input id="banner" name="banner" type="hidden" value="">
+				<input id="pageNo" name="pageNo" type="hidden" value="1">
+				<div class="chose_search">
+					<div id="countrychose_chzn" class="chzn-container chzn-container-single" style="width: 340px;">
+						<a href="javascript:void(0)" class="chzn-single">
+							<input type="text" value="选择城市" id="cityChoice" style="text-indent:2em;margin-top:10px;">
+							<input type="hidden" id="citys" value="" name="citys">
+							<div><b></b></div>
+						</a>
+					</div>
+
+					<script>
+						var cityPicker = new IIInsomniaCityPicker({
+							data: cityData,
+							target: '#cityChoice',
+							valType: 'k-v',
+							hideCityInput: '#citys',
+							hideProvinceInput: '#province',
+							callback: function(city_id){
+								$('#citys').val(city_id)
+							}
+						});
+
+						cityPicker.init();
+					</script>
+					<select name="tradeType" id="choseWay" class="chosen-select chzn-done" data-placeholder="所有交易类型" onchange="dochose(this)" style="display: none;">
+						<option value="">{#lang('所有交易类型')}</option>
+						<option value="buyOnline">
+							{#lang('在线购买')}
+						</option>
+						<option value="sellOnline">
+							{#lang('在线出售')}
+						</option>
+						<option value="buyWithCash">
+							{#lang('本地购买')}
+						</option>
+						<option value="sellForCash">
+							{#lang('本地出售')}
+						</option>
+					</select>
+					<div id="choseWay_chzn" class="chzn-container chzn-container-single" style="width: 340px;">
+						<a href="javascript:void(0)" class="chzn-single"><span>{if $rtype}{$rtype}{else}{#lang('所有交易类型')}{/if}</span>
+							<div><b></b></div>
+						</a>
+						<div class="chzn-drop" style="left: -9000px; width: 338px; top: 38px;">
+							<div class="chzn-search"></div>
+							<ul class="chzn-results">
+								<li id="choseWay_chzn_o_0" class="jiaoyi result-selected" data-type='0'>{#lang('所有交易类型')}</li>
+								{foreach $qu as $v}
+								<li class="jiaoyi result-selected" data-type="{$v['id']}">{$v['title']}</li>
+								{/foreach}
+							</ul>
+							<input type="hidden" value="" id="jiaoyi" name="type">
+						</div>
+					</div>
+					<select name="currencyId" id="frontCurrency" class="chosen-select chzn-done" data-placeholder="{#lang('')}选择货币" style="display: none;">
+						<option value="">{#lang('所有币种')}</option>
+
+					</select>
+					<div id="frontCurrency_chzn" class="chzn-container chzn-container-single" style="width: 340px;">
+						<a href="javascript:void(0)" class="chzn-single"><span>{if $rcoin}{$rcoin}{else}{#lang('所有币种')}{/if}</span>
+							<div><b></b></div>
+						</a>
+						<div class="chzn-drop" style="left: -9000px; width: 136px; top: 38px;">
+							<div class="chzn-search"></div>
+							<ul class="chzn-results">
+								<li id="frontCurrency_chzn_o_0" class="active-result result-selected" data-coin='0'>{#lang('所有币种')}</li>
+								{foreach $coin as $v}
+								<li id="frontCurrency_chzn_o_1" class="active-result" data-coin="{$v['id']}">{$v['title']}</li>
+								{/foreach}
+							</ul>
+							<input type="hidden" value="" id="coin" name="coin">
+						</div>
+					</div>
+					<select name="payMethodCodes" id="choosePayment" class="chosen-select chzn-done" data-placeholder="{#lang('选择付款方式')}" style="display: none;">
+						<option value="">{#lang('所有付款方式')}</option>
+
+						<option value="ALIPAY" name="支付宝">{#lang('支付宝')}</option>
+						<option value="WECHAT" name="微信支付">{#lang('微信支付')}</option>
+						<option value="NATIONAL_BANK" name="国内银行转账">{#lang('国内银行转账')}</option>
+					</select>
+					<div id="choosePayment_chzn" class="chzn-container chzn-container-single" style="width: 340px;">
+						<a href="javascript:void(0)" class="chzn-single">
+							<span>{if $pay}
+								{if $pay==1}
+								{#lang('支付宝')}
+								{else if $pay==2}
+								{#lang('网上银行')}
+								{else}
+								{#lang('现金')}
+								{/if}
+							      {else}{#lang('所有付款方式')}{/if}</span>
+							<div><b></b></div>
+						</a>
+						<div class="chzn-drop" style="left: -9000px; width: 338px; top: 38px;">
+							<div class="chzn-search"></div>
+							<ul class="chzn-results">
+								<li id="choosePayment_chzn_o_0" class="group-option result-selected" data-pay="1">{#lang('所有付款方式')}</li>
+								<li id="choosePayment_chzn_o_2" class=" group-option" data-pay="1">{#lang('支付宝')}</li>
+								<li id="choosePayment_chzn_o_3" class=" group-option" data-pay="2">{#lang('网上银行')}</li>
+								<li id="choosePayment_chzn_o_4" class=" group-option" data-pay="3">{#lang('现金')}</li>
+							</ul>
+							<input type="hidden" value="" id="pay" name="pay">
+						</div>
+					</div>
+					<a href="javascript:void(0)" class="btn btn-primary btn-sm" id="btn-search" onclick="$('#indexForm').submit()"><i class="fa fa-search"></i> {#lang('搜索')}</a>
+				</div>
+			</form>
+		</div>
+		<script>
+			$('.chzn-container-single').click(function(){
+				var left=$(this).find('.chzn-drop').css('left');
+				$('.chzn-drop').css('left','-9000px');
+				if(left=='-9000px'){
+					$(this).find('.chzn-drop').css('left',0);
+				}else{
+					$(this).find('.chzn-drop').css('left','-9000px');
+				}
+
+			});
+
+			$('.group-option').click(function(){
+				data_pay=$(this).attr('data-pay');//付款方式
+				var text=$(this).text();
+				//console.log(text)
+				$('#choosePayment_chzn a>span').text(text);
+				$('#pay').val(data_pay);
+			})
+			$('.active-result').click(function(){
+				data_coin=$(this).attr('data-coin');//所有币种
+				var text=$(this).text();
+				$('#frontCurrency_chzn a>span').text(text);
+				$('#coin').val(data_coin);
+			})
+			$('.jiaoyi').click(function(){
+				jiaoyi=$(this).attr('data-type');//交易类型
+
+				var text=$(this).text();
+				$('#choseWay_chzn a>span').text(text);
+				$('#jiaoyi').val(jiaoyi);
+			})
+
+
+
+		</script>
+		<div class="panel-wraper">
+			<h3 class="panel-title" style="display: none;"></h3>
+			<div class="panel pad-sm mgb-20">
+				<table width="100%" border="0" cellpadding="0" cellspacing="0" class="table-info">
+					<colgroup>
+						<col width="13%">
+						<col width="16%">
+						<col class="money-sm" width="20%">
+						<col width="21%" class="button-sm">
+						<col width="16%">
+						<col width="14%">
+					</colgroup>
+					<tbody>
+					{foreach $page['list'] as $v}
+					<tr>
+						<td align="center" class="hide-sm" style="position: relative">
+							<div class="photo-box photo-70">
+								<a href="/" target="_blank">
+									{if $v['img']}
+									<img src="{$v['img']}"></a>
+								{else}
+								<img src="__IMG__/index/person.png"></a>
+								{/if}
+							</div>
+							<span class="tradeline online tradeline-pos"></span>
+						</td>
+						<td class="left10">
+                                <span class="flag16 text-ellipsis">
+                                    <span class="state-flag cn" title="中国"></span>
+                                </span><a class="black-font" href="/user-htatt">{$v['username']}&nbsp; <br> </a>
+						</td>
+						<td class="hide-sm">
+							<p>{$v['deal']}&nbsp;{#lang('笔交易')}</p>
+						</td>
+						<td class="pdl-20">
+							{if $v['type']==1}
+							{#lang('支付宝')}
+							{elseif $v['type']==2}
+							{#lang('网上银行')}
+							{else}
+							{#lang('现金')}
+							{/if}
+						</td>
+						<td align="center">
+							<p class="f16 b green">{#round($v['num'],2)} {$v['coinname']}</p>
+							<p class="text-ellipsis wid-80">
+								{#round($v['min'],2)} - {#round($v['max'],2)}
+							</p></td>
+						<td align="right" class="btn-trade">
+							{if $v['sell']==1}
+							<a href="/index/detail/id/{$v['id']}" class="btn btn-sell sm-f12 btn-red" target="_blank"> {#lang('卖出')} </a>
+							{else}
+							<a href="/index/detail/id/{$v['id']}" class="btn btn-sell sm-f12 btn-green" target="_blank"> {#lang('买入')} </a>
+							{/if}
+						</td>
+					</tr>
+					{/foreach}
+					</tbody>
+				</table>
+				<div class="pages">
+					{$page['show'] nofilter}
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="c-side col-pho-12  fr mgt-20">
+		<div class="panel-wraper color-white gray-border mgb-20 hide-sm padding-top">
+			<h3 class="panel-title mgb-20">{#lang('明星交易员')}</h3>
+			<ul class="startrade">
+				{foreach $staruser as $k=>$v}
+				<li>
+					<p class="text-ellipsis  start-name">
+						<span class="start-count">{$k+1}</span><a title="{$v['username']}">{$v['username']}</a>
+						{if $k==0}
+						<i class="fr fa start-i fa-chevron-up" aria-hidden="true"></i>
+						{else}
+						<i class="fr fa start-i fa-chevron-down" aria-hidden="true"></i>
+						{/if}
+					</p>
+					{if $k==0}
+					<div class="start-content" style="display: block;">
+						{else}
+						<div class="start-content" style="display: none;">
+							{/if}
+							<div class="wid80 fl  photo-62">
+								<a href="/" class="fe_trader">
+									<img src="https://bitcoin-world-public.oss-cn-hongkong.aliyuncs.com/bitcoinworld/userHeaderPic/20170322035452241.jpg">
+								</a>
+							</div>
+							<div class="wid-200 fr">
+								<p>{#lang('累计交易次数')}：{$v['success']}</p>
+								<p>{#lang('信任人数： 被')} {$v['trust']}{#lang('人信任')}</p>
+								<p>{#lang('累计交易量')}：{$v['deal']}</p>
+							</div>
+						</div>
+				</li>
+				{/foreach}
+			</ul>
+		</div>
+		<script>
+			$('.startrade li').hover(function(){//明星交易成员显示
+				$('.start-content').hide();
+				$('.start-i').removeClass('fa-chevron-up').addClass('fa-chevron-down');
+				$(this).find('.start-content').show();
+				$(this).find('.start-i').removeClass('fa-chevron-down').addClass('fa-chevron-up')
+			})
+		</script>
+
+		<div class="panel-wraper color-white padding-top gray-border mgb-20">
+			<h3 class="panel-title">{#lang('最新交易')}</h3>
+			<div class="panel panel-padding  mgb-20" id="newTrade">
+				<div class="min-hei">
+					<table width="100%" border="0" cellpadding="0" cellspacing="0" class="table-list min-hei">
+						<tbody>
+
+
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+		<script>
+			getNewTrade();
+			setInterval('getNewTrade()',6000);
+
+			function getNewTrade() {//最新交易
+
+				$.post('/index/news',{},function(data){
+
+					var str = "";
+					for (var iter=0;iter<data.url.length;iter++) {
+
+						str += '<tr  class="">'+
+								'<td></td>'+
+								'<td align="center">'+data.url[iter].username+'</td>';
+						if(data.url[iter].sell==1){
+							str +=	'<td align="center"><span class="f14 blue">在线出售</span></td>';
+						}else if(data.url[iter].sell==2){
+							str +=	'<td align="center"><span class="f14 blue">在线购买</span></td>';
+						}else if(data.url[iter].sell==3){
+							str +=	'<td align="center"><span class="f14 blue">本地出售</span></td>';
+						}else if(data.url[iter].sell==4){
+							str +=	'<td align="center"><span class="f14 blue">本地出售</span></td>';
+						}else if(data.url[iter].sell==5){
+							str +=	'<td align="center"><span class="f14 blue">本地购买</span></td>';
+						}else{
+							str +=	'<td align="center"><span class="f14 blue">托管购买</span></td>';
+						}
+
+						str +=	'<td align="right" class="par10"><span class="gray">'+data.url[iter].time+'</span></td>'+
+								'</tr>';
+
+					}
+
+					$(".table-list").html(str);
+					$(".table-list tr").addClass("ani");
+//				$(".table-list tr:last").remove();
+//				console.log(str)
+					window.setTimeout(function () {
+						$(".table-list tr").removeClass('ani');
+					}, 1000)
+
+				},'json')
+
+
+			}
+		</script>
+		<div id="news" class="panel-wraper color-white gray-border mgt-20 mgb-20" style="padding: 20px 0px;height:222px;overflow:hidden">
+			<div>
+				<h3 class="panel-title pull-left">{#lang('热点新闻')}</h3>
+				<a href="/article" target="_blank" class="pull-right" style="padding-right:15px;">{#lang('更多')}</a>
+			</div>
+			<div class="clearfix"></div>
+			<!-- append news here -->
+			{foreach $news as $k=>$v}
+			<div class="hot"><span>{$k+1}</span>
+				<div class="media">
+					<div class="media-body">
+						<a href="/article/detail/id/{$v['id']}" target="_blank" title="{$v['title']}">{$v['title']}</a>
+					</div>
+				</div>
+			</div>
+			{/foreach}
+		</div>
+
+	</div>
+</div>
+{include file="public:footer"}

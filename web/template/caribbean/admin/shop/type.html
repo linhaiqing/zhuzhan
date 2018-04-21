@@ -1,0 +1,183 @@
+{include file="public:header"}
+<script type="text/javascript" src="__EXT__/layer/laydate/laydate.js"></script>
+<style>
+	input{width:50px;text-align:center}
+
+</style>
+<div id="main-content">
+	<div id="top-alert" class="fixed alert alert-error" style="display: none;">
+		<button class="close fixed" style="margin-top: 4px;">&times;</button>
+		<div class="alert-content">警告内容</div>
+	</div>
+	<div id="main" class="main">
+		<div class="main-title-h" style="font-size: 24px;">
+			<span class="h1-title">分类管理</span>
+			<!--<span style=""> >> [<a href="{$title['url']}"> {$title['list_title']}</a> ] </span> {if $title['suggest']}<span style="font-size:16px;">（{$title['suggest']}）</span>{/if}-->
+		</div>
+		<div class="cf">
+			<div class="fl">
+				<a class="btn add-btn btn-success" href="/admin/shop/type_edit">添加分类</a>
+				<button class="btn ajax-post btn-warning" href="/admin/shop/type_status/type/0" target-form="ids">禁用</button>
+				<button class="btn ajax-post btn-info" url="/admin/shop/type_status/type/1" target-form="ids" target-form="ids">启用</button>
+				<a class="btn ajax-post confirm delete-btn btn-danger" href="/admin/shop/type_status/type/-1" target-form="ids">删除</a>
+				</div>
+
+			<div class="search-form fr cf">
+				<div class="sleft">
+					<form action="" name="formSearch" id="formSearch" method="get" name="form1">
+						{foreach $search as $k => $v}
+						{if $v['type']=='select'}
+						<select size="1" name="{$v['name']}" class="search-input form-control form-input-width" style="height: 32px; font-size: 14px; width: 110px; float: left; margin-right: 5px;" name="field"> {foreach $v['attr'] as $kk => $vv} {if $kk==input('get.'.$v['name'])}
+							<option value="{$kk}" selected="selected">{$vv}</option>
+						                                                                                                                                                                                           {else}
+							<option value="{$kk}">{$vv}</option>
+						                                                                                                                                                                                           {/if} {/foreach}
+						</select> {/if} {if $v['type']=='time'}
+						<input type="text" class="search-input form-control" style="width: 150px;height: 32px;    margin-right: 5px;" name="{$v['name']}" value="{#input('get.'.$v['name'])}" placeholder="{$v['attr']}" onclick="laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})"> </td>                            {/if} {if $v['type']=='text'}
+						<input type="text" name="{$v['name']}" class="search-input form-control" value="{#input('get.'.$v['name'])}" placeholder="{$v['attr']}" style="width: 150px;height: 32px;">
+						<a class="sch-btn" href="javascript:;" id="search"> <i class="btn-search"></i>
+						</a> {/if} {/foreach}
+					</form>
+				</div>
+			</div>
+		</div>
+
+		<img src="" width="">
+		<!-- 数据表格 -->
+		<if condition="$keyList">
+			<div class="data-table table-striped">
+				<form id="form" action="{if $button['ext']}{$button['ext']['url']}{/if}" method="post" class="form-horizontal">
+					<table class="">
+						<thead>
+						<tr>
+							<th class="row-selected row-selected"><input class="check-all" type="checkbox"/></th>
+							<th>ID</th>
+							<th>类型名称</th>
+							<th>状态</th>
+							<th>排序</th>
+							<th>操作</th>
+						</tr>
+						</thead>
+						<tbody>
+                        {if $type_list}
+                      
+                        {foreach $type_list as $v}
+						<tr >
+							<td><input class="ids" type="checkbox" name="id[]" value="{$v['id']}"/></td>
+                            <td>{$v["id"]}</td>
+							<td class="text-ellipsis">
+								<span  class="glyphicon btn-warning glyphicon-plus"  style="padding:2px; font-size:12px;" data-id="{$v['id']}" data-pid="{$v['pid']}" zt="hide">
+								</span>
+								<span>{$v["title"]}</span>
+							</td>
+							
+							<td status="{$v['status']}" class="show_img" show_id="{$v['id']}">
+								{if $v['status']==0}
+								{#lang('禁用')}
+								{else}
+								{#lang('启用')}
+								{/if}</td>
+							<td>{$v['sort']}</td>
+							<td>
+								<a  href="{#url('/admin/shop/type_edit/id/'.$v['id'])}">编辑</i></a>
+							</td>
+						</tr>
+
+                            {if $v["pid_list"]}
+                            {foreach  $v["pid_list"] as $vv}
+                            <tr style="display:none" data-id="{$vv['id']}" data-pid="{$vv['pid']}" >
+                                <td><input class="ids" type="checkbox" name="id[]" value="{$vv['id']}"/></td>
+                                <td>{$vv["id"]}</td>
+                                <td class="text-ellipsis">
+                                    <span class="glyphicon btn-warning glyphicon-plus" style="padding:2px; font-size:12px;margin-left: 30px" data-id="{$vv['id']}" data-pid="{$vv['pid']}" zt="hide">
+                                    </span>
+                                    <span>{$vv["title"]}</span>
+                                </td>
+                                <td>{if $vv['status']==0}
+                                    {#lang('禁用')}
+                                    {else}
+                                    {#lang('启用')}
+                                    {/if}</td>
+                                <td>{$vv['sort']}</td>
+                                <td>
+                                    <a class="" href="{#url('/admin/shop/type_edit/id/'.$vv['id'])}">编辑</i></a>
+                                </td>
+                            </tr>
+                                 {if $vv["pid_list"]}
+                                 {foreach  $vv["pid_list"] as $vvv}
+                                    <tr style="display:none" data-id="{$vvv['id']}" data-pid="{$vvv['pid']}">
+                                        <td><input class="ids" type="checkbox" name="id[]" value="{$vvv['id']}"/></td>
+                                        <td>{$vvv["id"]}</td>
+                                        <td class="text-ellipsis">
+                                            <span style="margin-left: 60px" data-id="{$vvv['id']}" pid="{$vvv['pid']}">{$vvv["title"]}</span>
+                                        </td>
+                                        <td>{if $vvv['status']==0}
+                                            {#lang('禁用')}
+                                            {else}
+                                            {#lang('启用')}
+                                            {/if}</td>
+                                        <td>{$vvv['sort']}</td>
+                                        <td>
+                                            <a  href="{#url('/admin/shop/type_edit/id/'.$vvv['id'])}">编辑</i></a>
+                                        </td>
+                                    </tr>
+                                 {/foreach}
+                                 {/if}
+                            {/foreach}
+                            {/if}
+
+                        {/foreach}
+                        {/if}
+                        {if  !$type_list}
+						<td colspan="12" class="text-center">Oh! 暂时还没有内容!</td>
+                        {/if}
+						</tbody>
+					</table>
+				</form>
+				<div class="page">
+					<div></div>
+				</div>
+			</div>
+		</if>
+	</div>
+</div>
+
+
+<script type="text/javascript">
+	$('.glyphicon').click(function(){
+		var id=$(this).attr('data-id');//获取id
+		var pid=$(this).attr('data-pid')//获取父id
+		var id2=[];
+		var zt=$(this).attr('zt');//获取状态
+		if(zt=='hide'){//判断状态
+			$(this).attr('zt','show');
+			$(this).removeClass('glyphicon-plus').addClass('glyphicon-minus');//点开改变图标
+			var child=$('tbody').find('tr[data-pid="'+id+'"]').show();//找到二级分类
+			child.find('.glyphicon').removeClass('glyphicon-plus').addClass('glyphicon-minus').attr('zt','show');
+			for(var i=0;i<child.length;i++){//二级循环找到三级并显示
+				id2[i]=$(child.get(i)).attr('data-id');
+				$('tbody').find('tr[data-pid="'+id2[i]+'"]').show();
+			}
+
+		}else{
+			$(this).attr('zt','hide');
+			$(this).removeClass('glyphicon-minus').addClass('glyphicon-plus');
+			var child=$('tbody').find('tr[data-pid="'+id+'"]').hide();
+			child.find('.glyphicon').removeClass('glyphicon-minus').addClass('glyphicon-plus').attr('zt','hide');
+			for(var i=0;i<child.length;i++){
+				id2[i]=$(child.get(i)).attr('data-id');
+				$('tbody').find('tr[data-pid="'+id2[i]+'"]').hide();
+			}
+
+
+		}
+
+	})
+
+
+	//提交表单
+	$('#submit').click(function () {
+		$('#form').submit();
+	});
+</script>
+{include file="public:footer"}

@@ -1,0 +1,120 @@
+{include file="public:header"}
+<link rel="stylesheet" href="__CSS__/newtrade/finan.css">
+<div class="back pat-20">
+	<div class="container f14">
+
+
+		<div class="clearfix">
+			{include file="finan:left"}
+			<div class="fr gray-border content color-white col-pho-12">
+				<div class="pad-sm">
+					<div class="change_title" style="border-bottom: 2px solid #69B0E4;">
+						<ul id="tabChangeNav" class="clearfix mgt-10">
+							<li class="cur show">
+								<a href="/finan/ad"><span class="blue" style="border:none;"><div class="with-line">
+								{if $ad_status==1}
+								{#lang('进行中的广告')}
+									{else if $ad_status==2}
+									{#lang('已完成的广告')}
+									{else if $ad_status==0}
+								{#lang('已撤销的广告')}
+								{/if}</div></span></a>
+							</li>
+						</ul>
+					</div>
+					<div class="mytable-body ">
+						{if $page['list']}
+						<div class="f_body  step2">
+							<table class="f_table" id="investLog_content">
+								<thead>
+								<tr>
+									<th>{#lang('广告编号')}</th>
+									<th>{#lang('广告类型')}</th>
+									<th>{#lang('交易币种')}</th>
+									<th>{#lang('价格')}</th>
+									<th>{#lang('最大交易额')}</th>
+									<th>{#lang('最大数量')}</th>
+									<th>{#lang('创建于')}</th>
+									<th>{#lang('手续费')}</th>
+									<th>{#lang('操作')}</th>
+								</tr>
+								</thead>
+								<tbody>
+								{foreach $page['list'] as $k => $v}
+								<tr>
+									<td>MOVE430080K{$v['id']}</td>
+									<td>
+										{if $v.type ==1}
+										{#lang('购买')}
+										{else}
+										{#lang('出售')}
+									{/if}
+									</td>
+									<td>{$v['coin']}</td>
+									<td>{#round($v.price,4)}</td>
+									<td>{#round($v.max,4)}</td>
+									<td>{#round($v['max']/$v['price'],4)}</td>
+									<td>{#addtime($v['addtime'])}</td>
+									<td>{#round($v.fee,4)}</td>
+									{if $v.status==1}
+									<td><input type="button" value="{#lang('撤销')}" onclick="cancel_ad({$v['id']})" class="btns2" style="width:100px;background:#42A5F5"></td>
+									{/if}
+								</tr>
+								{/foreach}
+								</tbody>
+							</table>
+							<div class="pages">{$page['show'] nofilter}</div>
+						</div>
+						{else}
+						<div class="no-data-uc no-order">
+							{#lang('暂无记录')}
+						</div>
+						{/if}
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script>
+	function cancel_ad(ad_id){
+		layer.config({
+			extend: 'extend/layer.ext.js'
+		});
+		layer.ready(function(){
+			layer.prompt({
+				title: '输入谷歌验证码，并确认',
+				formType: 1
+
+			},function(val){
+				if(val){
+					$.post('/finan/cancel_ad',{
+						id:ad_id,
+						paypassword:val
+					},function(data){
+						if(data.status == 1){
+							layer.msg(data.info,{icon:1});
+							setTimeout('location.reload()',1000);
+						}else{
+							layer.msg(data.info,{icon:2});
+						}
+					},'json')
+				}
+			})
+		})
+
+
+	}
+</script>
+<script>
+	var adcur={$ad_status};
+	if(adcur==1){
+		$('.ad_new').addClass('current');
+	}else if(adcur==2){
+		$('.ad_done').addClass('current')
+	}else{
+		//$('.ad_done').addClass('current')
+	}
+
+</script>
+{include file="public:footer"}

@@ -1,0 +1,101 @@
+{include file="public:header"}
+<link rel="stylesheet" href="__CSS__/newtrade/finan.css">
+<script type="text/javascript" src="__EXT__/city/cityselect.js"></script>
+<div class="back pat-20">
+	<div class="container f14">
+		<div class="clearfix">
+			{include file="user:left"}
+			<div class="fr gray-border content color-white col-pho-12">
+				<div class="pad-sm">
+					<div class="change_title line-blue" >
+						<ul id="tabChangeNav" class="clearfix mgt-10">
+							<li class="cur show">
+								<a href="/finan/out"><span class="blue" style="border:none;"><div class="with-line">
+									{#lang('收货地址')}</div></span></a>
+							</li>
+						</ul>
+					</div>
+					<div class="tab-content  f12">
+						<div class="mytable-body pwtrade mt20 ">
+
+							{if $api} {if $api['status'] == 1}
+							<dl>
+								<dt>{#lang('公钥')}：</dt>
+								<dd>
+									<input type="text" class="area texts" id="api-key" value="{$api['key']}" style="width: 300px;vertical-align: bottom;">
+									<input type="button" value={#lang('复制')} data-clipboard-target="api-key" class="ml20 btn-quick inviteCopyButton btns2" id="copy_button1" style="width:100px;">
+								</dd>
+							</dl>
+							<dl>
+								<dt>{#lang('私钥')}：</dt>
+								<dd>
+									<input type="text" class="area texts" id="api-secret_key" value="{$api['secret_key']}" style="width: 300px;vertical-align: bottom;">
+									<input type="button" value={#lang('复制')} data-clipboard-target="api-secret_key" class="ml20 btn-quick inviteCopyButton btns2" id="copy_button2" style="width:100px;">
+								</dd>
+							</dl>
+							{else}
+							<dl>
+								<dd class="band_succ move" style="margin-left:400px">
+									{#lang('等待管理员审核')}
+								</dd>
+							</dl>
+							{/if} {else}
+							<dl>
+								<dt></dt>
+								<dd class="band_succ move">
+									<i class="fa fa-check mr5"></i>{#lang('API申请后才可以使用')}
+								</dd>
+							</dl>
+							<dl>
+								<dt></dt>
+								<dd>
+									<input type="button" tabindex="4" class="btns2" value="{#lang('立即申请')}" onclick="api_up()">
+								</dd>
+							</dl>
+							{/if}
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript" src="__JS__/ZeroClipboard.min.js"></script>
+<script>
+	function api_up() {
+		$.post("{#url('user/api_up')}", {}, function (data) {
+			if (data.status == 1) {
+				layer.msg(data.info, {icon: 1});
+				if (data.url) {
+					setTimeout(function(){
+						window.location = data.url;
+					},1000);
+				} else {
+					setTimeout('location.reload()',1000);
+				}
+			} else {
+				layer.msg(data.info, {icon: 2});
+				if (data.url) {
+					window.location = data.url;
+				}
+			}
+		}, 'json');
+	}
+
+
+	$(document).ready(function () {
+		ZeroClipboard.config({swfPath: '__JS__/ZeroClipboard.swf'});
+		var clip1 = new ZeroClipboard(document.getElementById("copy_button1"));
+		var clip2 = new ZeroClipboard(document.getElementById("copy_button2"));
+		clip1.on("copy", function (e) {
+			layer.msg('复制成功！', {icon: 1});
+		});
+		clip2.on("copy", function (e) {
+			layer.msg('复制成功！', {icon: 1});
+		});
+	});
+</script>
+<script>
+	$('.apply').addClass('current');
+</script>
+{include file="public:footer"}

@@ -1,0 +1,19 @@
+{include file="public:header"}
+<div id="top-alert" class="fixed alert alert-error" style="display: none;margin-left:92px;">
+	<button class="close fixed" style="margin-top: 4px;">&times;</button>
+	<div class="alert-content">警告内容</div>
+</div>
+<block name="body">
+	<div class="tab-wrap">
+		<div class="main-title-h" style="font-size: 24px;margin-left:92px;">
+			<span class="h1-title">系统提示:</span>
+		</div>
+		<div class="tab-content">
+			<!-- 访问授权 -->
+			<div class="tab-pane in" style="text-align: center;color: yellowgreen;font-size: 18px;">
+				{$msg}
+			</div>
+		</div>
+	</div>
+</block>
+{include file="public:footer"}

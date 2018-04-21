@@ -1,0 +1,598 @@
+{include file="public:index_header"}
+<link href="__CSS__/lhang/index.css" rel="stylesheet">
+<link rel="stylesheet" href="__EXT__/slider/css/slider.css"><link rel="shortcut icon" href="../icon/Pixel_icon.ico" />
+<script src="__JS__/lh/slides.js"></script>
+<style>
+	.rain ul{
+		overflow:hidden;
+	}
+	.rain ul li{
+		float:left;
+	}
+	.rain ul li:first-child{
+		margin-left:300px;
+	}
+	.rain ul li:last-child{
+		margin-left:137px;
+	}
+	.news {
+		padding: 55px 0;
+		background: #fff;
+		border-top: 1px solid #eeebeb;
+	}
+
+	.container{
+		width:1170px;
+		padding-right:15px;
+		padding-left:15px;
+		margin-right:auto;
+		margin-left:auto;
+		overflow:hidden;
+	}
+	.news-items {
+		width: 345px;
+		height: 730px;
+		border: 1px solid #f6f5f5;
+		float: left;
+		transition: width 0.3s;
+	}
+	.news-item-hd {
+		height: 182px;
+		background: #f9f9fa;
+		padding-top: 22px;
+	}
+	.news-item-hd i.notice-icon {
+		background-position: 0 -1031px;
+	}
+	.news-item-hd i {
+		width: 59px;
+		height: 62px;
+		background: url(__IMG__/indexplist.png) no-repeat;
+		display: inline-block;
+	}
+	.news-item-hd i.notice-icon {
+		background-position: 0 -1031px;
+	}
+	.news-item-hd p.hd1 {
+		font-size: 22px;
+		font-weight: bold;
+		color: #333;
+	}
+	.news-item-hd p.hd2 {
+		font-size: 16px;
+		color: #999;
+	}
+	.news-item-cn {
+		padding: 0 30px;
+	}
+	.news .media {
+		margin-top: 37px;
+		display: inline-block;
+		position: relative;
+		width: 100%;
+	}
+	.news .media-left {
+		position: absolute;
+		right: 0;
+	}
+	.news .media-body {
+		color: #999;
+		font-size: 14px;
+		line-height: 1.6;
+		width: 280px;
+		height: 84px;
+		white-space:normal;
+	}
+	.media, .media-body {
+		overflow: hidden;
+		zoom: 1;
+	}
+	.news .media {
+		margin-top: 37px;
+		display: inline-block;
+		position: relative;
+		width: 100%;
+	}
+	.news .media {
+		margin-top: 37px;
+		display: inline-block;
+		position: relative;
+		width: 100%;
+	}
+	.news .media-heading {
+		color: #333;
+		font-size: 16px;
+		margin-bottom: 10px;
+	}
+	.media-heading {
+		margin: 0 0 5px;
+	}
+	.news .media-left img {
+		width: 88px;
+		height: 77px;
+		opacity: 0;
+		filter: alpha(opacity = 0);
+		transition: opacity 1s;
+	}
+	.news-items.active {
+		border: 1px solid #89b8fe
+	;
+		width: 450px;
+	}
+	.news-items.active .news-item-hd {
+		background: url(__IMG__/bcbg.jpg) no-repeat 50% 50%;
+		color: #fff;
+	}
+	.news-items.active .news-item-hd p {
+		color: #fff;
+	}
+	.news-items.active .media-left img{
+		opacity:1;
+	}
+	.news-item-hd i.notice-icon {
+		background-position: 0 -1031px;
+	}
+
+	.news-item-hd i.topic-icon {
+		background-position: -140px -1031px;
+	}
+
+	.news-item-hd i.reports-icon {
+		background-position:-364px -1033px;
+	}
+	.news-items.active .news-item-hd i {
+		background-position-y: -1126px;
+	}
+</style>
+<div data-v-8a35b7d8="" id="home" class="homepage app_main">
+	<div data-v-8a35b7d8="" class="content_common">
+		<!--轮播-->
+		<div data-v-8a35b7d8="" class="swiper_pannel" >
+			{#slider('index')}
+			<!--<div class="swiper-container my-swipe swiper-container-horizontal">-->
+				<!--<div class="swiper-wrapper" style="transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;">-->
+
+					<!--<div class="silde swiper-slide swiper-slide-active" style="width: 3000px; margin-right: 30px;">-->
+						<!--<a href="#" target="_blank"><img src="__IMG__/index/BN_15001706o.jpg"></a>-->
+					<!--</div>-->
+					<!--<div class="silde swiper-slide" style="width: 3000px; margin-right: 30px;">-->
+						<!--<a href="#" target="_blank"><img src="__IMG__/index/BN_15012657h.jpg"></a>-->
+					<!--</div>-->
+				<!--</div>-->
+			<!--</div>-->
+			<!--&lt;!&ndash;轮播&ndash;&gt;-->
+			<!--<script type="text/javascript">-->
+				<!--$(function(){-->
+					<!--$(".swiper-wrapper").xmSlide({-->
+						<!--width: 950,-->
+						<!--height: 639,-->
+						<!--responsiveWidth:710,-->
+						<!--pagination: {-->
+							<!--effect: "fade"  //可换成"slide"-->
+						<!--},-->
+						<!--effect: {-->
+							<!--fade: {-->
+								<!--speed: 400-->
+							<!--}-->
+						<!--},-->
+						<!--play: {-->
+							<!--effect: "fade", //可换成"slide"-->
+							<!--interval: 4000,-->
+							<!--auto: true,-->
+							<!--pauseOnHover: true,-->
+							<!--restartDelay: 2500-->
+						<!--}-->
+					<!--});-->
+				<!--});-->
+			<!--</script>-->
+			{if $user}
+			<div class="login_pannel_">
+				<div class="login_pannel login_pannel">
+					<div class="login_on_panel"><h3>{$user['username']}</h3>
+						<div class="userLevel"></div>
+						<div class="userProperty"><h3>总资产</h3>
+							<ul class="total_money">
+								<li class="amount">
+									<div class="cny">￥</div>
+									<div class="total">{$user['zzc']}</div>
+								</li>
+
+							</ul>
+						</div>
+						<div class="buttonWrapper"><a href="{#url('/trade')}">快速交易</a></div>
+						<div class="otherLink">
+							<ul>
+								<li><a href="{#url('/finan/pay')}">充值</a></li>
+								<li class="tx"><a href="{#url('/finan/out')}">提现</a></li>
+							</ul>
+						</div>
+						<div class="security">
+							<a href="{#url('/article/index/typeid/2')}" class="security_add"> 去资讯页面逛逛？ </a></div>
+					</div>
+				</div>
+			</div>
+			{else}
+
+			<div class="login_pannel_">
+				<div class="login_pannel login_pannel">
+					<div class="login_out_panel"><h3>登录</h3>
+						<div class="form login-form">
+							<div class="input-icon">
+								 <input type="text" id="index_mobles" class="texts" style="display: none;">
+								<input type="text" id="index_moble" autocomplete="off" placeholder="请输入邮箱或手机号" value="{#cookie('moble')}">
+								<link rel="stylesheet" href="__EXT__/intlTelInput/css/intlTelInput.css">
+								<script src="__EXT__/intlTelInput/js/intlTelInput.js"></script>
+								<script>
+									$("#index_mobles").intlTelInput({
+										autoHideDialCode: false,
+										defaultCountry: "cn",
+										nationalMode: false,
+										preferredCountries: ['cn', 'us', 'hk', 'tw', 'mo']
+									});
+								</script>
+							</div>
+							<div class="input-icon"><i ></i>
+								<input type="password" id="index_password" aria-autocomplete="none" autocomplete="off" placeholder="请输入密码">
+							</div>
+							<div class="input-icon" style="margin-top:17px;">
+								<i  style="top:10px"></i>
+								<input type="text" id="index_yzm" style="width: 140px;margin-left:-22px;" placeholder="请输入验证码">
+								<img src="{#url('ajax/verify')}" alt="" id="yzm_img" onclick="index_verify_ups()">
+							</div>
+							<ul class="check_forget">
+								<li class="check_forget_list"><label><input type="checkbox" class="g_i_check">
+									<span></span><span class="g_lable span_label">记住此账户名</span></label></li>
+								<li class="check_forget_list">
+									<a href="{#url('/findpwd/index')}" class="">忘记密码?</a></li>
+							</ul>
+							<div class="input-icon g_c_f"><span class="left"><button onclick="index_login()">登录</button></span>
+									<span class="right"><a href="{#url('/reg')}" class="">
+										<button>注册</button>
+									</a></span></div>
+						</div>
+					</div>
+				</div>
+			</div>
+			{/if}
+		</div>
+		<!--最新消息-->
+		<div data-v-8a35b7d8="" class="latest_news">
+			<div class="content12_common content12">
+				<ul class="main">
+					<li>
+						<div class="new_msg_icon"></div>
+						<div class="txt">最新消息：</div>
+					</li>
+					<li class="content">
+						<div class="content_z">
+							{foreach $article_arr[1]['list'] as $v}
+							<div class="sroll_list j_scroll">
+								<a href="{#url('/article/detail/id/'.$v['id'])}"><span>{$v['title']}</span></a>
+							</div>
+							{/foreach}
+						</div>
+					</li>
+					<li><a href="/article/detail/typeid/1" class="more">更多...</a></li>
+				</ul>
+			</div>
+		</div>
+		<script>
+			marqueen();
+			function marqueen() {
+				var _this = $('.content_z');
+				$('.content_z').animate({
+					marginTop: '-20px'
+				}, 500, function () {
+					_this.css('margin-top', 0).find('.sroll_list:first').appendTo(_this);
+				})
+				setTimeout(marqueen, 5000)
+			}
+		</script>
+		<!--交易区-->
+		<div data-v-66913358="" data-v-8a35b7d8="" class="quotes g_center">
+			<div class="rain">
+				<ul>
+					<li><img src="__IMG__/rain.jpg" width="200"></li>
+					<li><a href="{#url('/shop/index')}"><img src="__IMG__/tree.jpg" width="200"></a></li>
+				</ul>
+			</div>
+			<div data-v-66913358="" class="header">
+				<div data-v-66913358="" class="title">行情信息</div>
+				<a data-v-66913358="" target="_blank" href="/trade/chart" class="pro_icon">专业交易</a></div>
+			<ul data-v-66913358="" class="btn_ul">
+				{foreach $trade_qu as $k => $v}
+				<li data-v-66913358="" class="{if $k==0}active{/if}" id="trade_qu_{$v['id']}" data="{$v['id']}" onclick="trade_qu(this)">{$v['title']}</li>
+				{/foreach}
+			</ul>
+			<ul data-v-66913358="" class="table_list list_head">
+				<li data-v-66913358="">交易对</li>
+				<li data-v-66913358="">最新成交价</li>
+				<li data-v-66913358="">涨幅</li>
+				<li data-v-66913358="">买一价/卖一价</li>
+				<li data-v-66913358="">24小时成交量</li>
+			</ul>
+			<div id="price_ul">
+
+			</div>
+
+			<div data-v-66913358="" class="more_area"><a data-v-66913358="" href="{#url('trade/index')}">去交易中心</a>
+			</div>
+		</div>
+		<!--交易区-->
+		<script>
+
+			function click_sortList(sortdata) {
+				var a = $(sortdata).attr('data-toggle');
+				var b = $(sortdata).attr('data-sort');
+				$(".price_today_ull > li").find('.cagret-up').css('border-bottom-color', '#848484');
+				$(".price_today_ull > li").find('.cagret-down').css('border-top-color', '#848484');
+				$(".price_today_ull > li").attr('data-flaglist', 0).attr('data-toggle', 0);
+				$(".price_today_ull > li").css('color', '');
+				$(sortdata).css('color', '#1a81d6');
+
+				if (a == 0) {
+					priceTmp = priceTmp.sort(sortcoinList('dec', b));
+					$(sortdata).find('.cagret-down').css('border-top-color', '#1a81d6');
+					$(sortdata).find('.cagret-up').css('border-bottom-color', '#848484');
+					$(sortdata).attr('data-flaglist', 1).attr('data-toggle', 1)
+				}
+				else if (a == 1) {
+					$(sortdata).attr('data-toggle', 0).attr('data-flaglist', 2);
+					$(sortdata).find('.cagret-up').css('border-bottom-color', '#1a81d6');
+					$(sortdata).find('.cagret-down').css('border-top-color', '#848484');
+					priceTmp = priceTmp.sort(sortcoinList('asc', b));
+				}
+				renderPage(priceTmp);
+				change_line_bg('price_today_ul', 'li');
+
+			}
+
+
+			function trends() {
+				$.getJSON('/ajax/index_b_trends?t=' + rd(), function (d) {
+					trends = d;
+					allcoin();
+
+				});
+			}
+
+			function allcoin(cb) {
+				var trade_qu_id = $('.btn_ul .active').attr('data');
+
+				$.get('/ajax/allcoin_a/id/' + trade_qu_id + '?t=' + rd(), cb ? cb : function (data) {
+					var d;
+					if (data.status == 1) {
+						d = data.url;
+					}
+					ALLCOIN = d;
+					var t = 0;
+					var img = '';
+					priceTmp = [];
+					//把json转换为二维数组 进行渲染
+					for (var x in d) {
+						if (typeof(trends[x]) != 'undefined' && parseFloat(trends[x]['yprice']) > 0) {
+							rise1 = (((parseFloat(d[x][4]) + parseFloat(d[x][5])) / 2 - parseFloat(trends[x]['yprice'])) * 100) / parseFloat(trends[x]['yprice']);
+							rise1 = rise1.toFixed(2);
+						} else {
+							rise1 = 0;
+						}
+						img = d[x].pop();
+						d[x].push(rise1);
+						d[x].push(x);
+						d[x].push(img);
+						priceTmp.push(d[x]);
+					}
+					//二次排序
+					$('.price_today_ull > .click-sort').each(function () {
+						var listId = $(this).attr('data-sort');
+						if ($(this).attr('data-flaglist') == 1 && $(this).attr('data-sort') !== 0) {
+							priceTmp = priceTmp.sort(sortcoinList('dec', listId))
+						} else if ($(this).attr('data-flaglist') == 2 && $(this).attr('data-sort') !== 0) {
+							priceTmp = priceTmp.sort(sortcoinList('asc', listId))
+						}
+					});
+					renderPage(priceTmp);
+					t = setTimeout('allcoin()', 5000);
+
+				}, 'json');
+			}
+
+			function rd() {
+				return Math.random()
+			}
+			//渲染函数
+			function renderPage(ary) {
+				var html = '';
+				for (var i in ary) {
+					var coinfinance = 0;
+					if (typeof FINANCE == 'object') coinfinance = parseFloat(FINANCE.data[ary[i][8] + '_balance']);
+					html += '<ul data-v-66913358="" class="table_list list_body">'+
+							'<li data-v-66913358="">'+ary[i][0]+'</li>'+
+							'<li data-v-66913358="">￥ '+ary[i][1]+'</li>'+
+							'<li data-v-66913358="" class="'+(ary[i][7] >= 0 ?'increase_up':'increase_dwon')+'"><span data-v-66913358="" class="change_txt">'+((parseFloat(ary[i][7]) < 0.01 && parseFloat(ary[i][7]) > -0.01) ? "0.00" : (parseFloat(ary[i][7])).toFixed(2)) + ' %</span></li>'+
+							'<li data-v-66913358="">￥'+ary[i][2]+'/￥'+ary[i][3]+'</li>'+
+							'<li data-v-66913358="" class="link_icon"><span data-v-66913358="" class="vol_txt">'+formatCount(ary[i][6])+'</span></li>'+
+							'<li data-v-66913358="" class="link_box"><a data-v-66913358="" href="/trade/index/market/' + ary[i][8]+'"></a></li>'+
+							'</ul>';
+
+				}
+				$('#price_ul').html(html);
+			}
+			//保留2位
+			function formatCount(count) {
+				var countokuu = (count / 100000000).toFixed(3)
+				var countwan = (count / 10000).toFixed(3)
+				if (count > 100000000)
+					return countokuu.substring(0, countokuu.lastIndexOf('.') + 3) + '亿'
+				if (count > 10000)
+					return countwan.substring(0, countwan.lastIndexOf('.') + 3) + '万'
+				else
+					return count
+			}
+
+			//排序函数
+			function sortcoinList(order, sortBy) {
+				var ordAlpah = (order == 'asc') ? '>' : '<';
+				var sortFun = new Function('a', 'b', 'return parseFloat(a[' + sortBy + '])' + ordAlpah + 'parseFloat(b[' + sortBy + '])? 1:-1');
+				return sortFun;
+			}
+
+			function trade_qu(o) {
+				$('.btn_ul li').removeClass('active');
+				$(o).addClass('active');
+				allcoin();
+			}
+			trends();
+		</script>
+
+
+		<!--官方公告-->
+
+		{if $article_arr}
+		<div class="container-full index news">
+			<div class="container">
+				{foreach $article_arr as $k=>$v}
+
+				{if $k==0}
+				<div class="news-items active">
+					{else}
+					<div class="news-items">
+						{/if}
+						<div class="news-item-hd text-center">
+							{if $k==0}
+							<i class="topic-icon"></i>
+							{elseif $k==2}
+							<i class="notice-icon"></i>
+							{else}
+							<i class="reports-icon"></i>
+							{/if}
+							<p class="hd1">{$v['title']}</p>
+							<p class="hd2">{if $v['name']=='news'} 了解各类行业信息 {elseif $v['name']=='about'}掌握各类活动资讯
+							               {elseif $v['name']=='question'}解答各个疑难问题 {else}掌握其他资讯 {/if}</p>
+						</div>
+						<div class="news-item-cn">
+							{foreach $v['list'] as $k=>$val}{if $k==4}{break}{/if}
+							<a class="media" href="/article/detail/id/{$val['id']}">
+								<div class="media-left">
+									<img src="__IMG__/asdf1.png"/>
+								</div>
+								<div class="media-body">
+									<h4 class="media-heading">{$val['title']}</h4>
+									{$val['value'] }
+								</div>
+							</a>
+							{/foreach}
+						</div>
+					</div>
+					{/foreach}
+				</div>
+			</div>
+		</div>
+		{/if}
+		<div data-v-8a35b7d8="" class="characteristic_common homepage_characteristic">
+			<div class="main">
+				<div class="title">值得投资者信赖的专业平台</div>
+				<div class="characteristic_cont">
+					<div class="char_group">
+						<ul class="char_group_list">
+							<li class="img_box img_box1"></li>
+							<li class="char_tit">安全</li>
+							<li class="char_txt">领先的分布式集群技术；多层安全架构设计；动态冷热钱包机制；充分保障账户及信息安全</li>
+						</ul>
+					</div>
+					<div class="char_group">
+						<ul class="char_group_list">
+							<li class="img_box img_box2"></li>
+							<li class="char_tit">专业</li>
+							<li class="char_txt">自主研发的海量并发撮合引擎；多服务器支持高并发交易；强稳定性运行</li>
+						</ul>
+					</div>
+					<div class="char_group">
+						<ul class="char_group_list">
+							<li class="img_box img_box3"></li>
+							<li class="char_tit">贴心</li>
+							<li class="char_txt">优化的委托页面；及时的行情提示；定期的专业投研报告；7*17小时客服服务；多终端操作支持</li>
+						</ul>
+					</div>
+					<div class="char_group">
+						<ul class="char_group_list">
+							<li class="img_box img_box4"></li>
+							<li class="char_tit">便捷</li>
+							<li class="char_txt">快速下单，及时把握行情；智能交易设计，可视化账户资金查询界面，交易明细一目了然</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script>
+			$('.news-items').hover(function(){
+				$(".news-items").removeClass("active"),
+						$(".news-items").stop().animate({width: "345px"}, 50),
+						$(this).stop().animate({width: "450px"}, 50),
+						$(this).addClass("active")
+			})
+			//刷新验证码
+			function index_verify_ups() {
+				$('#yzm_img').attr('src', "{#url('verify/code')}?t=" + Math.random());
+			}
+
+			//登录
+			function index_login() {
+				var moble    = $("#index_moble").val();
+				var mobles   = $("#index_mobles").val();
+				var password = $("#index_password").val();
+				var verify   = $("#index_yzm").val();
+				var remenber = $('.g_i_check').is(':checked');
+
+
+				if (moble == "" || moble == null) {
+					layer.tips('{#lang("请输入手机号")}', '#index_moble', {tips: 2});
+					return false;
+				}
+				if (password == "" || password == null) {
+					layer.tips('{#lang("请输入登录密码")}', '#index_mobles', {tips: 2});
+					return false;
+				}
+				if (verify == "" || verify == null) {
+					layer.tips('{#lang("请输入验证码")}', '#index_yzm', {tips: 2});
+					return false;
+				}
+
+				$.post("{#url('login/up_login')}", {
+					moble: moble,
+					mobles: mobles,
+					password: password,
+					verify: verify,
+					login_token: "{$login_token}",
+				}, function (data) {
+					if (data.status == 1) {
+						if(remenber){
+							$.cookies.set('move_moble', moble);
+						}else{
+							$.cookies.set('move_moble', null);
+						}
+						layer.msg(data.info, {icon: 1});
+						if (data.url) {
+							window.location = data.url;
+						} else {
+							window.location.reload();
+						}
+					} else {
+						index_verify_ups();
+						layer.msg(data.info, {icon: 2});
+						if (data.url) {
+							window.location = data.url;
+						}
+					}
+				}, "json");
+			}
+
+
+			$(function(){
+				var move_moble = $.cookies.get('move_moble');
+				if (move_moble != '' && move_moble != null) {
+					$("#index_moble").val(move_moble);
+				}
+			})
+		</script>
+		{include file="public:footer"}

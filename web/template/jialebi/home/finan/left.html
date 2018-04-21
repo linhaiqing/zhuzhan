@@ -1,0 +1,47 @@
+<link rel="stylesheet" href="__CSS__/newtrade/main.css">
+<div class="side-bar fl  white-color col-pho-12 mgb-sm">
+	<div class="col-pho-3">
+		<div class="wallet side-icon">财务管理</div>
+		<ul class="hide-bar">
+			<li class="finan"><a href="/finan/index">我的资产</a></li>
+			<!--<li class="chongzhi"><a href="/finan/pay">账户充值</a></li>
+			<li class="withdraw"><a href="/finan/out">账户提现</a></li>-->
+			<li class="zhuanru"><a href="/finan/coinin">转入虚拟币</a></li>
+			<li class="zhuanchuw"><a href="/finan/coinout">转出虚拟币</a></li>
+		</ul>
+	</div>
+
+	<div class="col-pho-3">
+		<div class="hedge side-icon">我的交易</div>
+		<ul class="hide-bar">
+			<li class="ing"><a href="/finan/trades">委托管理</a></li>
+            <li class="done"><a href="/finan/order/">成交查询</a></li>
+			<?php $mm = mm();
+			 if (isset($mm['game']) && in_array("c2c", explode("|", $mm["game"]))){ ?>
+			     <li class="c2c_bank"><a href="/c2c/bank">c2c银行卡</a></li>
+			     <li class="c2c_log"><a href="/c2c/log">c2c交易记录</a></li>
+			<?php
+			 }
+			?>
+		</ul>
+	</div>
+	<div class="col-pho-3">
+		<div class="wallet-person side-icon">朋友推广</div>
+		<ul class="hide-bar">
+			<li class="pengyou"><a href="/finan/invit" class="option-item">邀请朋友</a></li>
+			<li class="tuijian"><a href="/finan/invitlog" class="option-item">我的推荐</a></li>
+			<li class="reward"><a href="/finan/award" class="option-item">我的奖励</a></li>
+		</ul>
+	</div>
+</div>
+<script>
+	$(".wallet,.wallet-coin,.wallet-person,.wallet-trans,.hedge").click(function () {
+		var temp = $(".hide-bar");
+		temp.each(function (i) {
+			if (!$(this).is(":hidden")) {
+				$(this).show();
+			}
+		});
+		$(this).next().slideToggle("slow");
+	})
+</script>

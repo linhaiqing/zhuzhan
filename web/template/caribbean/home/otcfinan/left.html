@@ -1,0 +1,23 @@
+<link rel="stylesheet" href="__CSS__/newtrade/main.css">
+<div class="side-bar fl  white-color col-pho-12 mgb-sm">
+	<div class="col-pho-3">
+		<div class="hedge side-icon">{#lang('我的交易')}</div>
+		<ul class="hide-bar">
+			<li class="fa-order"><a href="/otcfinan/index">{#lang('发布的广告')}</a></li>
+			<li class="shou-order"><a href="/otcfinan/get_log/">{#lang('收到的交易')}</a></li>
+			<li class="fa-trade"><a href="/otcfinan/send_log/">{#lang('发起的交易')}</a></li>
+			<li class="finan-card"><a href="/otcfinan/bank">{#lang('我的银行卡')}</a></li>
+		</ul>
+	</div>
+</div>
+<script>
+	$(".wallet,.wallet-coin,.wallet-person,.wallet-trans,.hedge").click(function () {
+		var temp = $(".hide-bar");
+		temp.each(function (i) {
+			if (!$(this).is(":hidden")) {
+				$(this).show();
+			}
+		});
+		$(this).next().slideToggle("slow");
+	})
+</script>

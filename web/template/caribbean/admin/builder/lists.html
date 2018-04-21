@@ -1,0 +1,134 @@
+{include file="public:header"}
+<script type="text/javascript" src="__EXT__/layer/laydate/laydate.js"></script>
+<div id="main-content">
+	<div id="top-alert" class="fixed alert alert-error" style="display: none;">
+		<button class="close fixed" style="margin-top: 4px;">&times;</button>
+		<div class="alert-content">警告内容</div>
+	</div>
+	<div id="main" class="main">
+		<div class="main-title-h" style="font-size: 24px;">
+			<span class="h1-title">{$title['title']}</span> {if input('get.name')}
+			<span style=""> >> [<a href="{$title['url']}"> {$title['list_title']}</a> ] </span>{/if} 
+		</div>
+		<div class="cf">
+			<div class="fl">
+				{if $button['add']}
+				<a class="btn add-btn btn-success" href="{$button['add']['url']}">{$button['add']['title']}</a>
+				{/if}
+				{if $button['up']}
+				<a class="btn add-btn btn-success" data="{$button['up']['url']}" onclick="bnt_up(this)">{$button['up']['title']}</a>
+				{/if}
+				{if $button['no']}
+				<button class="btn ajax-post btn-warning" url="{$button['no']['url']}" target-form="ids">{$button['no']['title']}</button>
+				{/if}
+				{if $button['off']}
+				<button class="btn ajax-post btn-info" url="{$button['off']['url']}" target-form="ids">{$button['off']['title']}</button>
+				{/if}
+				{if $button['del']}
+				<button class="btn ajax-post confirm delete-btn btn-danger" url="{$button['del']['url']}" target-form="ids">{$button['del']['title']}</button>
+				{/if}
+				{if $button['ext']}
+				<button class="btn btn-success ajax-get" url="{$button['ext']['url']}" target-form="ids" id="submit" type="submit">{$button['ext']['title']}</button>
+				{/if}
+			</div>
+			<div class="search-form fr cf">
+				<div class="sleft">
+					<form action="" name="formSearch" id="formSearch" method="get" name="form1">
+						{foreach $search as $k => $v}
+						{if $v['type']=='select'}
+						<select size="1" name="{$v['name']}" class="search-input form-control form-input-width" style="height: 32px; font-size: 14px; width: 110px; float: left; margin-right: 5px;" name="field"> {foreach $v['attr'] as $kk => $vv} {if $kk==input('get.'.$v['name'])}
+							<option value="{$kk}" selected="selected">{$vv}</option>
+						                                                                                                                                                                                           {else}
+							<option value="{$kk}">{$vv}</option>
+						                                                                                                                                                                                           {/if} {/foreach}
+						</select> {/if} {if $v['type']=='time'}
+						<input type="text" class="search-input form-control" style="width: 150px;height: 32px;    margin-right: 5px;" name="{$v['name']}" value="{#input('get.'.$v['name'])}" placeholder="{$v['attr']}" onclick="laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})">                             {/if} {if $v['type']=='text'}
+						<input type="text" name="{$v['name']}" class="search-input form-control" value="{#input('get.'.$v['name'])}" placeholder="{$v['attr']}" style="width: 150px;height: 32px;">
+						<a class="sch-btn" href="javascript:;" id="search"> <i class="btn-search"></i>
+						</a> {/if} {/foreach}
+					</form>
+					<script>
+						//搜索功能
+						$(function () {
+							$('#search').click(function () {
+								$('#formSearch').submit();
+							});
+						});
+						//回车搜索
+						$(".search-input").keyup(function (e) {
+							if (e.keyCode === 13) {
+								$("#search").click();
+								return false;
+							}
+						});
+					</script>
+				</div>
+			</div>
+		</div>
+		<img src="" width="">
+		<!-- 数据表格 -->
+		<if condition="$keyList">
+			<div class="data-table table-striped">
+				<form id="form" action="{if $button['ext']}{$button['ext']['url']}{/if}" method="post" class="form-horizontal">
+				<table class="">
+					<thead>
+					<tr>
+						<th class="row-selected row-selected"><input class="check-all" type="checkbox"/></th>
+						{foreach $keylist as $k => $v}
+						<th>{$v['title']}</th>
+						{/foreach}
+					</tr>
+					</thead>
+					<tbody>
+					{if $data} {foreach $data as $k => $v}
+					<tr>
+						<td><input class="ids" type="checkbox" name="id[]" value="{$v['id']}"/></td>
+						{foreach $keylist as $kk => $vv} {$tmp = $v[$vv['name']]}
+						<td class="text-ellipsis">{$tmp nofilter}</td>
+						{/foreach}
+					</tr>
+					{/foreach} {else}
+					<td colspan="12" class="text-center">Oh! 暂时还没有内容!</td>
+					{/if}
+					</tbody>
+				</table>
+					</form>
+				<div class="page">
+					<div>{$pages nofilter}</div>
+				</div>
+			</div>
+		</if>
+	</div>
+</div>
+<script type="text/javascript">
+	//提交表单
+	$('#submit').click(function () {
+		$('#form').submit();
+	});
+</script>
+
+
+<script>
+	function bnt_up(_this) {
+		var url = $(_this).attr('data');
+
+		$.post(url, {
+
+		}, function (data) {
+			if (data.status == 1) {
+				layer.msg(data.info, {icon: 1});
+				if (data.url) {
+					window.location = data.url;
+				} else {
+					window.location.reload();
+				}
+			} else {
+				layer.msg(data.info, {icon: 2});
+				if (data.url) {
+					window.location = data.url;
+				}
+			}
+		}, 'json');
+	}
+</script>
+{include file="public:footer"}

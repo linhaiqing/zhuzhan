@@ -1,0 +1,1 @@
+<?phpnamespace model;use Move\db;class common extends \move\md{}

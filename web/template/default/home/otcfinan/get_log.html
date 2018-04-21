@@ -1,0 +1,182 @@
+{include file="otc:header"}
+<link rel="stylesheet" href="__CSS__/newtrade/finan.css">
+<div class="back pat-20">
+	<div class="container f14">
+		<div class="clearfix">
+			{include file="otcfinan:left"}
+					<div class="fr gray-border content color-white col-pho-12">
+						<div class="pad-sm">
+							<div class="change_title" style="border-bottom: 2px solid #69B0E4;">
+								<ul id="tabChangeNav" class="clearfix mgt-10">
+									<li class="cur show">
+										<a href="/finan/out"><span class="blue" style="border:none;"><div class="with-line">
+											{#lang('收到的交易')}</div></span></a>
+									</li>
+								</ul>
+							</div>
+							<div class="tab-content  f12">
+								<div class="mytable-body ">
+									<div class="f_body  step2">
+										<table class="f_table" id="investLog_content">
+											<thead>
+											<tr>
+												<th>{#lang('订单号')}</th>
+												<th>
+													<select id="coin-select" >
+														<option value="">{#lang('全部币种')}</option>
+														{foreach $coin_list as $k => $v}
+														<option value="{$v['name']}">{#strtoupper($v['name'])}</option>
+														{/foreach} </select></th>
+												<th>{#lang('交易对象')}</th>
+												<th>{#lang('提交时间')}</th>
+												<th>
+													<select id="type-select">
+														<option value="">-{#lang('全部')}-</option>
+														<option value="1">{#lang('买入')}</option>
+														<option value="2">{#lang('卖出')}</option>
+													</select></th>
+												<th>{#lang('发布价格')}</th>
+												<th>{#lang('交易数量')}&{#lang('手续费')}</th>
+												<th>{#lang('总额')}</th>
+												<th>{#lang('对方账户')}</th>
+												<th>{#lang('状态')}</th>
+												<th>{#lang('操作')}</th>
+											</tr>
+											</thead>
+											<tbody>
+											{foreach $pages['list'] as $k => $v}
+											<tr>
+												<td>{$v['id']}</td>
+												<td>{#strtoupper($v['coin'])}</td>
+												<td>UID:{$v['peerid']}</td>
+												<td>{#addtime($v['addtime'])}</td>
+												<td>
+													{if $v['type'] == 1}
+													{#lang('买入')}
+													{else}
+													{#lang('卖出')}
+													{/if}
+												</td>
+												<td>{#num($v['price'],3)}</td>
+												{if $v['type']==1}
+												<td>{#num($v['num'],5)} - <font class="blue">{#num($v['fee_buy'],5)}</font></td>
+												{else}
+												<td>{#num($v['num'],5)} + <font class="blue">{#num($v['fee'],5)}</font></td>
+												{/if}
+												<td>{#num(($v['price']*$v['num']),5)}</td>
+												<td><span class="cursor" onclick="layer.alert('{$v["peer_account"]}')">{#lang('查看')}</span></td>
+												<td>
+													{if $v['status']==0}
+														{#lang('交易取消')}
+													{else if $v['status'] == 1}
+														{#lang('请审核')}
+													{else if $v['status'] == 2}
+														{#lang('已同意')}
+													{else if $v['status'] == 3}
+														{#lang('已付款')}
+													{else if $v['status'] == 4}
+													{#lang('交易完成')}
+													{else if $v['status'] == 5}
+													申诉中
+													{/if}
+												</td>
+												<td>
+													{if $v['status']==1}
+													   <span class="btnss cursor" onclick="Agree({$v['id']},2)">{#lang('同意')}</span>
+													   <span class="redbk btnss cursor" onclick="disAgree({$v['id']},0)">{#lang('拒绝')}</span>
+													{else if $v['status']==2 &&$v['type']==1}
+													<span class="btnss cursor" onclick="Agree({$v['id']},3)">{#lang('我已付款')}</span>
+													{else if $v['status']==3 &&$v['type']==2}
+													<span class="btnss cursor" onclick="Agree({$v['id']},4)">{#lang('确认到账')}</span>
+													<span class="btnss cursor redbk"  onclick="Agree({$v['id']},5)">{#lang('申诉')}</span>
+													{else}
+													----
+													{/if}
+												</td>
+											</tr>
+											{/foreach}
+											</tbody>
+										</table>
+										<div class="pages">{$pages['show'] nofilter}</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+<script>
+	var coin='';
+	function Agree(id,type){ //同意
+		layer.prompt({title: '输入密码，并确认', formType: 1}, function(pass, index){
+			if(pass) {
+				$.post('/otcfinan/get_status', {
+					id: id,
+					type: type,
+					paypassword:pass
+				}, function (data) {
+					if (data.status == 1) {
+						layer.msg(data.info, {icon: 6});
+						setTimeout(function () {
+							location.reload();
+						}, 1000);
+					} else {
+						layer.msg(data.info, {icon: 5})
+					}
+				}, 'json')
+			}
+		})
+	}
+	function disAgree(id,type){ //拒绝
+		layer.prompt({title: '输入密码，并确认', formType: 1}, function(pass, index){
+			if(pass) {
+				$.post('/otcfinan/get_status', {
+					id: id,
+					type: type,
+					paypassword:pass
+				}, function (data) {
+					if (data.status == 1) {
+						layer.msg(data.info, {icon: 6});
+						setTimeout(function () {
+							location.reload();
+						}, 1000);
+					} else {
+						layer.msg(data.info, {icon: 5})
+					}
+				}, 'json')
+			}
+		})
+	}
+
+	function get_wallet(coin){
+		$.post('/otcfinan/get_wallet',{
+			coin:coin,
+		},function(data){
+			if(data.status == 1){
+				$('#QRcode').val(data.info);
+				QRopen();
+			}else{
+				//layer.msg(data.info,{icon:5})
+			}
+		},'json')
+	}
+
+
+	$("#type-select,#coin-select").change(function () {
+		var type   = $("#type-select option:selected").val();
+		var coin   = $("#coin-select option:selected").val();
+		var url    = '/otcfinan/get_log';
+		if (type) {
+			url += '/type/' + type;
+		}
+		if(coin){
+			url += '/coin/' + coin;
+		}
+		window.location = url;
+	});
+</script>
+<script>
+	$('.shou-order').addClass('current');
+</script>
+{include file="public:footer"}
